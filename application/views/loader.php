@@ -9,7 +9,7 @@
         <meta name="author" content="Enger Jimenez">
         <meta name="description" content="A web application to manage your enterprise">
         <meta name="keywords" content="ERP, PHP, Javascript, JQuery, AJAX, Semantic UI, CSS">
-        <link rel="icon" href="public\images\icon.ico" type="image/x-icon">
+        <link rel="icon" href="public/icons/icon.ico" type="image/x-icon">
         <link rel="author" href="https://github.com/EJGamer21/">
 
     <!-- Libraries -->
