@@ -8,7 +8,7 @@
         <meta name="application-name" content="ERP">
         <meta name="author" content="Enger Jimenez">
         <meta name="description" content="A web application to manage your enterprise">
-        <meta name="keywords" content="ERP, PHP, Javascript, JQuery, AJAX, Semantic UI, CSS">
+        <meta name="keywords" content="ERP, CRM, CodeIgniter, PHP, Javascript, JQuery, AJAX, Materialize, CSS">
         <link rel="icon" href="public/icons/icon.ico" type="image/x-icon">
         <link rel="author" href="https://github.com/EJGamer21/">
 
