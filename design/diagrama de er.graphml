@@ -1,0 +1,541 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--Created by yFiles for HTML 2.2.0.1-->
+<graphml xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://www.yworks.com/xml/schema/graphml.html/2.0/ygraphml.xsd " xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:demostyle="http://www.yworks.com/yFilesHTML/demos/FlatDemoStyle/1.0" xmlns:bpmn="http://www.yworks.com/xml/yfiles-for-html/bpmn/2.0" xmlns:demotablestyle="http://www.yworks.com/yFilesHTML/demos/FlatDemoTableStyle/1.0" xmlns:uml="http://www.yworks.com/yFilesHTML/demos/UMLDemoStyle/1.0" xmlns:compat="http://www.yworks.com/xml/yfiles-compat-arrows/1.0" xmlns:GraphvizNodeStyle="http://www.yworks.com/yFilesHTML/graphviz-node-style/1.0" xmlns:VuejsNodeStyle="http://www.yworks.com/demos/yfiles-vuejs-node-style/1.0" xmlns:y="http://www.yworks.com/xml/yfiles-common/3.0" xmlns:x="http://www.yworks.com/xml/yfiles-common/markup/3.0" xmlns:x0="http://www.yworks.com/yFilesHTML/demos/EntityRelationship/1.0" xmlns:sys="http://www.yworks.com/xml/yfiles-common/markup/primitives/2.0" xmlns:yjs="http://www.yworks.com/xml/yfiles-for-html/2.0/xaml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<key id="d0" for="node" attr.type="boolean" attr.name="Expanded" y:attr.uri="http://www.yworks.com/xml/yfiles-common/2.0/folding/Expanded">
+		<default>true</default>
+	</key>
+	<key id="d1" for="node" attr.type="string" attr.name="url"/>
+	<key id="d2" for="node" attr.type="string" attr.name="description"/>
+	<key id="d3" for="node" attr.name="NodeLabels" y:attr.uri="http://www.yworks.com/xml/yfiles-common/2.0/NodeLabels"/>
+	<key id="d4" for="node" attr.name="NodeGeometry" y:attr.uri="http://www.yworks.com/xml/yfiles-common/2.0/NodeGeometry"/>
+	<key id="d5" for="all" attr.name="UserTags" y:attr.uri="http://www.yworks.com/xml/yfiles-common/2.0/UserTags"/>
+	<key id="d6" for="node" attr.name="NodeStyle" y:attr.uri="http://www.yworks.com/xml/yfiles-common/2.0/NodeStyle"/>
+	<key id="d7" for="node" attr.name="NodeViewState" y:attr.uri="http://www.yworks.com/xml/yfiles-common/2.0/folding/1.1/NodeViewState"/>
+	<key id="d8" for="edge" attr.type="string" attr.name="url"/>
+	<key id="d9" for="edge" attr.type="string" attr.name="description"/>
+	<key id="d10" for="edge" attr.name="EdgeLabels" y:attr.uri="http://www.yworks.com/xml/yfiles-common/2.0/EdgeLabels"/>
+	<key id="d11" for="edge" attr.name="EdgeGeometry" y:attr.uri="http://www.yworks.com/xml/yfiles-common/2.0/EdgeGeometry"/>
+	<key id="d12" for="edge" attr.name="EdgeStyle" y:attr.uri="http://www.yworks.com/xml/yfiles-common/2.0/EdgeStyle"/>
+	<key id="d13" for="edge" attr.name="EdgeViewState" y:attr.uri="http://www.yworks.com/xml/yfiles-common/2.0/folding/1.1/EdgeViewState"/>
+	<key id="d14" for="port" attr.name="PortLabels" y:attr.uri="http://www.yworks.com/xml/yfiles-common/2.0/PortLabels"/>
+	<key id="d15" for="port" attr.name="PortLocationParameter" y:attr.uri="http://www.yworks.com/xml/yfiles-common/2.0/PortLocationParameter">
+		<default>
+			<x:Static Member="y:FreeNodePortLocationModel.NodeCenterAnchored"/>
+		</default>
+	</key>
+	<key id="d16" for="port" attr.name="PortStyle" y:attr.uri="http://www.yworks.com/xml/yfiles-common/2.0/PortStyle">
+		<default>
+			<x:Static Member="y:VoidPortStyle.Instance"/>
+		</default>
+	</key>
+	<key id="d17" for="port" attr.name="PortViewState" y:attr.uri="http://www.yworks.com/xml/yfiles-common/2.0/folding/1.1/PortViewState"/>
+	<key id="d18" attr.name="SharedData" y:attr.uri="http://www.yworks.com/xml/yfiles-common/2.0/SharedData"/>
+	<data key="d18">
+		<y:SharedData>
+			<yjs:SolidColorFill x:Key="1" color="#FFE8EEF7"/>
+			<yjs:SolidColorFill x:Key="2" color="#FFB7C9E3"/>
+			<yjs:SolidColorFill x:Key="3" color="#FFE8EEF7"/>
+			<yjs:SolidColorFill x:Key="4" color="#FFB7C9E3"/>
+			<y:SmartEdgeLabelModel x:Key="5"/>
+			<yjs:DefaultLabelStyle x:Key="6" verticalTextAlignment="BOTTOM" horizontalTextAlignment="CENTER" textFill="BLACK">
+				<yjs:DefaultLabelStyle.font>
+					<yjs:Font fontSize="12" fontFamily="'Arial'"/>
+				</yjs:DefaultLabelStyle.font>
+			</yjs:DefaultLabelStyle>
+			<yjs:PolylineEdgeStyle x:Key="7" stroke="#FF000000"/>
+			<y:SmartEdgeLabelModel x:Key="8"/>
+			<yjs:Font x:Key="9" fontSize="12" fontFamily="'Arial'"/>
+			<yjs:Stroke x:Key="10" fill="#FF000000"/>
+			<yjs:PolylineEdgeStyle x:Key="11" stroke="{y:GraphMLReference 10}"/>
+			<yjs:DefaultLabelStyle x:Key="12" verticalTextAlignment="BOTTOM" horizontalTextAlignment="CENTER" font="{y:GraphMLReference 9}" textFill="BLACK"/>
+		</y:SharedData>
+	</data>
+	<graph id="G" edgedefault="directed">
+		<data key="d5">
+			<y:Json>{"theme":{"name":"light","version":"1.0.0"},"version":"2.0.0","layout":"layout-flowchart","config":{"noObf_positiveBranchLabel":[],"noObf_negativeBranchLabel":[],"noObf_layoutOrientation":"TOP_TO_BOTTOM","noObf_preferredPositiveBranchDirection":1,"noObf_preferredNegativeBranchDirection":12,"noObf_inEdgeGrouping":"optimized","noObf_allowFlatwiseEdges":true,"noObf_nodeToNodeDistance":30,"noObf_minimumEdgeDistance":30,"noObf_minimumEdgeLength":20,"noObf_placeNodeLabels":true}}</y:Json>
+		</data>
+		<node id="n0">
+			<data key="d4">
+				<y:RectD X="896.250992063492" Y="214" Width="162.875" Height="148.875"/>
+			</data>
+			<data key="d6">
+				<x0:EntityNodeStyle fill="{y:GraphMLReference 1}" insetFill="{y:GraphMLReference 2}" stroke="BLACK">
+					<x0:EntityNodeStyle.model>
+						<x0:EntityRelationshipModel>
+							<x0:EntityRelationshipModel.title>productos</x0:EntityRelationshipModel.title>
+							<x0:EntityRelationshipModel.attributes>
+								<x:Array Type="sys:Object">
+									<sys:String><![CDATA[id int (pk)]]></sys:String>
+									<sys:String><![CDATA[codigo int (unique)]]></sys:String>
+									<sys:String><![CDATA[nombre varchar]]></sys:String>
+									<sys:String><![CDATA[precio float]]></sys:String>
+									<sys:String><![CDATA[existencia int]]></sys:String>
+									<sys:String><![CDATA[impuesto float]]></sys:String>
+									<sys:String><![CDATA[precio_total float]]></sys:String>
+								</x:Array>
+							</x0:EntityRelationshipModel.attributes>
+						</x0:EntityRelationshipModel>
+					</x0:EntityNodeStyle.model>
+				</x0:EntityNodeStyle>
+			</data>
+			<port name="p0">
+				<data key="d15">
+					<y:FreeNodePortLocationModelParameter Ratio="0.5,0"/>
+				</data>
+			</port>
+		</node>
+		<node id="n1">
+			<data key="d4">
+				<y:RectD X="665.0632936507936" Y="-51.125" Width="162.875" Height="217"/>
+			</data>
+			<data key="d6">
+				<x0:EntityNodeStyle fill="{y:GraphMLReference 1}" insetFill="{y:GraphMLReference 2}" stroke="BLACK">
+					<x0:EntityNodeStyle.model>
+						<x0:EntityRelationshipModel>
+							<x0:EntityRelationshipModel.title>usuarios</x0:EntityRelationshipModel.title>
+							<x0:EntityRelationshipModel.attributes>
+								<x:Array Type="sys:Object">
+									<sys:String><![CDATA[id int (pk)]]></sys:String>
+									<sys:String><![CDATA[codigo varchar(15) (unique)]]></sys:String>
+									<sys:String><![CDATA[nombre varchar]]></sys:String>
+									<sys:String><![CDATA[apellido varchar]]></sys:String>
+									<sys:String><![CDATA[sexo enum(M, F)]]></sys:String>
+									<sys:String><![CDATA[direccion int (fk)]]></sys:String>
+									<sys:String><![CDATA[username varchar (unique)]]></sys:String>
+									<sys:String><![CDATA[password varchar]]></sys:String>
+									<sys:String><![CDATA[email int (fk)]]></sys:String>
+									<sys:String><![CDATA[fecha_creacion datetime]]></sys:String>
+									<sys:String><![CDATA[fecha_modificado datetime]]></sys:String>
+								</x:Array>
+							</x0:EntityRelationshipModel.attributes>
+						</x0:EntityRelationshipModel>
+					</x0:EntityNodeStyle.model>
+				</x0:EntityNodeStyle>
+			</data>
+			<port name="p0">
+				<data key="d15">
+					<y:FreeNodePortLocationModelParameter Ratio="0.5,1"/>
+				</data>
+			</port>
+			<port name="p1">
+				<data key="d15">
+					<y:FreeNodePortLocationModelParameter Ratio="0,0.5"/>
+				</data>
+			</port>
+		</node>
+		<node id="n2">
+			<data key="d4">
+				<y:RectD X="211.7501984126984" Y="0" Width="162.875" Height="114.75"/>
+			</data>
+			<data key="d6">
+				<x0:EntityNodeStyle fill="{y:GraphMLReference 1}" insetFill="{y:GraphMLReference 2}" stroke="BLACK">
+					<x0:EntityNodeStyle.model>
+						<x0:EntityRelationshipModel>
+							<x0:EntityRelationshipModel.title>clientes</x0:EntityRelationshipModel.title>
+							<x0:EntityRelationshipModel.attributes>
+								<x:Array Type="sys:Object">
+									<sys:String><![CDATA[id int (pk)]]></sys:String>
+									<sys:String><![CDATA[nombre varchar]]></sys:String>
+									<sys:String><![CDATA[dni varchar (unique)]]></sys:String>
+									<sys:String><![CDATA[telefono int (unique)]]></sys:String>
+									<sys:String><![CDATA[cantidad_compras int]]></sys:String>
+								</x:Array>
+							</x0:EntityRelationshipModel.attributes>
+						</x0:EntityRelationshipModel>
+					</x0:EntityNodeStyle.model>
+				</x0:EntityNodeStyle>
+			</data>
+		</node>
+		<node id="n3">
+			<data key="d4">
+				<y:RectD X="665.0632936507936" Y="209.875" Width="162.875" Height="157.125"/>
+			</data>
+			<data key="d6">
+				<x0:EntityNodeStyle fill="{y:GraphMLReference 1}" insetFill="{y:GraphMLReference 2}" stroke="BLACK">
+					<x0:EntityNodeStyle.model>
+						<x0:EntityRelationshipModel>
+							<x0:EntityRelationshipModel.title>facturas</x0:EntityRelationshipModel.title>
+							<x0:EntityRelationshipModel.attributes>
+								<x:Array Type="sys:Object">
+									<sys:String><![CDATA[id int (pk)]]></sys:String>
+									<sys:String><![CDATA[codigo varchar(20) (unique)]]></sys:String>
+									<sys:String><![CDATA[vendedor_id int (fk)]]></sys:String>
+									<sys:String><![CDATA[comprador_id (fk)]]></sys:String>
+									<sys:String><![CDATA[fecha_creacion datetime]]></sys:String>
+									<sys:String><![CDATA[fecha_modificado datetime]]></sys:String>
+									<sys:String><![CDATA[modificado_por int (fk)]]></sys:String>
+									<sys:String><![CDATA[precio_total float]]></sys:String>
+								</x:Array>
+							</x0:EntityRelationshipModel.attributes>
+						</x0:EntityRelationshipModel>
+					</x0:EntityNodeStyle.model>
+				</x0:EntityNodeStyle>
+			</data>
+			<port name="p0">
+				<data key="d15">
+					<y:FreeNodePortLocationModelParameter Ratio="1,0.5"/>
+				</data>
+			</port>
+			<port name="p1">
+				<data key="d15">
+					<y:FreeNodePortLocationModelParameter Ratio="0.5,0"/>
+				</data>
+			</port>
+		</node>
+		<node id="n4">
+			<data key="d4">
+				<y:RectD X="887.938492063492" Y="-17.0625" Width="179.5" Height="148.875"/>
+			</data>
+			<data key="d6">
+				<x0:EntityNodeStyle fill="{y:GraphMLReference 1}" insetFill="{y:GraphMLReference 2}" stroke="BLACK">
+					<x0:EntityNodeStyle.model>
+						<x0:EntityRelationshipModel>
+							<x0:EntityRelationshipModel.title>detalles_factura</x0:EntityRelationshipModel.title>
+							<x0:EntityRelationshipModel.attributes>
+								<x:Array Type="sys:Object">
+									<sys:String><![CDATA[id int (pk)]]></sys:String>
+									<sys:String><![CDATA[producto_id int (fk)]]></sys:String>
+									<sys:String><![CDATA[cantidad int]]></sys:String>
+									<sys:String><![CDATA[precio float]]></sys:String>
+									<sys:String><![CDATA[factura_id int (fk)]]></sys:String>
+								</x:Array>
+							</x0:EntityRelationshipModel.attributes>
+						</x0:EntityRelationshipModel>
+					</x0:EntityNodeStyle.model>
+				</x0:EntityNodeStyle>
+			</data>
+			<port name="p0">
+				<data key="d15">
+					<y:FreeNodePortLocationModelParameter Ratio="0,0.5"/>
+				</data>
+			</port>
+			<port name="p1">
+				<data key="d15">
+					<y:FreeNodePortLocationModelParameter Ratio="0.5,1"/>
+				</data>
+			</port>
+		</node>
+		<node id="n5">
+			<data key="d4">
+				<y:RectD X="207.3126984126984" Y="134.1875" Width="171.75" Height="86.375"/>
+			</data>
+			<data key="d6">
+				<x0:EntityNodeStyle fill="{y:GraphMLReference 1}" insetFill="{y:GraphMLReference 2}" stroke="BLACK">
+					<x0:EntityNodeStyle.model>
+						<x0:EntityRelationshipModel>
+							<x0:EntityRelationshipModel.title>configuracion</x0:EntityRelationshipModel.title>
+							<x0:EntityRelationshipModel.attributes>
+								<x:Array Type="sys:Object">
+									<sys:String><![CDATA[id int (pk)]]></sys:String>
+									<sys:String><![CDATA[nombre varchar]]></sys:String>
+									<sys:String><![CDATA[valor varchar]]></sys:String>
+								</x:Array>
+							</x0:EntityRelationshipModel.attributes>
+						</x0:EntityRelationshipModel>
+					</x0:EntityNodeStyle.model>
+				</x0:EntityNodeStyle>
+			</data>
+		</node>
+		<node id="n6">
+			<data key="d4">
+				<y:RectD X="442.1878968253968" Y="4.0625" Width="162.875" Height="106.625"/>
+			</data>
+			<data key="d6">
+				<x0:EntityNodeStyle fill="{y:GraphMLReference 3}" insetFill="{y:GraphMLReference 4}" stroke="BLACK">
+					<x0:EntityNodeStyle.model>
+						<x0:EntityRelationshipModel>
+							<x0:EntityRelationshipModel.title>direcciones</x0:EntityRelationshipModel.title>
+							<x0:EntityRelationshipModel.attributes>
+								<x:Array Type="sys:Object">
+									<sys:String><![CDATA[id int (pk)]]></sys:String>
+									<sys:String><![CDATA[provincia_id int (fk)]]></sys:String>
+									<sys:String><![CDATA[ciudad_id int (fk)]]></sys:String>
+									<sys:String><![CDATA[sector_id int (fk)]]></sys:String>
+								</x:Array>
+							</x0:EntityRelationshipModel.attributes>
+						</x0:EntityRelationshipModel>
+					</x0:EntityNodeStyle.model>
+				</x0:EntityNodeStyle>
+			</data>
+			<port name="p0">
+				<data key="d15">
+					<y:FreeNodePortLocationModelParameter Ratio="0.5,0"/>
+				</data>
+			</port>
+			<port name="p1">
+				<data key="d15">
+					<y:FreeNodePortLocationModelParameter Ratio="0.5,0"/>
+				</data>
+			</port>
+			<port name="p2">
+				<data key="d15">
+					<y:FreeNodePortLocationModelParameter Ratio="0.5,0"/>
+				</data>
+			</port>
+			<port name="p3">
+				<data key="d15">
+					<y:FreeNodePortLocationModelParameter Ratio="0.5,1"/>
+				</data>
+			</port>
+		</node>
+		<node id="n7">
+			<data key="d4">
+				<y:RectD X="283.6253968253968" Y="-197.5" Width="140" Height="86.375"/>
+			</data>
+			<data key="d6">
+				<x0:EntityNodeStyle fill="{y:GraphMLReference 3}" insetFill="{y:GraphMLReference 4}" stroke="BLACK">
+					<x0:EntityNodeStyle.model>
+						<x0:EntityRelationshipModel>
+							<x0:EntityRelationshipModel.title>provincias</x0:EntityRelationshipModel.title>
+							<x0:EntityRelationshipModel.attributes>
+								<x:Array Type="sys:Object">
+									<sys:String><![CDATA[id int (pk)]]></sys:String>
+									<sys:String><![CDATA[nombre varchar(100)]]></sys:String>
+								</x:Array>
+							</x0:EntityRelationshipModel.attributes>
+						</x0:EntityRelationshipModel>
+					</x0:EntityNodeStyle.model>
+				</x0:EntityNodeStyle>
+			</data>
+			<port name="p0">
+				<data key="d15">
+					<y:FreeNodePortLocationModelParameter Ratio="0.5,1"/>
+				</data>
+			</port>
+		</node>
+		<node id="n8">
+			<data key="d4">
+				<y:RectD X="453.6253968253968" Y="-197.5" Width="140" Height="86.375"/>
+			</data>
+			<data key="d6">
+				<x0:EntityNodeStyle fill="{y:GraphMLReference 3}" insetFill="{y:GraphMLReference 4}" stroke="BLACK">
+					<x0:EntityNodeStyle.model>
+						<x0:EntityRelationshipModel>
+							<x0:EntityRelationshipModel.title>sectores</x0:EntityRelationshipModel.title>
+							<x0:EntityRelationshipModel.attributes>
+								<x:Array Type="sys:Object">
+									<sys:String><![CDATA[id int (pk)]]></sys:String>
+									<sys:String><![CDATA[nombre varchar(100)]]></sys:String>
+								</x:Array>
+							</x0:EntityRelationshipModel.attributes>
+						</x0:EntityRelationshipModel>
+					</x0:EntityNodeStyle.model>
+				</x0:EntityNodeStyle>
+			</data>
+			<port name="p0">
+				<data key="d15">
+					<y:FreeNodePortLocationModelParameter Ratio="0.5,1"/>
+				</data>
+			</port>
+		</node>
+		<node id="n9">
+			<data key="d4">
+				<y:RectD X="676.5007936507936" Y="-197.5" Width="140" Height="86.375"/>
+			</data>
+			<data key="d6">
+				<x0:EntityNodeStyle fill="{y:GraphMLReference 3}" insetFill="{y:GraphMLReference 4}" stroke="BLACK">
+					<x0:EntityNodeStyle.model>
+						<x0:EntityRelationshipModel>
+							<x0:EntityRelationshipModel.title>ciudades</x0:EntityRelationshipModel.title>
+							<x0:EntityRelationshipModel.attributes>
+								<x:Array Type="sys:Object">
+									<sys:String><![CDATA[id int (pk)]]></sys:String>
+									<sys:String><![CDATA[nombre varchar(100)]]></sys:String>
+								</x:Array>
+							</x0:EntityRelationshipModel.attributes>
+						</x0:EntityRelationshipModel>
+					</x0:EntityNodeStyle.model>
+				</x0:EntityNodeStyle>
+			</data>
+			<port name="p0">
+				<data key="d15">
+					<y:FreeNodePortLocationModelParameter Ratio="0.5,1"/>
+				</data>
+			</port>
+		</node>
+		<node id="n10">
+			<data key="d4">
+				<y:RectD X="453.6253968253968" Y="245.25" Width="140" Height="86.375"/>
+			</data>
+			<data key="d6">
+				<x0:EntityNodeStyle fill="{y:GraphMLReference 3}" insetFill="{y:GraphMLReference 4}" stroke="BLACK">
+					<x0:EntityNodeStyle.model>
+						<x0:EntityRelationshipModel>
+							<x0:EntityRelationshipModel.title>usuarios_direcciones</x0:EntityRelationshipModel.title>
+							<x0:EntityRelationshipModel.attributes>
+								<x:Array Type="sys:Object">
+									<sys:String><![CDATA[id int (pk)]]></sys:String>
+									<sys:String><![CDATA[usuario_id int (fk)]]></sys:String>
+									<sys:String><![CDATA[direccion_id int (fk)]]></sys:String>
+								</x:Array>
+							</x0:EntityRelationshipModel.attributes>
+						</x0:EntityRelationshipModel>
+					</x0:EntityNodeStyle.model>
+				</x0:EntityNodeStyle>
+			</data>
+			<port name="p0">
+				<data key="d15">
+					<y:FreeNodePortLocationModelParameter Ratio="0.5,0"/>
+				</data>
+			</port>
+			<port name="p1">
+				<data key="d15">
+					<y:FreeNodePortLocationModelParameter Ratio="1,0.5"/>
+				</data>
+			</port>
+		</node>
+		<edge id="e0" source="n4" target="n3" sourceport="p0" targetport="p0">
+			<data key="d10">
+				<x:List>
+					<y:Label Style="{y:GraphMLReference 6}">
+						<y:Label.Text>1.n</y:Label.Text>
+						<y:Label.LayoutParameter>
+							<y:SmartEdgeLabelModelParameter Model="{y:GraphMLReference 5}" SegmentRatio="0" Distance="2"/>
+						</y:Label.LayoutParameter>
+					</y:Label>
+				</x:List>
+			</data>
+			<data key="d11">
+				<x:List>
+					<y:Bend Location="857.938492063492,57.375"/>
+					<y:Bend Location="857.938492063492,288.4375"/>
+				</x:List>
+			</data>
+			<data key="d12">
+				<y:GraphMLReference ResourceKey="7"/>
+			</data>
+		</edge>
+		<edge id="e1" source="n1" target="n3" sourceport="p0" targetport="p1">
+			<data key="d10">
+				<x:List>
+					<y:Label Style="{y:GraphMLReference 6}">
+						<y:Label.Text>n.1</y:Label.Text>
+						<y:Label.LayoutParameter>
+							<y:SmartEdgeLabelModelParameter Model="{y:GraphMLReference 5}" SegmentRatio="0" Distance="2"/>
+						</y:Label.LayoutParameter>
+					</y:Label>
+				</x:List>
+			</data>
+			<data key="d12">
+				<y:GraphMLReference ResourceKey="7"/>
+			</data>
+		</edge>
+		<edge id="e2" source="n4" target="n0" sourceport="p1" targetport="p0">
+			<data key="d10">
+				<x:List>
+					<y:Label Style="{y:GraphMLReference 6}">
+						<y:Label.Text>n.m</y:Label.Text>
+						<y:Label.LayoutParameter>
+							<y:SmartEdgeLabelModelParameter Model="{y:GraphMLReference 5}" SegmentRatio="0" Distance="2"/>
+						</y:Label.LayoutParameter>
+					</y:Label>
+				</x:List>
+			</data>
+			<data key="d12">
+				<y:GraphMLReference ResourceKey="7"/>
+			</data>
+		</edge>
+		<edge id="e3" source="n9" target="n6" sourceport="p0" targetport="p0">
+			<data key="d10">
+				<x:List>
+					<y:Label Style="{y:GraphMLReference 12}">
+						<y:Label.Text>n.1</y:Label.Text>
+						<y:Label.LayoutParameter>
+							<y:SmartEdgeLabelModelParameter Model="{y:GraphMLReference 8}" SegmentRatio="0" Distance="2"/>
+						</y:Label.LayoutParameter>
+					</y:Label>
+				</x:List>
+			</data>
+			<data key="d11">
+				<x:List>
+					<y:Bend Location="746.5007936507936,-81.125"/>
+					<y:Bend Location="523.6253968253968,-81.125"/>
+				</x:List>
+			</data>
+			<data key="d12">
+				<y:GraphMLReference ResourceKey="11"/>
+			</data>
+		</edge>
+		<edge id="e4" source="n7" target="n6" sourceport="p0" targetport="p1">
+			<data key="d10">
+				<x:List>
+					<y:Label>
+						<y:Label.Text>n.1</y:Label.Text>
+						<y:Label.LayoutParameter>
+							<y:SmartEdgeLabelModelParameter Model="{y:GraphMLReference 8}" SegmentRatio="0" Distance="2"/>
+						</y:Label.LayoutParameter>
+						<y:Label.Style>
+							<yjs:DefaultLabelStyle verticalTextAlignment="BOTTOM" horizontalTextAlignment="CENTER" font="{y:GraphMLReference 9}" textFill="BLACK"/>
+						</y:Label.Style>
+					</y:Label>
+				</x:List>
+			</data>
+			<data key="d11">
+				<x:List>
+					<y:Bend Location="353.6253968253968,-81.125"/>
+					<y:Bend Location="523.6253968253968,-81.125"/>
+				</x:List>
+			</data>
+			<data key="d12">
+				<yjs:PolylineEdgeStyle stroke="{y:GraphMLReference 10}"/>
+			</data>
+		</edge>
+		<edge id="e5" source="n8" target="n6" sourceport="p0" targetport="p2">
+			<data key="d10">
+				<x:List>
+					<y:Label>
+						<y:Label.Text>n.1</y:Label.Text>
+						<y:Label.LayoutParameter>
+							<y:SmartEdgeLabelModelParameter Model="{y:GraphMLReference 8}" SegmentRatio="0" Distance="2"/>
+						</y:Label.LayoutParameter>
+						<y:Label.Style>
+							<yjs:DefaultLabelStyle verticalTextAlignment="BOTTOM" horizontalTextAlignment="CENTER" font="{y:GraphMLReference 9}" textFill="BLACK"/>
+						</y:Label.Style>
+					</y:Label>
+				</x:List>
+			</data>
+			<data key="d12">
+				<yjs:PolylineEdgeStyle stroke="{y:GraphMLReference 10}"/>
+			</data>
+		</edge>
+		<edge id="e6" source="n6" target="n10" sourceport="p3" targetport="p0">
+			<data key="d10">
+				<x:List>
+					<y:Label>
+						<y:Label.Text>n.1</y:Label.Text>
+						<y:Label.LayoutParameter>
+							<y:SmartEdgeLabelModelParameter Model="{y:GraphMLReference 8}" SegmentRatio="0.2231260894828588" Distance="0.001"/>
+						</y:Label.LayoutParameter>
+						<y:Label.Style>
+							<yjs:DefaultLabelStyle verticalTextAlignment="BOTTOM" horizontalTextAlignment="CENTER" font="{y:GraphMLReference 9}" textFill="BLACK" minimumSize="17.000000000000004,0" maximumSize="17.000000000000004,Infinity"/>
+						</y:Label.Style>
+					</y:Label>
+				</x:List>
+			</data>
+			<data key="d12">
+				<y:GraphMLReference ResourceKey="11"/>
+			</data>
+		</edge>
+		<edge id="e7" source="n1" target="n10" sourceport="p1" targetport="p1">
+			<data key="d10">
+				<x:List>
+					<y:Label Style="{y:GraphMLReference 12}">
+						<y:Label.Text>n.1</y:Label.Text>
+						<y:Label.LayoutParameter>
+							<y:SmartEdgeLabelModelParameter Model="{y:GraphMLReference 8}" SegmentRatio="0" Distance="2"/>
+						</y:Label.LayoutParameter>
+					</y:Label>
+				</x:List>
+			</data>
+			<data key="d11">
+				<x:List>
+					<y:Bend Location="635.0630952380952,57.375"/>
+					<y:Bend Location="635.0630952380952,288.4375"/>
+				</x:List>
+			</data>
+			<data key="d12">
+				<y:GraphMLReference ResourceKey="11"/>
+			</data>
+		</edge>
+	</graph>
+</graphml>
