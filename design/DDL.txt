@@ -16,6 +16,7 @@ CREATE TABLE fractal.usuarios
     activo BOOLEAN DEFAULT 1 NOT NULL
     -- specify more columns here
 ) ENGINE=INNODB;
+
 -- Create a new table called 'emails' in schema 'fractal'
 CREATE TABLE fractal.emails
 (
