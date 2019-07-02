@@ -10,11 +10,11 @@
             $this->_primary_key = 'id';
         }
 
-        /*
+        /**
          * Insert or update records on a given table
          * 
-         * @ param      int $id
-         * @ return     array $record(s)
+         * @param      int $id
+         * @return     array $record(s)
          * 
         */
 
@@ -32,11 +32,11 @@
             }
         }
 
-        /*
+        /**
          * Insert or update records on a given table
          * 
-         * @ param      int $id | array or object $data
-         * @ return     int $_last_inserted_id
+         * @param      int $id | array or object $data
+         * @return     int $_last_inserted_id
          * 
         */
 
@@ -94,11 +94,11 @@
             }
         }
 
-        /*
+        /**
          * Delete a record on a given table
          * 
-         * @ param      int $id
-         * @ return     boolean TRUE OR FALSE
+         * @param       integer $id
+         * @return      boolean
          * 
         */
 
