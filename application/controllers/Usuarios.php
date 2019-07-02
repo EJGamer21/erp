@@ -2,8 +2,12 @@
 
 class Usuarios extends CI_Controller {
 
-    public function index() 
-    {
+    function __construct() {
+        parent::__construct();
+        $this->load->model('UsersModel');
+    }
+
+    function index() {
         $info = [
             'title' => 'Usuarios',
             'view_name' => 'usuarios/index',
@@ -18,8 +22,7 @@ class Usuarios extends CI_Controller {
         
     }
 
-    function register()
-    {
+    function register() {
         # code...
     }
 }
