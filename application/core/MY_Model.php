@@ -1,5 +1,5 @@
 <?php
-    class BaseModel extends CI_Model {
+    class MY_Model extends CI_Model {
         protected $_database;
         protected $_last_inserted_id;
         protected $_primary_key;

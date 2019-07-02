@@ -1,5 +1,5 @@
 <?php
-    class UsersModel extends BaseModel {
+    class Users_model extends MY_Model {
         protected $_tablename = 'usuarios';
         // protected $belongs_to = [];
 
