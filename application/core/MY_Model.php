@@ -3,6 +3,7 @@
         protected $_database;
         protected $_last_inserted_id;
         protected $_primary_key;
+        protected $_fields = array();
 
         function __construct() {
             parent::__construct();
@@ -11,20 +12,20 @@
         }
 
         /**
-         * Insert or update records on a given table
+         * Retrieve records from a given table
          * 
          * @param      int $id
          * @return     array $record(s)
          * 
         */
 
-        function get($id = NULL) {
+        protected function get($id = NULL, $fields = array()) {
             if (!$id) {
-                return $this->_getAll();
+                return $this->_getAll($fields);
             }
 
             elseif ($id) {
-                return $this->_getById($id);
+                return $this->_getById($id, $fields);
             }
 
             else {
@@ -135,16 +136,18 @@
             }
         }
 
-        private function _getAll() {
-            $this->db->select('*');
+        private function _getAll($fields = array()) {
+            $fields = empty($fields) ? '*' : $fields;
+            $this->db->select($fields);
             $this->db->from($this->_tablename);
             $sql = $this->db->get();
 
             return $sql->result();
         }
 
-        private function _getById($id) {
-            $this->db->select('*');
+        private function _getById($id, $fields = array()) {
+            $fields = empty($fields) ? '*' : $fields;
+            $this->db->select($fields);
             $this->db->from($this->_tablename);
             $this->db->where($this->_primary_key, $id);
             $sql = $this->db->get();
