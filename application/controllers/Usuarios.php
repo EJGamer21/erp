@@ -4,21 +4,20 @@ class Usuarios extends CI_Controller {
 
     function __construct() {
         parent::__construct();
-        $this->load->model('UsersModel');
+        $this->load->model('UsersModel', 'um');
     }
 
     function index() {
-        $info = [
+        $data = $this->um->getUsers(['nombre', 'apellido']);
+
+        $loader_data = [
             'title' => 'Usuarios',
             'view_name' => 'usuarios/index',
             'data' => [
-                'user' => [
-                    'name' => 'Enger'
-                ],
-                'miembros' => ('Enger, Jose, Pepe')
+                'users' => $data
             ]
         ];
-        $this->load->view('loader', $info);
+        $this->load->view('loader', $loader_data);
         
     }
 

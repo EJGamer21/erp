@@ -136,18 +136,28 @@
             }
         }
 
-        private function _getAll($fields = array()) {
-            $fields = empty($fields) ? '*' : $fields;
-            $this->db->select($fields);
+        private function _getAll($fields) {
+            if (empty($fields)) {
+                $this->db->select('*');
+            } else {
+                $fields = implode(",", $fields);
+                $this->db->select("id, {$fields}");
+            }
+
             $this->db->from($this->_tablename);
             $sql = $this->db->get();
 
             return $sql->result();
         }
 
-        private function _getById($id, $fields = array()) {
-            $fields = empty($fields) ? '*' : $fields;
-            $this->db->select($fields);
+        private function _getById($id, $fields) {
+            if (empty($fields)) {
+                $this->db->select('*');
+            } else {
+                $fields = implode(",", $fields);
+                $this->db->select("id, {$fields}");
+            }
+
             $this->db->from($this->_tablename);
             $this->db->where($this->_primary_key, $id);
             $sql = $this->db->get();

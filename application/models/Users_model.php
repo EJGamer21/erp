@@ -19,12 +19,16 @@
 
         }
 
-        function getUsers() {
-            return $this->get();
+        function getUsers($fields = array()) {
+            return $this->get(NULL, $fields);
         }
 
-        function getUser($id) {
-            return $this->get($id);
+        function getUser($id, $fields = array()) {
+            return $this->get($id, $fields);
+        }
+
+        function getAllUsers() {
+            return $this->get(NULL, $fields);
         }
 
         function login($data) {
