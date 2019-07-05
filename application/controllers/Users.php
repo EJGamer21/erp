@@ -9,11 +9,10 @@ class Users extends CI_Controller {
 
     public function index()	{
 		$data = $this->Users_model->getUsers();
-		var_dump($data);
 
 		$loader_data = [
-            'title' => 'Usuarios',
-            'view_name' => 'usuarios/index',
+            'title' => 'Users',
+            'view_name' => 'users/index',
             'data' => [
 				'users' => $data
 			]
@@ -26,11 +25,10 @@ class Users extends CI_Controller {
 		
 		if (is_numeric($id)) {
 			$data = $this->Users_model->getUser($id);
-			var_dump($data);
-	
+
 			$loader_data = [
 				'title' => $data->nombre,
-				'view_name' => 'usuarios/view',
+				'view_name' => 'users/view',
 				'data' => [
 					'user' => $data
 				]
@@ -39,5 +37,13 @@ class Users extends CI_Controller {
 		} else {
 			show_404();
 		}
+	}
+
+	function register() {
+		$loader_data = [
+			'title' => 'Registrarse',
+			'view_name' => 'users/register'
+		];
+		$this->load->view('loader', $loader_data);
 	}
 }
