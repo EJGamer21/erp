@@ -16,18 +16,21 @@
 
         function __construct() {
             parent::__construct();
-
         }
 
         function getUsers($fields = array()) {
-            return $this->get(NULL, $fields);
+            $conditions = [
+                'activo' => 1
+            ];
+
+            return $this->get(NULL, $fields, $conditions);
         }
 
         function getUser($id, $fields = array()) {
             return $this->get($id, $fields);
         }
 
-        function getAllUsers() {
+        function getAllUsers($fields = array()) {
             return $this->get(NULL, $fields);
         }
 

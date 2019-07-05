@@ -12,17 +12,17 @@
             <?php foreach ($users as $user): ?>
             <tr>
                 <td>
-                    <a href="<?= base_url('home/view/').$user->id.'/'.strtolower($user->nombre.'-'.$user->apellido) ?>">
+                    <a href="<?= base_url('users/view/').$user->id.'/'.strtolower($user->nombre.'-'.$user->apellido) ?>">
                         <?= $user->username ?>
                     </a>
                 </td>
                 <td>
-                    <a href="<?= base_url('home/view/').$user->id.'/'.strtolower($user->nombre.'-'.$user->apellido) ?>">
+                    <a href="<?= base_url('users/view/').$user->id.'/'.strtolower($user->nombre.'-'.$user->apellido) ?>">
                         <?= $user->nombre.' '.$user->apellido ?>
                     </a>
                 </td>
                 <td>
-                    <a href="<?= base_url('home/view/').$user->id.'/'.strtolower($user->nombre.'-'.$user->apellido) ?>">
+                    <a href="<?= base_url('users/view/').$user->id.'/'.strtolower($user->nombre.'-'.$user->apellido) ?>">
                         <?= $user->email_id ?>
                     </a>
                 </td>

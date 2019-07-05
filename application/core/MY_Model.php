@@ -4,10 +4,11 @@
         protected $_last_inserted_id;
         protected $_primary_key;
         protected $_fields = array();
+        protected $_conditions = array();
 
         function __construct() {
             parent::__construct();
-            $this->_database = $this->db;
+            $this->_database = $this->db->database;
             $this->_primary_key = 'id';
         }
 
@@ -19,17 +20,26 @@
          * 
         */
 
-        protected function get($id = NULL, $fields = array()) {
-            if (!$id) {
-                return $this->_getAll($fields);
+        protected function get($id = NULL, $fields = array(), $conditions = array()) {
+            $this->_fields = $fields;
+            $this->_conditions = $conditions;
+            
+            if ($this->_conditions) {
+                return $this->_getWhere();
             }
-
-            elseif ($id) {
-                return $this->_getById($id, $fields);
-            }
-
+            
             else {
-                throw new Exception("Id cannot be undefined");
+                if (!$id) {
+                    return $this->_getAll();
+                }
+    
+                elseif ($id) {
+                    return $this->_getById($id);
+                }
+    
+                else {
+                    throw new Exception("Id cannot be undefined");
+                }
             }
         }
 
@@ -42,6 +52,7 @@
         */
 
         function save($id = NULL, $data = NULL) {
+            // Insert new record
             if (is_null($id) && !is_null($data)) {
                 try {
                     $this->db->trans_begin();
@@ -56,16 +67,16 @@
                         throw new Exception ("Error updating data in: ".$this->_tablename.". Error: ".$e->getMessage());
                     } else {
                         $this->db->trans_commit();
-                        return TRUE;
+                        return $this->_last_inserted_id;
                     }
 
-                    return $this->_last_inserted_id;
                 } catch(Exception $e) {
                     $this->db->trans_rollback();
                     return FALSE;
                 }
             }
             
+            // Update existing record
             elseif (!is_null($id) && !is_null($data)) {
                 try {
                     $this->db->trans_begin();
@@ -78,12 +89,12 @@
 
                     if ($this->db->trans_status() === FALSE) {
                         throw new Exception ("Error updating data in: ".$this->_tablename.". Error: ".$e->getMessage());
+                        return FALSE;
                     } else {
                         $this->db->trans_commit();
-                        return TRUE;
+                        return $this->_last_inserted_id;
                     }
 
-                    return $this->_last_inserted_id;
                 } catch (Exception $e) {
                     $this->db->trans_rollback();
                     return FALSE;
@@ -108,8 +119,11 @@
 
             if ($id) {
                 $idToDelelete = $id;
-                $this->_delete($idToDelelete);
-                return TRUE;
+                if ($this->_delete($idToDelelete)) {
+                    return TRUE;
+                } else {
+                    return FALSE;
+                }
             } else {
                 throw new Exception("Id cannot be undefined");
                 return FALSE;
@@ -136,12 +150,13 @@
             }
         }
 
-        private function _getAll($fields) {
-            if (empty($fields)) {
+        private function _getAll() {
+
+            if (empty($this->_fields)) {
                 $this->db->select('*');
             } else {
-                $fields = implode(",", $fields);
-                $this->db->select("id, {$fields}");
+                $this->_fields = implode(",", $this->_fields);
+                $this->db->select("id, {$this->_fields}");
             }
 
             $this->db->from($this->_tablename);
@@ -150,19 +165,37 @@
             return $sql->result();
         }
 
-        private function _getById($id, $fields) {
-            if (empty($fields)) {
+        private function _getById($id) {
+
+            if (empty($this->_fields)) {
                 $this->db->select('*');
             } else {
-                $fields = implode(",", $fields);
-                $this->db->select("id, {$fields}");
+                $this->_fields = implode(",", $this->_fields);
+                $this->db->select("id, {$this->_fields}");
             }
+
 
             $this->db->from($this->_tablename);
             $this->db->where($this->_primary_key, $id);
             $sql = $this->db->get();
 
             return $sql->row(0);
+        }
+
+        private function _getWhere() {
+
+            if (empty($this->_fields)) {
+                $this->db->select('*');
+            } else {
+                $this->_fields = implode(",", $this->_fields);
+                $this->db->select("id, {$this->_fields}");
+            }
+            
+            $this->db->from($this->_tablename);
+            $this->db->where($this->_conditions);
+            $sql = $this->db->get();
+
+            return $sql->result();
         }
 
     }
