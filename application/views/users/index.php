@@ -1,4 +1,4 @@
-<div class="container">
+<div>
     <h1>Usuarios</h1>
     <table class="table striped highlight centered">
         <thead>

@@ -1,4 +1,4 @@
-<div class="container">
+<div>
     <h1>Inicio</h1>
     <div class="divider"></div>
     <h4><?= $title; ?></h4>

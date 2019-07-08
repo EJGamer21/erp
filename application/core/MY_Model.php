@@ -38,7 +38,7 @@
                 }
     
                 else {
-                    throw new Exception("Id cannot be undefined");
+                    return FALSE;
                 }
             }
         }
@@ -51,7 +51,7 @@
          * 
         */
 
-        function save($id = NULL, $data = NULL) {
+        function save($data = NULL, $id = NULL) {
             // Insert new record
             if (is_null($id) && !is_null($data)) {
                 try {
@@ -88,7 +88,7 @@
                     $this->_last_inserted_id = $this->db->insert_id();
 
                     if ($this->db->trans_status() === FALSE) {
-                        throw new Exception ("Error updating data in: ".$this->_tablename.". Error: ".$e->getMessage());
+                        throw new Exception ("Error updating data in: ".$this->_tablename.".");
                         return FALSE;
                     } else {
                         $this->db->trans_commit();
@@ -102,7 +102,7 @@
             }
             
             else {
-                throw new Exception("Id cannot be undefined");
+                return FALSE;
             }
         }
 
@@ -125,7 +125,6 @@
                     return FALSE;
                 }
             } else {
-                throw new Exception("Id cannot be undefined");
                 return FALSE;
             }
         }
@@ -138,7 +137,7 @@
                 $this->db->delete($this->_tablename);
 
                 if ($this->db->trans_status() === FALSE) {
-                    throw new Exception ("Error deleting record in: ".$this->_tablename.". Error: ".$e->getMessage());
+                    throw new Exception ("Error deleting record in: ".$this->_tablename.".");
                 } else {
                     $this->db->trans_commit();
                     return TRUE;
@@ -146,7 +145,7 @@
                 
             } catch (Exception $e) {
                 $this->db->trans_rollback();
-                return FALSE;
+                return array(FALSE, $e->getMessage());
             }
         }
 

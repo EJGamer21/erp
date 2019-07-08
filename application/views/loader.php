@@ -1,6 +1,6 @@
 <?php
     $CI = &get_instance();
-    $data = $data ?? NULL;
+    $data = isset($data) ? $data : NULL;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -27,15 +27,27 @@
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/brands.css" integrity="sha384-n9+6/aSqa9lBidZMRCQHTHKJscPq6NW4pCQBiMmHdUCvPN8ZOg2zJJTkC7WIezWv" crossorigin="anonymous">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/fontawesome.css" integrity="sha384-vd1e11sR28tEK9YANUtpIOdjGW14pS87bUBuOIoBILVWLFnS+MCX9T6MMf0VdPGq" crossorigin="anonymous">
     <title><?= $title ?> | Fractal</title>
+
+    <style>
+        header, main, footer {
+           padding-left: 300px;
+        }
+
+        @media only screen and (max-width : 992px) {
+            header, main, footer {
+                padding-left: 0;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="row">
-            <div class="col s12 m2 l2">
-                <?php $this->load->view('_layout/_sidebar', $data); ?>
-            </div>
-            <div class="col s12 m10 l10">
-                <?php $this->load->view($view_name, $data); ?>
-            </div>
+        <div class="col s12 m2 l2">
+            <?php $this->load->view('_layout/_sidebar', $data); ?>
+        </div>
+        <main class="col s12 m10 l10">
+            <?php $this->load->view($view_name, $data); ?>
+        </main>
     </div>
 </body>
 </html>
