@@ -1,6 +1,6 @@
 <div>
     <h1>Usuarios</h1>
-    <table class="table striped highlight centered">
+    <table class="table striped highlight">
         <thead>
             <tr>
                 <th>Usuario</th>
@@ -23,7 +23,7 @@
                 </td>
                 <td>
                     <a href="<?= base_url('users/view/').$user->id.'/'.strtolower($user->nombre.'-'.$user->apellido) ?>">
-                        <?= $user->email_id ?>
+                        <?= $user->email ?>
                     </a>
                 </td>
             </tr>

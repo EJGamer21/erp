@@ -5,12 +5,12 @@ class Users extends CI_Controller {
     function __construct() {
         parent::__construct();
 		$this->load->model('Users_model', 'Users');
-		// $this->load->model('Emails_model', 'Emails');
-		// $this->load->model('Directions_model', 'Directions');
+		$this->load->model('Emails_model', 'Emails');
+		$this->load->model('Directions_model', 'Directions');
     }
 
     public function index()	{
-		$data = $this->Users->getUsers();
+		$data = $this->Users->getAllUsers();
 
 		$loader_data = [
             'title' => 'Users',
@@ -50,23 +50,30 @@ class Users extends CI_Controller {
 	}
 
 	function register() {
-		$email = $this->input->post('email');
-		$province = $this->input->post('province');
-		$city = $this->input->post('city');
-		$sector = $this->input->post('sector');
-		$pass = $this->input->post('password');
-		$hashedPass = password_hash($pass, PASSWORD_BCRYPT);
-
 		$userForm = [
 			'firstname' => $this->input->post('firstname'),
 			'lastname' => $this->input->post('lastname'),
 			'sex' => $this->input->post('sex'),
-			'username' => $this->input->post('username'),
-			'password' => $hashedPass
+			'username' => $this->input->post('username')
 		];
-		$userForm['email'] = $this->Emails->insertEmail($email);
-		$userForm['direccion'] = $this->Directions->insertDirection($province, $city, $sector);
+		$direction = [
+			'province' => $this->input->post('province'),
+			'city' => $this->input->post('city'),
+			'sector' => $this->input->post('sector')
+		];
+		
+		$email = $this->input->post('email');
+		$pass = $this->input->post('password');
+		
+		$userForm['email'] = $this->Emails->save($email);
+		$userForm['direccion'] = $this->Directions->save($direction);
+		$userForm['password'] = password_hash($pass, PASSWORD_BCRYPT);
 
-		$user = $this->Users->get
+		if ($this->Users->userExists($userForm['username']) === TRUE) {
+			return FALSE;
+		} else {
+			$this->Users->save($userForm);
+			return TRUE;
+		}
 	}
 }
