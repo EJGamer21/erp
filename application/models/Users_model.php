@@ -7,10 +7,10 @@
         public $nombre;
         public $apellido;
         public $sexo;
-        public $direccion;
+        public $direccion_id;
         public $username;
         public $clave;
-        public $email;
+        public $email_id;
         public $fecha_creacion;
         public $fecha_modificado;
 
@@ -19,10 +19,15 @@
         }
 
         function getUsers($fields = array()) {
+            $fields = [
+                'usuarios.*',
+                'emails.*'
+            ];
             $conditions = [
                 'activo' => 1
             ];
-
+            
+            $this->db->join('emails', 'usuarios.email_id = emails.id');
             return $this->get(NULL, $fields, $conditions);
         }
 
@@ -31,6 +36,7 @@
         }
 
         function getAllUsers($fields = array()) {
+            $this->db->join('emails', 'usuarios.email_id = emails.id', 'left');
             return $this->get(NULL, $fields);
         }
 
@@ -38,7 +44,21 @@
             //TODO: finish login logic
         }
 
-        private function _userExists() {
-            //TODO: check if user already exists
+        function userExists($username) {
+            $conditions = [
+                'username' => $username
+            ];
+
+            $user = $this->get(NULL, ['id, username'], $conditions);
+
+            if ($user) {
+                return TRUE;
+            } else {
+                return FALSE;
+            }
+        }
+
+        function save($userData, $id = NULL) {
+            //TODO: insert or update user
         }
     }

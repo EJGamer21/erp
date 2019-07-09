@@ -51,9 +51,9 @@
          * 
         */
 
-        function save($data = NULL, $id = NULL) {
+        function save($data, $id = NULL) {
             // Insert new record
-            if (is_null($id) && !is_null($data)) {
+            if (is_null($id) && !empty($data)) {
                 try {
                     $this->db->trans_begin();
 
@@ -64,7 +64,7 @@
                     $this->db->trans_commit(); 
                     
                     if ($this->db->trans_status() === FALSE) {
-                        throw new Exception ("Error updating data in: ".$this->_tablename.". Error: ".$e->getMessage());
+                        throw new Exception ("Error inserting record in: ".$this->_tablename.".");
                     } else {
                         $this->db->trans_commit();
                         return $this->_last_inserted_id;
@@ -77,7 +77,7 @@
             }
             
             // Update existing record
-            elseif (!is_null($id) && !is_null($data)) {
+            elseif (!is_null($id) && !empty($data)) {
                 try {
                     $this->db->trans_begin();
 
@@ -88,7 +88,7 @@
                     $this->_last_inserted_id = $this->db->insert_id();
 
                     if ($this->db->trans_status() === FALSE) {
-                        throw new Exception ("Error updating data in: ".$this->_tablename.".");
+                        throw new Exception ("Error updating record in: ".$this->_tablename.".");
                         return FALSE;
                     } else {
                         $this->db->trans_commit();
@@ -155,7 +155,7 @@
                 $this->db->select('*');
             } else {
                 $this->_fields = implode(",", $this->_fields);
-                $this->db->select("id, {$this->_fields}");
+                $this->db->select("$this->_tablename.id, {$this->_fields}");
             }
 
             $this->db->from($this->_tablename);
@@ -170,7 +170,7 @@
                 $this->db->select('*');
             } else {
                 $this->_fields = implode(",", $this->_fields);
-                $this->db->select("id, {$this->_fields}");
+                $this->db->select("$this->_tablename.id, {$this->_fields}");
             }
 
 
@@ -187,7 +187,7 @@
                 $this->db->select('*');
             } else {
                 $this->_fields = implode(",", $this->_fields);
-                $this->db->select("id, {$this->_fields}");
+                $this->db->select("$this->_tablename.id, {$this->_fields}");
             }
             
             $this->db->from($this->_tablename);
