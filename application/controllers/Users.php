@@ -50,7 +50,9 @@ class Users extends CI_Controller {
 	}
 
 	function register() {
-		$userForm = [
+		$password = $this->input->post('password');
+		$email = $this->input->post('email');
+		$user_form = [
 			'firstname' => $this->input->post('firstname'),
 			'lastname' => $this->input->post('lastname'),
 			'sex' => $this->input->post('sex'),
@@ -62,18 +64,18 @@ class Users extends CI_Controller {
 			'sector' => $this->input->post('sector')
 		];
 		
-		$email = $this->input->post('email');
-		$pass = $this->input->post('password');
 		
-		$userForm['email'] = $this->Emails->save($email);
-		$userForm['direccion'] = $this->Directions->save($direction);
-		$userForm['password'] = password_hash($pass, PASSWORD_BCRYPT);
+		if ($this->Users->userExists($user_form['username']) === FALSE) {
+			$user_form['email'] = $this->Emails->save($email);
+			$user_form['direccion'] = $this->Directions->save($direction);
+			$user_form['password'] = password_hash($password, PASSWORD_BCRYPT);
 
-		if ($this->Users->userExists($userForm['username']) === TRUE) {
-			return FALSE;
+			$user_id = $this->Users->save($user_form);
+			$username = $this->Users->getUser($user_id, ['username']);
+
+			return $username;
 		} else {
-			$this->Users->save($userForm);
-			return TRUE;
+			return FALSE;
 		}
 	}
 }

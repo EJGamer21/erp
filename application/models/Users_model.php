@@ -32,10 +32,12 @@
         }
 
         function getUser($id, $fields = array()) {
+            $this->db->join('emails', 'usuarios.email_id = emails.id', 'left');
             return $this->get($id, $fields);
         }
 
         function getAllUsers($fields = array()) {
+            $this->db->select("usuarios.*, emails.*");
             $this->db->join('emails', 'usuarios.email_id = emails.id', 'left');
             return $this->get(NULL, $fields);
         }

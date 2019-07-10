@@ -9,7 +9,7 @@
         function __construct() {
             parent::__construct();
             $this->_database = $this->db->database;
-            $this->_primary_key = 'id';
+            $this->_primary_key = $this->db->primary("{$this->_database}.{$this->_tablename}");
         }
 
         /**
@@ -51,7 +51,7 @@
          * 
         */
 
-        function save($data, $id = NULL) {
+        protected function save($data, $id = NULL) {
             // Insert new record
             if (is_null($id) && !empty($data)) {
                 try {
@@ -114,7 +114,7 @@
          * 
         */
 
-        function delete($id = NULL) {
+        protected function delete($id = NULL) {
             $idToDelelete = NULL;
 
             if ($id) {
@@ -152,7 +152,7 @@
         private function _getAll() {
 
             if (empty($this->_fields)) {
-                $this->db->select('*');
+                $this->db->select("$this->_tablename.*");
             } else {
                 $this->_fields = implode(",", $this->_fields);
                 $this->db->select("$this->_tablename.id, {$this->_fields}");
@@ -167,7 +167,7 @@
         private function _getById($id) {
 
             if (empty($this->_fields)) {
-                $this->db->select('*');
+                $this->db->select("$this->_tablename.*");
             } else {
                 $this->_fields = implode(",", $this->_fields);
                 $this->db->select("$this->_tablename.id, {$this->_fields}");
@@ -175,7 +175,7 @@
 
 
             $this->db->from($this->_tablename);
-            $this->db->where($this->_primary_key, $id);
+            $this->db->where("{$this->_tablename}.{$this->_primary_key}", $id);
             $sql = $this->db->get();
 
             return $sql->row(0);
@@ -184,7 +184,7 @@
         private function _getWhere() {
 
             if (empty($this->_fields)) {
-                $this->db->select('*');
+                $this->db->select("$this->_tablename.*");
             } else {
                 $this->_fields = implode(",", $this->_fields);
                 $this->db->select("$this->_tablename.id, {$this->_fields}");
