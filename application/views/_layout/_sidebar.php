@@ -1,4 +1,4 @@
-<nav class="col-md-2 d-inline d-md-block bg-dark sidebar">
+<nav class="col-md-2 d-none d-sm-none d-md-inline d-lg-inline bg-dark sidebar">
     <div class="sidebar-sticky"  style="height: 100vh">
         <h6 class="sidebar-heading d-flex justify-content-between">
             <span>MENU</span>

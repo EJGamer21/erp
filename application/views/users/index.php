@@ -1,22 +1,24 @@
+<?php 
+    $CI =& get_instance();
+?>
+
 <div>
     <h1 class="my-4">Usuarios</h1>
     <div class="card mb-4">
-        <div class="card-header">
-            Registrar producto
-        </div>
+        <div class="card-header">Registrar nuevo usuario</div>
         <div class="card-body">
-            <form class="form" action="#" method="POST">
+            <form id="user-form" class="form" action="#" method="POST">
                 <div class="form-row">
                     <div class="col">
                         <div class="form-group">
                             <label>Nombre</label>
-                            <input class="form-control" type="text" name="firstname" placeholder="John" autofocus>
+                            <input class="form-control" type="text" name="firstname" placeholder="John" autofocus required>
                         </div>
                     </div>
                     <div class="col">
                         <div class="form-group">
                             <label>Apellido</label>
-                            <input class="form-control" type="text" name="lastname" placeholder="Doe">
+                            <input class="form-control" type="text" name="lastname" placeholder="Doe" required>
                         </div>
                     </div>
                 </div>
@@ -24,13 +26,13 @@
                     <div class="col">
                         <div class="form-group">
                             <label>Nombre de usuario</label>
-                            <input class="form-control" type="text" name="username" placeholder="John_doe01">
+                            <input class="form-control" type="text" name="username" placeholder="Johndoe01" autocomplete required>
                         </div>
                     </div>
                     <div class="col">
                         <div class="form-group">
-                            <label>Correo electr&oacute;nico</label>
-                            <input class="form-control" type="text" name="email" placeholder="jhondoe@example.com">
+                            <label>Correo electr&oacute;nico <small class="text-muted"><i>Opcional</i></small></label>
+                            <input class="form-control" type="text" name="email" placeholder="jhondoe@foo.com" autocomplete>
                         </div>
                     </div>
                 </div>
@@ -38,51 +40,77 @@
                     <div class="col">
                         <div class="form-group">
                             <label>Contrase&ntilde;a</label>
-                            <input class="form-control" type="password" id="password" name="password" placeholder="**********">
+                            <input class="form-control" type="password" id="password" name="password" required placeholder="**********">
                         </div>
                     </div>
                     <div class="col">
                         <div class="form-group">
-                            <label>Confirmar Contrase&ntilde;a</label>
-                            <input class="form-control" type="password" id="retyped-password" placeholder="**********">
+                            <label>Repetir Contrase&ntilde;a</label>
+                            <input class="form-control" type="password" id="retyped-password" required placeholder="**********">
                         </div>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="col">
                         <div class="form-group">
-                            <label>Sexo</label><br/>
+                            <label class="d-block">Sexo</label>
                             <div class="custom-control custom-radio custom-control-inline">
-                                <input type="radio" id="customRadioInline1" name="customRadioInline1" class="custom-control-input">
-                                <label class="custom-control-label" for="customRadioInline1">M</label>
+                                <input id="m-radio" type="radio" name="sex" class="custom-control-input" required>
+                                <label for="m-radio" class="custom-control-label">Masculino</label>
                             </div>
                             <div class="custom-control custom-radio custom-control-inline">
-                                <input type="radio" id="customRadioInline2" name="customRadioInline1" class="custom-control-input">
-                                <label class="custom-control-label" for="customRadioInline2">F</label>
+                                <input id="f-radio" type="radio" name="sex" class="custom-control-input" required>
+                                <label for="f-radio" class="custom-control-label">Femenino</label>
                             </div>
                         </div>
                     </div>
                     <div class="col">
-                        <label>Direcci&oacute;n</label><br/>
-                        <div class="form-group">
-                            <select class="form-control" type="text" name="province">
-                            <?php foreach ($users as $user): ?>
-                                <option><?=$user->nombre?></option>
-                            <?php endforeach; ?>
+                        <label class="d-block">Direcci&oacute;n <small class="text-muted"><i>Opcional</i></small></label>
+                        <div class="form-row">
+                            <div class="mb-2 col d-sm-block d-lg-inline">
+                                <select class="custom-select js-select2" name="province" id="province">
+                                    <option></option>
+                                    <?php foreach ($users as $user): ?>
+                                        <option value="<?= $user->id; ?>">
+                                            <?= $user->nombre; ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                            <div class="mb-2 col d-sm-block d-lg-inline">
+                                <select class="custom-select js-select2" name="city" id="city">
+                                    <option></option>
+                                    <?php foreach ($users as $user): ?>
+                                        <option value="<?= $user->id; ?>">
+                                            <?= $user->nombre; ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                            <div class="mb-2 col d-sm-block d-lg-inline">
+                                <select class="custom-select js-select2" name="sector" id="sector">
+                                    <option></option>
+                                    <?php foreach ($users as $user): ?>
+                                        <option value="<?= $user->id; ?>">
+                                            <?= $user->nombre; ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <input class="form-control" type="text" name="city">
-                        </div>
-                        <div class="form-group">
-                            <input class="form-control" type="text" name="sector">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-2 offset-10 px-0">
+                        <button type="submit" class="btn btn-block btn-success" id="submit-btn">Registrar</button>
                     </div>
                 </div>
             </form>
         </div>
     </div>
-    </div>
-    <div>
-        <table class="table table-striped table-hover table-responsive-lg">
+
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
             <caption>Listado de usuarios</caption>
             <thead class="thead-dark">
                 <tr>
@@ -125,3 +153,34 @@
         </table>
     </div>
 </div>
+<script>
+    $(document).ready(function() {
+        $('#province').select2({
+            placeholder: 'Provincia...'
+        }),
+        $('#city').select2({
+            placeholder: 'Ciudad...'
+        }),
+        $('#sector').select2({
+            placeholder: 'Sector...'
+        })
+    });
+
+    let userForm = $('#user-form');
+
+    userForm.submit((event) => {
+        event.preventDefault();
+
+        let url = <?= base_url('users/register'); ?>;
+        let formData = userForm.serialize();
+
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: formData,
+            success: (res) => {
+                alert(res);
+            }
+        });
+    });
+</script>

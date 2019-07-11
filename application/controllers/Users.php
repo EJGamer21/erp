@@ -50,32 +50,36 @@ class Users extends CI_Controller {
 	}
 
 	function register() {
-		$password = $this->input->post('password');
-		$email = $this->input->post('email');
-		$user_form = [
-			'firstname' => $this->input->post('firstname'),
-			'lastname' => $this->input->post('lastname'),
-			'sex' => $this->input->post('sex'),
-			'username' => $this->input->post('username')
-		];
-		$direction = [
-			'province' => $this->input->post('province'),
-			'city' => $this->input->post('city'),
-			'sector' => $this->input->post('sector')
-		];
-		
-		
-		if ($this->Users->userExists($user_form['username']) === FALSE) {
-			$user_form['email'] = $this->Emails->save($email);
-			$user_form['direccion'] = $this->Directions->save($direction);
-			$user_form['password'] = password_hash($password, PASSWORD_BCRYPT);
-
-			$user_id = $this->Users->save($user_form);
-			$username = $this->Users->getUser($user_id, ['username']);
-
-			return $username;
+		if (!$_POST) {
+			redirect(base_url('home'), 'location');
 		} else {
-			return FALSE;
+			$password = $this->input->post('password');
+			$email = $this->input->post('email');
+			$user_form = [
+				'firstname' => $this->input->post('firstname'),
+				'lastname' => $this->input->post('lastname'),
+				'sex' => $this->input->post('sex'),
+				'username' => $this->input->post('username')
+			];
+			$direction = [
+				'province' => $this->input->post('province'),
+				'city' => $this->input->post('city'),
+				'sector' => $this->input->post('sector')
+			];
+			
+			
+			if ($this->Users->userExists($user_form['username']) === FALSE) {
+				$user_form['email'] = $this->Emails->save($email);
+				$user_form['direccion'] = $this->Directions->save($direction);
+				$user_form['password'] = password_hash($password, PASSWORD_BCRYPT);
+	
+				$user_id = $this->Users->save($user_form);
+				$username = $this->Users->getUser($user_id, ['username']);
+	
+				return $username;
+			} else {
+				return FALSE;
+			}
 		}
 	}
 }
