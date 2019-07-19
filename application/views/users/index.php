@@ -7,17 +7,17 @@
     <div class="card mb-4">
         <div class="card-header">Registrar nuevo usuario</div>
         <div class="card-body">
-            <form id="user-form" class="form" action="#" method="POST">
+            <form id="user-form" method="POST" action="<?= base_url('users/register') ?>" class="form">
                 <div class="form-row">
                     <div class="col">
                         <div class="form-group">
-                            <label>Nombre</label>
+                            <label>firstname</label>
                             <input class="form-control" type="text" name="firstname" placeholder="John" autofocus required>
                         </div>
                     </div>
                     <div class="col">
                         <div class="form-group">
-                            <label>Apellido</label>
+                            <label>lastname</label>
                             <input class="form-control" type="text" name="lastname" placeholder="Doe" required>
                         </div>
                     </div>
@@ -25,7 +25,7 @@
                 <div class="form-row">
                     <div class="col">
                         <div class="form-group">
-                            <label>Nombre de usuario</label>
+                            <label>firstname de usuario</label>
                             <input class="form-control" type="text" name="username" placeholder="Johndoe01" autocomplete required>
                         </div>
                     </div>
@@ -70,9 +70,9 @@
                             <div class="mb-2 col d-sm-block d-lg-inline">
                                 <select class="custom-select js-select2" name="province" id="province">
                                     <option></option>
-                                    <?php foreach ($users as $user): ?>
-                                        <option value="<?= $user->id; ?>">
-                                            <?= $user->nombre; ?>
+                                    <?php foreach ($directions['provinces'] as $province): ?>
+                                        <option value="<?= $province->id; ?>">
+                                            <?= $province->nombre; ?>
                                         </option>
                                     <?php endforeach; ?>
                                 </select>
@@ -80,9 +80,9 @@
                             <div class="mb-2 col d-sm-block d-lg-inline">
                                 <select class="custom-select js-select2" name="city" id="city">
                                     <option></option>
-                                    <?php foreach ($users as $user): ?>
-                                        <option value="<?= $user->id; ?>">
-                                            <?= $user->nombre; ?>
+                                    <?php foreach ($directions['cities'] as $city): ?>
+                                        <option value="<?= $city->id; ?>">
+                                            <?= $city->nombre; ?>
                                         </option>
                                     <?php endforeach; ?>
                                 </select>
@@ -90,9 +90,9 @@
                             <div class="mb-2 col d-sm-block d-lg-inline">
                                 <select class="custom-select js-select2" name="sector" id="sector">
                                     <option></option>
-                                    <?php foreach ($users as $user): ?>
-                                        <option value="<?= $user->id; ?>">
-                                            <?= $user->nombre; ?>
+                                    <?php foreach ($directions['sectors'] as $sector): ?>
+                                        <option value="<?= $sector->id; ?>">
+                                            <?= $sector->nombre; ?>
                                         </option>
                                     <?php endforeach; ?>
                                 </select>
@@ -125,22 +125,22 @@
                 <?php foreach ($users as $user): ?>
                 <tr>
                     <td>
-                        <a href="<?= base_url('users/view/').$user->id.'/'.strtolower($user->nombre.'-'.$user->apellido) ?>">
+                        <a href="<?= base_url('users/view/').$user->id.'/'.strtolower($user->firstname.'-'.$user->lastname) ?>">
                             <?= $user->username ?>
                         </a>
                     </td>
                     <td>
-                        <a href="<?= base_url('users/view/').$user->id.'/'.strtolower($user->nombre.'-'.$user->apellido) ?>">
-                            <?= $user->nombre.' '.$user->apellido ?>
+                        <a href="<?= base_url('users/view/').$user->id.'/'.strtolower($user->firstname.'-'.$user->lastname) ?>">
+                            <?= $user->firstname.' '.$user->lastname ?>
                         </a>
                     </td>
                     <td>
-                        <a href="<?= base_url('users/view/').$user->id.'/'.strtolower($user->nombre.'-'.$user->apellido) ?>">
+                        <a href="<?= base_url('users/view/').$user->id.'/'.strtolower($user->firstname.'-'.$user->lastname) ?>">
                             <?= $user->email ?>
                         </a>
                     </td>
                     <td>
-                        <a href="<?= base_url('users/view/').$user->id.'/'.strtolower($user->nombre.'-'.$user->apellido) ?>">
+                        <a href="<?= base_url('users/view/').$user->id.'/'.strtolower($user->firstname.'-'.$user->lastname) ?>">
                             <?= $user->fecha_creacion ?>
                         </a>
                     </td>
@@ -154,6 +154,8 @@
     </div>
 </div>
 <script>
+    let userForm = $('form#user-form');
+
     $(document).ready(function() {
         $('#province').select2({
             placeholder: 'Provincia...'
@@ -166,21 +168,20 @@
         })
     });
 
-    let userForm = $('#user-form');
+    // userForm.submit((event) => {
+    //     event.preventDefault();
+    //     let formData = userForm.serialize();
 
-    userForm.submit((event) => {
-        event.preventDefault();
-
-        let url = <?= base_url('users/register'); ?>;
-        let formData = userForm.serialize();
-
-        $.ajax({
-            type: "POST",
-            url: url,
-            data: formData,
-            success: (res) => {
-                alert(res);
-            }
-        });
-    });
+    //     $.ajax({
+    //         url: "/users/register",
+    //         type: "POST",
+    //         data: formData
+    //     })
+    //     .done((res) => {
+    //         console.log(res);
+    //     })
+    //     .fail((jqXHR, textStatus) => {
+    //         console.error( "Request failed: " + textStatus );
+    //     });
+    // });
 </script>
