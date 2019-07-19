@@ -1,11 +1,11 @@
 <?php
     class MY_Model extends CI_Model {
-        protected $_database;
         protected $_last_inserted_id;
         protected $_primary_key;
         protected $_fields = array();
         protected $_conditions = array();
-
+        private $_database;
+        
         function __construct() {
             parent::__construct();
             $this->_database = $this->db->database;
@@ -72,6 +72,7 @@
 
                 } catch(Exception $e) {
                     $this->db->trans_rollback();
+                    echo "<script>console.log(".json_encode($e->message()).")</script>";
                     return FALSE;
                 }
             }
