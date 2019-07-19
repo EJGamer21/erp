@@ -10,13 +10,18 @@ class Users extends CI_Controller {
     }
 
     public function index()	{
-		$data = $this->Users->getAllUsers();
+		$users = $this->Users->getAllUsers();
 
 		$loader_data = [
             'title' => 'Users',
             'view_name' => 'users/index',
             'data' => [
-				'users' => $data
+				'users' => $users,
+				'directions' => [
+					'provinces' => $this->Directions->getProvinces(),
+					'cities' => $this->Directions->getCities(),
+					'sectors' => $this->Directions->getSectors()
+				]
 			]
         ];
 		$this->load->view("loader", $loader_data);
@@ -50,16 +55,27 @@ class Users extends CI_Controller {
 	}
 
 	function register() {
-		if (!$_POST) {
-			redirect(base_url('home'), 'location');
-		} else {
+		if ($_SERVER['REQUEST_METHOD'] == "POST") {
+			$firstname = $this->input->post('firstname');
+			$lastname = $this->input->post('lastname');
+			$code = $this->__createUserCode($firstname, $lastname);
 			$password = $this->input->post('password');
 			$email = $this->input->post('email');
+			$sex = 'on';
+
+			if ($this->input->post('sex') === $sex) {
+				$sex = 1;
+			} else {
+				$sex = 0;
+			}
+
 			$user_form = [
-				'firstname' => $this->input->post('firstname'),
-				'lastname' => $this->input->post('lastname'),
-				'sex' => $this->input->post('sex'),
-				'username' => $this->input->post('username')
+				'codigo' => $code,
+				'firstname' => $firstname,
+				'lastname' => $lastname,
+				'sexo' => $sex,
+				'username' => $this->input->post('username'),
+				'fecha_creacion' => date('Y-m-d H:i:s')
 			];
 			$direction = [
 				'province' => $this->input->post('province'),
@@ -67,19 +83,26 @@ class Users extends CI_Controller {
 				'sector' => $this->input->post('sector')
 			];
 			
-			
 			if ($this->Users->userExists($user_form['username']) === FALSE) {
-				$user_form['email'] = $this->Emails->save($email);
-				$user_form['direccion'] = $this->Directions->save($direction);
+				$user_form['email_id'] = $this->Emails->saveEmail($email);
+				$user_form['direccion_id'] = $this->Directions->saveDirection($direction);
 				$user_form['password'] = password_hash($password, PASSWORD_BCRYPT);
-	
-				$user_id = $this->Users->save($user_form);
+				$user_id = $this->Users->saveUser($user_form);
 				$username = $this->Users->getUser($user_id, ['username']);
 	
 				return $username;
 			} else {
+				http_response_code(403);
 				return FALSE;
 			}
+		} else {
+			redirect(base_url('home'), 'location');
 		}
+	}
+
+	private function __createUserCode($firstname, $lastname) {
+		$shortenedName = strtoupper(substr($firstname, 0, 1).substr($lastname, 0, 1));
+		$code = $shortenedName.'-'.date('Y-md');
+		return $code;
 	}
 }
