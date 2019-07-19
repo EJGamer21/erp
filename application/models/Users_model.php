@@ -3,17 +3,6 @@
         protected $_tablename = 'usuarios';
         // protected $belongs_to = [];
 
-        public $codigo;
-        public $nombre;
-        public $apellido;
-        public $sexo;
-        public $direccion_id;
-        public $username;
-        public $clave;
-        public $email_id;
-        public $fecha_creacion;
-        public $fecha_modificado;
-
         function __construct() {
             parent::__construct();
         }
@@ -60,7 +49,24 @@
             }
         }
 
-        function save($userData, $id = NULL) {
-            //TODO: insert or update user
+        function saveUser($user_data, $id = NULL) {
+            try {
+                $this->db->trans_begin();
+
+                $user = $this->save($user_data, $id);
+
+                $this->db->trans_commit();
+                    
+                if ($this->db->trans_status() === FALSE) {
+                    throw new Exception ("Error creating user");
+                } else {
+                    $this->db->trans_commit();
+                    return $user;
+                }
+            } catch (Exception $e) {
+                $this->db->trans_rollback();
+                echo "<script>console.log(".json_encode($e->message()).")</script>";
+                return FALSE;
+            }
         }
     }
