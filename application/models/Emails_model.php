@@ -15,7 +15,31 @@
             return $this->get($id);
         }
 
-        function save($email, $id = NULL) {
-            return $this->save($email, $id);
+        function saveEmail($email, $id = NULL) {
+            $data = [
+                'email' => $email
+            ];
+            try {
+                $this->db->trans_begin();
+
+                $email_id = $this->save($data, $id);
+
+                $this->db->trans_commit();
+                    
+                if ($this->db->trans_status() === FALSE) {
+                    throw new Exception ("Error creating user");
+                } else {
+                    $this->db->trans_commit();
+                    return $email_id;
+                }
+            } catch (Exception $e) {
+                $this->db->trans_rollback();
+                echo "<script>console.log(".json_encode($e->message()).")</script>";
+                return FALSE;
+            }
+            $data = [
+                'email' => $email
+            ];
+            return $this->save($data, $id);
         }
     }
