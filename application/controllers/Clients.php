@@ -10,7 +10,7 @@ class Clients extends CI_Controller {
 	public function index()	{
 		$loader_data = [
             'title' => 'Inicio',
-            'view_name' => 'dashboard',
+            'view_name' => 'clients/index',
             'data' => []
         ];
 		$this->load->view("loader", $loader_data);
