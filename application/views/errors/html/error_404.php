@@ -4,17 +4,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>404 Page Not Found</title>
+<title>404 P&aacute;gina no encontrada</title>
 <style type="text/css">
 
 ::selection { background-color: #E13300; color: white; }
 ::-moz-selection { background-color: #E13300; color: white; }
 
 body {
-	background-color: #fff;
-	margin: 40px;
-	font: 13px/20px normal Helvetica, Arial, sans-serif;
-	color: #4F5155;
+	background-color: #FFF;
 }
 
 a {
@@ -24,9 +21,9 @@ a {
 }
 
 h1 {
-	color: #444;
+	color: #111;
 	background-color: transparent;
-	border-bottom: 1px solid #D0D0D0;
+	border-bottom: 1px solid #A0A0A0;
 	font-size: 19px;
 	font-weight: normal;
 	margin: 0 0 14px 0;
@@ -46,8 +43,8 @@ code {
 
 #container {
 	margin: 10px;
-	border: 1px solid #D0D0D0;
-	box-shadow: 0 0 8px #D0D0D0;
+	border: 1px solid #B0B0B0;
+	box-shadow: 0 0 8px #B0B0B0;
 }
 
 p {
@@ -57,8 +54,8 @@ p {
 </head>
 <body>
 	<div id="container">
-		<h1><?php echo $heading; ?></h1>
-		<?php echo $message; ?>
+		<h1><?php echo 'Error 404: P&aacute;gina no encontrada'; ?></h1>
+		<?php echo '<p>Lamentamos los inconvenientes ocasionados.</p>'; ?>
 	</div>
 </body>
 </html>
