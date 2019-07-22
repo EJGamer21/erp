@@ -34,7 +34,7 @@ class Users extends CI_Controller {
 			$data = $this->Users->getUser($id);
 
 			$loader_data = [
-				'title' => $data->nombre,
+				'title' => $data->firstname,
 				'view_name' => 'users/view',
 				'data' => [
 					'user' => $data

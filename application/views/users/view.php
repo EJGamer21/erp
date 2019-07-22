@@ -1,3 +1,3 @@
 <div>
-    <h1><?= $user->nombre.' '.$user->apellido ?></h1>
+    <h1><?= $user->firstname.' '.$user->lastname ?></h1>
 </div>
