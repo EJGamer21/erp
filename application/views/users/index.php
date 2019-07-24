@@ -11,7 +11,7 @@
     ?>
 
     <div class="table-responsive">
-        <table class="table table-striped table-hover">
+        <table id="users-table" class="table table-striped table-hover">
             <caption>Listado de usuarios</caption>
             <thead class="thead-dark">
                 <tr>
@@ -62,6 +62,10 @@
 </div>
 <script>
     let userForm = $('form#user-form');
+    let username = $('#username');
+    let passwd = $('#password');
+    let repasswd = $('#retyped-password');
+    let submitBtn = $('#submit-btn');
 
     $(document).ready(function() {
         $('#province').select2({
@@ -72,23 +76,96 @@
         }),
         $('#sector').select2({
             placeholder: 'Sector...'
+        }),
+        $('#users-table').DataTable({
+            "order": [
+                [0, 'asc'],
+                [4, 'asc']
+            ],
+            "columnDefs": [
+                { "orderable": false, "targets": 4}
+            ],
+            "language": {
+                "sProcessing":     "Procesando...",
+                "sLengthMenu":     "Mostrar _MENU_ registros",
+                "sZeroRecords":    "No se encontraron resultados",
+                "sEmptyTable":     "Ningún dato disponible en esta tabla",
+                "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+                "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+                "sInfoPostFix":    "",
+                "sSearch":         "Buscar:",
+                "sUrl":            "",
+                "sInfoThousands":  ",",
+                "sLoadingRecords": "Cargando...",
+                "oPaginate": {
+                    "sFirst":    "Primero",
+                    "sLast":     "Último",
+                    "sNext":     "Siguiente",
+                    "sPrevious": "Anterior"
+                },
+                "oAria": {
+                    "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                }
+            }
         })
+    });
+
+    submitBtn.on('click', () => {
+        if (username.val() == "" && passwd.val() == "") {
+            toastr["error"]('Campos no opcionales son requeridos', "Error");
+            return;
+        }
     });
 
     userForm.submit((event) => {
         event.preventDefault();
+
+        submitBtn.attr('disabled', 'disabled');
         let formData = userForm.serialize();
 
         $.ajax({
             url: "/users/register",
             type: "POST",
-            data: formData
+            data: formData,
+            dataType: 'json'
         })
-        .done((res) => {
-            console.log(res);
+        .done((response) => {
+            console.log(response);
+            toastr[response.status](response.message, "Notificaci&oacute;n");
+            
+            if (response.status == 'success') {
+                userForm.trigger('reset');
+                submitBtn.removeAttr('disabled');
+            } else {
+                passwd.val('');
+                repasswd.val('');
+                submitBtn.removeAttr('disabled');
+            }                
         })
-        .fail((jqXHR, textStatus) => {
-            console.error( "Request failed: " + textStatus );
+        .fail((jqXHR, textStatus, error) => {
+            toastr["error"]("Error 500: Error interno del servidor", "Error");
+
+            submitBtn.removeAttr('disabled');
         });
-    });
+    });    
+
+    toastr.options = {
+        "closeButton": true,
+        "debug": false,
+        "newestOnTop": false,
+        "progressBar": false,
+        "positionClass": "toast-top-right",
+        "preventDuplicates": true,
+        "onclick": null,
+        "showDuration": "500",
+        "hideDuration": "1000",
+        "timeOut": "5000",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    }
 </script>
