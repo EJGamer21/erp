@@ -54,26 +54,27 @@ class Users extends CI_Controller {
 		$this->load->view('loader', $loader_data);
 	}
 
+
+	/**
+	 * Register a new user
+	 * 
+	 * @return json to ajax request
+	 */
+
 	function register() {
 		if ($_SERVER['REQUEST_METHOD'] == "POST") {
+			// POST variables
 			$firstname = $this->input->post('firstname');
 			$lastname = $this->input->post('lastname');
 			$code = $this->__createUserCode($firstname, $lastname);
 			$password = $this->input->post('password');
 			$email = $this->input->post('email');
-			$sex = 'on';
-
-			if ($this->input->post('sex') === $sex) {
-				$sex = 1;
-			} else {
-				$sex = 0;
-			}
 
 			$user_form = [
 				'codigo' => $code,
 				'firstname' => $firstname,
 				'lastname' => $lastname,
-				'sexo' => $sex,
+				'sexo' => $this->input->post('sex'),
 				'username' => $this->input->post('username'),
 				'fecha_creacion' => date('Y-m-d H:i:s')
 			];
@@ -82,23 +83,45 @@ class Users extends CI_Controller {
 				'city' => $this->input->post('city'),
 				'sector' => $this->input->post('sector')
 			];
-			
+
+			// Check if user already exists			
 			if ($this->Users->userExists($user_form['username']) === FALSE) {
 				$user_form['email_id'] = $this->Emails->saveEmail($email);
 				$user_form['direccion_id'] = $this->Directions->saveDirection($direction);
 				$user_form['password'] = password_hash($password, PASSWORD_BCRYPT);
 				$user_id = $this->Users->saveUser($user_form);
 				$username = $this->Users->getUser($user_id, ['username']);
-	
+				
+				header('Content-type: application/json; charset=utf-8');
+				$json['status'] = 'success';
+				$json['message'] = 'Usuario creado existosamente';
+				echo json_encode($json);
+
 				return $username;
 			} else {
-				http_response_code(403);
-				return FALSE;
+				header('Content-type: application/json; charset=utf-8');
+				$json['status'] = 'error';
+				$json['message'] = 'Usuario ya existente';
+
+				echo json_encode($json);
 			}
 		} else {
-			redirect(base_url('home'), 'location');
+			// manage if is registration from the user form or the register form
+			header('Content-type: application/json; charset=utf-8');
+			$json['status'] = 'error';
+			$json['message'] = 'Error 403: Acceso restringido';
+			echo json_encode($json);
+			redirect('/users');
 		}
 	}
+
+
+	/**
+	 * Helper function to create the user code
+	 * 
+	 * @param string firstname and lastname of the user
+	 * @return string formatted user code
+	 */
 
 	private function __createUserCode($firstname, $lastname) {
 		$shortenedName = strtoupper(substr($firstname, 0, 1).substr($lastname, 0, 1));

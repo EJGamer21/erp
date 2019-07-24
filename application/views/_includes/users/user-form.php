@@ -20,7 +20,7 @@
                 <div class="col">
                     <div class="form-group">
                         <label>Nombre de usuario</label>
-                        <input class="form-control" type="text" name="username" placeholder="Johndoe01" autocomplete required>
+                        <input class="form-control" type="text" id="username" name="username" placeholder="Johndoe01" autocomplete required>
                     </div>
                 </div>
                 <div class="col">
@@ -34,13 +34,13 @@
                 <div class="col">
                     <div class="form-group">
                         <label>Contrase&ntilde;a</label>
-                        <input class="form-control" type="password" id="password" name="password" required placeholder="**********">
+                        <input class="form-control" type="password" id="password" name="password" autocomplete required placeholder="**********">
                     </div>
                 </div>
                 <div class="col">
                     <div class="form-group">
                         <label>Repetir Contrase&ntilde;a</label>
-                        <input class="form-control" type="password" id="retyped-password" required placeholder="**********">
+                        <input class="form-control" type="password" id="retyped-password" autocomplete required placeholder="**********">
                     </div>
                 </div>
             </div>
@@ -49,11 +49,11 @@
                     <div class="form-group">
                         <label class="d-block">Sexo</label>
                         <div class="custom-control custom-radio custom-control-inline">
-                            <input id="m-radio" type="radio" name="sex" class="custom-control-input" required>
+                            <input id="m-radio" type="radio" name="sex" class="custom-control-input" value="M" required>
                             <label for="m-radio" class="custom-control-label">Masculino</label>
                         </div>
                         <div class="custom-control custom-radio custom-control-inline">
-                            <input id="f-radio" type="radio" name="sex" class="custom-control-input" required>
+                            <input id="f-radio" type="radio" name="sex" class="custom-control-input" value="F" required>
                             <label for="f-radio" class="custom-control-label">Femenino</label>
                         </div>
                     </div>
