@@ -38,7 +38,7 @@
             <li class="nav-item">
                 <a class="nav-link text-light" href="<?= base_url('admin'); ?>">
                     <span class="fas fa-cogs"></span>
-                    <span>Configuration</span>
+                    <span>Settings</span>
                 </a>
             </li>
             <li class="nav-item">
