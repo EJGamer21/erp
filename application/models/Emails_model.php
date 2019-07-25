@@ -15,6 +15,20 @@
             return $this->get($id);
         }
 
+        function emailExists($email) {
+            $conditions = [
+                'email' => $email
+            ];
+            
+            $existingEmail = $this->get(NULL, ['email'], $conditions);
+
+            if (empty($existingEmail)) {
+                return FALSE;
+            } else {
+                return $existingEmail[0];
+            }
+        }
+
         function saveEmail($email, $id = NULL) {
             $data = [
                 'email' => $email
