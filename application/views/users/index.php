@@ -79,8 +79,8 @@
         }),
         $('#users-table').DataTable({
             "order": [
-                [0, 'asc'],
-                [4, 'asc']
+                [3, 'desc'],
+                [0, 'asc']
             ],
             "columnDefs": [
                 { "orderable": false, "targets": 4}
