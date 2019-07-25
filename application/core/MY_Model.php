@@ -146,7 +146,7 @@
                 
             } catch (Exception $e) {
                 $this->db->trans_rollback();
-                return array(FALSE, $e->getMessage());
+                return FALSE;
             }
         }
 

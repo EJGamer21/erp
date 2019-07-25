@@ -64,16 +64,12 @@ class Users extends CI_Controller {
 	function register() {
 		if ($_SERVER['REQUEST_METHOD'] == "POST") {
 			// POST variables
-			$firstname = $this->input->post('firstname');
-			$lastname = $this->input->post('lastname');
-			$code = $this->__createUserCode($firstname, $lastname);
 			$password = $this->input->post('password');
-			$email = $this->input->post('email');
+			$email = ($this->input->post('email') === "") ? NULL : $this->input->post('email');
 
 			$user_form = [
-				'codigo' => $code,
-				'firstname' => $firstname,
-				'lastname' => $lastname,
+				'firstname' => $this->input->post('firstname'),
+				'lastname' => $this->input->post('lastname'),
 				'sexo' => $this->input->post('sex'),
 				'username' => $this->input->post('username'),
 				'fecha_creacion' => date('Y-m-d H:i:s')
@@ -84,9 +80,23 @@ class Users extends CI_Controller {
 				'sector' => $this->input->post('sector')
 			];
 
+
 			// Check if user already exists			
 			if ($this->Users->userExists($user_form['username']) === FALSE) {
-				$user_form['email_id'] = $this->Emails->saveEmail($email);
+
+				// If email is not null
+				if ($email !== NULL) {
+					// Check if email already exists
+					if ($this->Emails->emailExists($email) === FALSE) {
+
+						//If email does not exists, then insert it
+						$user_form['email_id'] = $this->Emails->saveEmail($email);
+					} else {
+
+						//If email already exists, use the existing email id
+						$user_form['email_id'] = $this->Emails->emailExists($email)->id;
+					}
+				}
 				$user_form['direccion_id'] = $this->Directions->saveDirection($direction);
 				$user_form['password'] = password_hash($password, PASSWORD_BCRYPT);
 				$user_id = $this->Users->saveUser($user_form);
@@ -95,6 +105,7 @@ class Users extends CI_Controller {
 				header('Content-type: application/json; charset=utf-8');
 				$json['status'] = 'success';
 				$json['message'] = 'Usuario creado existosamente';
+
 				echo json_encode($json);
 
 				return $username;
@@ -110,6 +121,7 @@ class Users extends CI_Controller {
 			header('Content-type: application/json; charset=utf-8');
 			$json['status'] = 'error';
 			$json['message'] = 'Error 403: Acceso restringido';
+
 			echo json_encode($json);
 			redirect('/users');
 		}
@@ -121,11 +133,15 @@ class Users extends CI_Controller {
 	 * 
 	 * @param string firstname and lastname of the user
 	 * @return string formatted user code
-	 */
+	 * 
+	 * 	private function __createUserCode($firstname, $lastname) {
+	 *		$shortenedName = strtoupper(substr($firstname, 0, 1).substr($lastname, 0, 1));
+	 *		$code = $shortenedName.'-'.date('Y-md');
+	 *		return $code;
+	 *	}
+	 * deprecated...
+	*/
 
-	private function __createUserCode($firstname, $lastname) {
-		$shortenedName = strtoupper(substr($firstname, 0, 1).substr($lastname, 0, 1));
-		$code = $shortenedName.'-'.date('Y-md');
-		return $code;
-	}
+
+
 }
