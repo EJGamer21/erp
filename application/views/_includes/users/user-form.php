@@ -26,7 +26,7 @@
                 <div class="col">
                     <div class="form-group">
                         <label>Correo electr&oacute;nico <small class="text-muted"><i>Opcional</i></small></label>
-                        <input class="form-control" type="text" name="email" placeholder="jhondoe@foo.com" autocomplete>
+                        <input class="form-control" type="email" name="email" placeholder="jhondoe@foo.com" autocomplete>
                     </div>
                 </div>
             </div>

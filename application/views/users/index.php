@@ -19,7 +19,7 @@
                     <th>Nombre</th>
                     <th>Email</th>
                     <th>Creaci&oacute;n</th>
-                    <th>Actions</th>
+                    <th style="text-align:center;"><i class="fas fa-bars"></i></th>
                 </tr>
             </thead>
             <tbody>
@@ -46,7 +46,8 @@
                         </a>
                     </td>
                     <td>
-                        <button class="btn btn-warning">Edit <?=$user->id ?></button>
+                        <button type="button" class="btn btn-info"><i class="fas fa-pencil-alt"></i></button>
+                        <button type="button" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
                     </td>
                 </tr>
                 <?php endforeach; ?>
@@ -62,54 +63,58 @@
 </div>
 <script>
     let userForm = $('form#user-form');
+    // let userTable = $('#users-table');
     let username = $('#username');
     let passwd = $('#password');
     let repasswd = $('#retyped-password');
     let submitBtn = $('#submit-btn');
+    let userTable = $('#users-table').DataTable({
+        "order": [
+            [3, 'desc'],
+            [0, 'asc']
+        ],
+        "columnDefs": [
+            { "orderable": false, "targets": 4}
+        ],
+        "language": {
+            "sProcessing":     "Procesando...",
+            "sLengthMenu":     "Mostrar _MENU_ registros",
+            "sZeroRecords":    "No se encontraron resultados",
+            "sEmptyTable":     "Ningún dato disponible en esta tabla",
+            "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+            "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+            "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+            "sInfoPostFix":    "",
+            "sSearch":         "Buscar:",
+            "sUrl":            "",
+            "sInfoThousands":  ",",
+            "sLoadingRecords": "Cargando...",
+            "oPaginate": {
+                "sFirst":    "Primero",
+                "sLast":     "Último",
+                "sNext":     "Siguiente",
+                "sPrevious": "Anterior"
+            },
+            "oAria": {
+                "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+            }
+        }
+    })
 
     $(document).ready(function() {
         $('#province').select2({
-            placeholder: 'Provincia...'
+            placeholder: 'Provincia...',
+            allowClear: true
         }),
         $('#city').select2({
-            placeholder: 'Ciudad...'
+            placeholder: 'Ciudad...',
+            allowClear: true
         }),
         $('#sector').select2({
-            placeholder: 'Sector...'
-        }),
-        $('#users-table').DataTable({
-            "order": [
-                [3, 'desc'],
-                [0, 'asc']
-            ],
-            "columnDefs": [
-                { "orderable": false, "targets": 4}
-            ],
-            "language": {
-                "sProcessing":     "Procesando...",
-                "sLengthMenu":     "Mostrar _MENU_ registros",
-                "sZeroRecords":    "No se encontraron resultados",
-                "sEmptyTable":     "Ningún dato disponible en esta tabla",
-                "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-                "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
-                "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
-                "sInfoPostFix":    "",
-                "sSearch":         "Buscar:",
-                "sUrl":            "",
-                "sInfoThousands":  ",",
-                "sLoadingRecords": "Cargando...",
-                "oPaginate": {
-                    "sFirst":    "Primero",
-                    "sLast":     "Último",
-                    "sNext":     "Siguiente",
-                    "sPrevious": "Anterior"
-                },
-                "oAria": {
-                    "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
-                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-                }
-            }
-        })
+            placeholder: 'Sector...',
+            allowClear: true
+        })        
     });
 
     submitBtn.on('click', () => {
@@ -159,7 +164,7 @@
         "positionClass": "toast-top-right",
         "preventDuplicates": true,
         "onclick": null,
-        "showDuration": "500",
+        "showDuration": "600",
         "hideDuration": "1000",
         "timeOut": "5000",
         "extendedTimeOut": "1000",
