@@ -10,8 +10,8 @@
         if (isset($users)): 
     ?>
 
-    <div class="table-responsive">
-        <table id="users-table" class="table table-striped table-hover">
+    <div class="table-responsive my-4 mr-4">
+        <table id="users-table" class="table table-striped table-hover centered">
             <caption>Listado de usuarios</caption>
             <thead class="thead-dark">
                 <tr>
@@ -23,10 +23,16 @@
                 </tr>
             </thead>
             <tbody>
+                <!-- Add viewFormatter -->
                 <?php foreach ($users as $user): ?>
                 <tr>
                     <td>
                         <a href="<?= base_url('users/view/').$user->id.'/'.strtolower($user->firstname.'-'.$user->lastname) ?>">
+                            <?php if ($user->activo == 1): ?>
+                                <span class="badge badge-success"><i class="fas fa-user-check"></i></span>
+                            <?php else: ?>
+                                <span class="badge badge-danger"><i class="fas fa-user-times"></i></span>
+                            <?php endif; ?>
                             <?= $user->username ?>
                         </a>
                     </td>
@@ -45,9 +51,9 @@
                             <?= $user->fecha_creacion ?>
                         </a>
                     </td>
-                    <td>
+                    <td style="text-align:center;">
                         <button type="button" class="btn btn-info"><i class="fas fa-pencil-alt"></i></button>
-                        <button type="button" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
+                        <button data-id="<?= $user->id ?>" type="button" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
                     </td>
                 </tr>
                 <?php endforeach; ?>

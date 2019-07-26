@@ -1,6 +1,6 @@
 <div class="card mb-4">
-    <div class="card-header">Registrar nuevo usuario</div>
-    <div class="card-body">
+    <div class="card-header bg-dark text-white">Registrar nuevo usuario</div>
+    <div class="card-body bg-light">
         <form id="user-form" method="POST" action="<?= base_url('users/register') ?>" class="form">
             <div class="form-row">
                 <div class="col">
