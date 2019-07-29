@@ -10,20 +10,19 @@ class Users extends CI_Controller {
     }
 
     public function index()	{
-		$users = $this->Users->getAllUsers();
 
 		$loader_data = [
             'title' => 'Users',
             'view_name' => 'users/index',
             'data' => [
-				'users' => $users,
+				'users' => $this->Users->getAllUsers(),
 				'directions' => [
 					'provinces' => $this->Directions->getProvinces(),
 					'cities' => $this->Directions->getCities(),
 					'sectors' => $this->Directions->getSectors()
 				]
 			]
-        ];
+		];
 		$this->load->view("loader", $loader_data);
 	}
 
@@ -31,13 +30,13 @@ class Users extends CI_Controller {
 		$id = $this->uri->segment(3);
 		
 		if (is_numeric($id) && $id != 0) {
-			$data = $this->Users->getUser($id);
+			$user = $this->Users->getUser($id);
 
 			$loader_data = [
-				'title' => $data->firstname,
+				'title' => $user->firstname,
 				'view_name' => 'users/view',
 				'data' => [
-					'user' => $data
+					'user' => $user
 				]
 			];
 			$this->load->view("loader", $loader_data);
