@@ -10,24 +10,38 @@
         function getUsers($fields = array()) {
             $fields = [
                 'usuarios.*',
-                'emails.*'
+                'emails.email',
+                'roles.rol, roles.level'
             ];
             $conditions = [
                 'activo' => 1
             ];
             
-            $this->db->join('emails', 'usuarios.email_id = emails.id');
+            $this->db->join('emails', 'usuarios.email_id = emails.id', 'left');
+            $this->db->join('roles', 'usuarios.role_id = roles.id');
             return $this->get(NULL, $fields, $conditions);
         }
 
         function getUser($id, $fields = array()) {
+            $fields = [
+                'usuarios.*',
+                'emails.email',
+                'roles.rol, roles.level'
+            ];
+            
             $this->db->join('emails', 'usuarios.email_id = emails.id', 'left');
+            $this->db->join('roles', 'usuarios.role_id = roles.id');
             return $this->get($id, $fields);
         }
 
         function getAllUsers($fields = array()) {
-            $this->db->select("usuarios.*, emails.*");
+            $fields = [
+                'usuarios.*',
+                'emails.email',
+                'roles.rol, roles.level'
+            ];
             $this->db->join('emails', 'usuarios.email_id = emails.id', 'left');
+            $this->db->join('roles', 'usuarios.role_id = roles.id');
             return $this->get(NULL, $fields);
         }
 

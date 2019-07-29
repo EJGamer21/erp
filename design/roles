@@ -1,0 +1,25 @@
+roles:
+    root - 1000
+    superuser - 100
+    admin - 90
+    support - 80
+    auditor - 70
+    logistics - 60
+    seller - 30
+    user - 20
+    visitor - 1
+
+CREATE TABLE fractal.roles 
+(
+    id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    rol VARCHAR(20) NOT NULL
+) ENGINE=INNODB;
+
+ALTER TABLE fractal.usuarios
+    ADD COLUMN role_id INT NOT NULL DEFAULT 2,
+
+    ADD FOREIGN KEY fk_role_id(role_id)
+    REFERENCES roles(id)
+    ON DELETE SET DEFAULT
+    ON UPDATE CASCADE
+;
