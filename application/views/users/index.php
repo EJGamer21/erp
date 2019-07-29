@@ -52,8 +52,15 @@
                         </a>
                     </td>
                     <td style="text-align:center;">
-                        <button type="button" class="btn btn-info"><i class="fas fa-pencil-alt"></i></button>
-                        <button data-id="<?= $user->id ?>" type="button" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
+                        <?php if ($user->level >= 90): ?>
+                            <button type="button" class="edit-btn btn btn-info"><i class="fas fa-pencil-alt"></i></button>
+                            <button data-id="<?= $user->id ?>" type="button" class="delete-btn btn btn-danger"><i class="fas fa-trash-alt"></i></button>
+                        <?php elseif ($user->level >= 80): ?>
+                            <button type="button" class="edit-btn btn btn-info"><i class="fas fa-pencil-alt"></i></button>
+                            <button data-id="<?= $user->id ?>" type="button" class="active-user-btn btn btn-danger"><i class="fas fa-user-times"></i></button>
+                        <?php elseif ($user->level < 80): ?>
+                            <a href="<?= base_url('users/view/').$user->id.'/'.strtolower($user->firstname.'-'.$user->lastname) ?>" class="active-user-btn btn btn-info"><i class="fas fa-eye"></i></a>
+                        <?php endif;?>
                     </td>
                 </tr>
                 <?php endforeach; ?>
@@ -69,7 +76,6 @@
 </div>
 <script>
     let userForm = $('form#user-form');
-    // let userTable = $('#users-table');
     let username = $('#username');
     let passwd = $('#password');
     let repasswd = $('#retyped-password');
@@ -106,7 +112,7 @@
                 "sSortDescending": ": Activar para ordenar la columna de manera descendente"
             }
         }
-    })
+    });
 
     $(document).ready(function() {
         $('#province').select2({
@@ -122,6 +128,8 @@
             allowClear: true
         })        
     });
+
+
 
     submitBtn.on('click', () => {
         if (username.val() == "" && passwd.val() == "") {
