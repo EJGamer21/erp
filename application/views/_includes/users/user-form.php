@@ -65,7 +65,7 @@
                             <select class="custom-select js-select2" name="province" id="province">
                                 <option></option>
                                 <?php foreach ($directions['provinces'] as $province): ?>
-                                    <option value="<?= $province->id; ?>">
+                                    <option value="<?= $province->provincia_id; ?>">
                                         <?= $province->nombre; ?>
                                     </option>
                                 <?php endforeach; ?>
@@ -75,7 +75,7 @@
                             <select class="custom-select js-select2" name="city" id="city">
                                 <option></option>
                                 <?php foreach ($directions['cities'] as $city): ?>
-                                    <option value="<?= $city->id; ?>">
+                                    <option value="<?= $city->ciudad_id; ?>">
                                         <?= $city->nombre; ?>
                                     </option>
                                 <?php endforeach; ?>
@@ -85,7 +85,7 @@
                             <select class="custom-select js-select2" name="sector" id="sector">
                                 <option></option>
                                 <?php foreach ($directions['sectors'] as $sector): ?>
-                                    <option value="<?= $sector->id; ?>">
+                                    <option value="<?= $sector->sector_id; ?>">
                                         <?= $sector->nombre; ?>
                                     </option>
                                 <?php endforeach; ?>
