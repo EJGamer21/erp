@@ -12,7 +12,7 @@
 
     <div class="table-responsive my-4 mr-4">
         <table id="users-table" class="table table-striped table-hover centered">
-            <caption>Listado de usuarios</caption>
+        <caption>Listado de usuarios</caption>
             <thead class="thead-dark">
                 <tr>
                     <th>Usuario</th>
@@ -22,49 +22,6 @@
                     <th style="text-align:center;"><i class="fas fa-bars"></i></th>
                 </tr>
             </thead>
-            <tbody>
-                <!-- Add viewFormatter -->
-                <?php foreach ($users as $user): ?>
-                <tr>
-                    <td>
-                        <a href="<?= base_url('users/view/').$user->id.'/'.strtolower($user->firstname.'-'.$user->lastname) ?>">
-                            <?php if ($user->activo == 1): ?>
-                                <span class="badge badge-success"><i class="fas fa-user-check"></i></span>
-                            <?php else: ?>
-                                <span class="badge badge-danger"><i class="fas fa-user-times"></i></span>
-                            <?php endif; ?>
-                            <?= $user->username ?>
-                        </a>
-                    </td>
-                    <td>
-                        <a href="<?= base_url('users/view/').$user->id.'/'.strtolower($user->firstname.'-'.$user->lastname) ?>">
-                            <?= $user->firstname.' '.$user->lastname ?>
-                        </a>
-                    </td>
-                    <td>
-                        <a href="<?= base_url('users/view/').$user->id.'/'.strtolower($user->firstname.'-'.$user->lastname) ?>">
-                            <?= $user->email ?>
-                        </a>
-                    </td>
-                    <td>
-                        <a href="<?= base_url('users/view/').$user->id.'/'.strtolower($user->firstname.'-'.$user->lastname) ?>">
-                            <?= $user->fecha_creacion ?>
-                        </a>
-                    </td>
-                    <td style="text-align:center;">
-                        <?php if ($user->level >= 90): ?>
-                            <button type="button" class="edit-btn btn btn-info"><i class="fas fa-pencil-alt"></i></button>
-                            <button data-id="<?= $user->id ?>" type="button" class="delete-btn btn btn-danger"><i class="fas fa-trash-alt"></i></button>
-                        <?php elseif ($user->level >= 80): ?>
-                            <button type="button" class="edit-btn btn btn-info"><i class="fas fa-pencil-alt"></i></button>
-                            <button data-id="<?= $user->id ?>" type="button" class="active-user-btn btn btn-danger"><i class="fas fa-user-times"></i></button>
-                        <?php elseif ($user->level < 80): ?>
-                            <a href="<?= base_url('users/view/').$user->id.'/'.strtolower($user->firstname.'-'.$user->lastname) ?>" class="active-user-btn btn btn-info"><i class="fas fa-eye"></i></a>
-                        <?php endif;?>
-                    </td>
-                </tr>
-                <?php endforeach; ?>
-            </tbody>
         </table>
     </div>
 
@@ -75,116 +32,6 @@
     ?>
 </div>
 <script>
-    let userForm = $('form#user-form');
-    let username = $('#username');
-    let passwd = $('#password');
-    let repasswd = $('#retyped-password');
-    let submitBtn = $('#submit-btn');
-    let userTable = $('#users-table').DataTable({
-        "order": [
-            [3, 'desc'],
-            [0, 'asc']
-        ],
-        "columnDefs": [
-            { "orderable": false, "targets": 4}
-        ],
-        "language": {
-            "sProcessing":     "Procesando...",
-            "sLengthMenu":     "Mostrar _MENU_ registros",
-            "sZeroRecords":    "No se encontraron resultados",
-            "sEmptyTable":     "Ningún dato disponible en esta tabla",
-            "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-            "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
-            "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
-            "sInfoPostFix":    "",
-            "sSearch":         "Buscar:",
-            "sUrl":            "",
-            "sInfoThousands":  ",",
-            "sLoadingRecords": "Cargando...",
-            "oPaginate": {
-                "sFirst":    "Primero",
-                "sLast":     "Último",
-                "sNext":     "Siguiente",
-                "sPrevious": "Anterior"
-            },
-            "oAria": {
-                "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
-                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-            }
-        }
-    });
-
-    $(document).ready(function() {
-        $('#province').select2({
-            placeholder: 'Provincia...',
-            allowClear: true
-        }),
-        $('#city').select2({
-            placeholder: 'Ciudad...',
-            allowClear: true
-        }),
-        $('#sector').select2({
-            placeholder: 'Sector...',
-            allowClear: true
-        })        
-    });
-
-
-
-    submitBtn.on('click', () => {
-        if (username.val() == "" && passwd.val() == "") {
-            toastr["error"]('Campos no opcionales son requeridos', "Error");
-            return;
-        }
-    });
-
-    userForm.submit((event) => {
-        event.preventDefault();
-
-        submitBtn.attr('disabled', 'disabled');
-        let formData = userForm.serialize();
-
-        $.ajax({
-            url: "/users/register",
-            type: "POST",
-            data: formData,
-            dataType: 'json'
-        })
-        .done((response) => {
-            console.log(response);
-            toastr[response.status](response.message, "Notificaci&oacute;n");
-            
-            if (response.status == 'success') {
-                userForm.trigger('reset');
-                submitBtn.removeAttr('disabled');
-            } else {
-                passwd.val('');
-                repasswd.val('');
-                submitBtn.removeAttr('disabled');
-            }                
-        })
-        .fail((jqXHR, textStatus, error) => {
-            toastr["error"]("Error 500: Error interno del servidor", "Error");
-
-            submitBtn.removeAttr('disabled');
-        });
-    });    
-
-    toastr.options = {
-        "closeButton": true,
-        "debug": false,
-        "newestOnTop": false,
-        "progressBar":  true,
-        "positionClass": "toast-top-right",
-        "preventDuplicates": true,
-        "onclick": null,
-        "showDuration": "600",
-        "hideDuration": "1000",
-        "timeOut": "5000",
-        "extendedTimeOut": "1000",
-        "showEasing": "swing",
-        "hideEasing": "linear",
-        "showMethod": "fadeIn",
-        "hideMethod": "fadeOut"
-    }
+    let users = <?= json_encode($users);?>;
 </script>
+<script src="/public/libs/js/fractal/users.js"></script>

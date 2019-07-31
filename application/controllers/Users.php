@@ -79,11 +79,15 @@ class Users extends CI_Controller {
 				'sector' => $this->input->post('sector')
 			];
 
+			// If all the direction inputs are empty then direction = null
+			if ($direction['province'] == '' && $direction['city'] == '' && $direction['sector'] == '') {
+				$direction = NULL;
+			}
 
 			// Check if user already exists			
 			if ($this->Users->userExists($user_form['username']) === FALSE) {
 
-				// If email is not null
+				// If email is not sent empty
 				if ($email !== NULL) {
 					// Check if email already exists
 					if ($this->Emails->emailExists($email) === FALSE) {
@@ -96,18 +100,31 @@ class Users extends CI_Controller {
 						$user_form['email_id'] = $this->Emails->emailExists($email)->id;
 					}
 				}
-				$user_form['direccion_id'] = $this->Directions->saveDirection($direction);
+				
+				// If direction is null not insert a new direction
+				if ($direction !== NULL) {
+
+					if ($this->Directions->directionExists($direction) === FALSE) {
+						//If direction does not exists, then insert it
+						$user_form['direccion_id'] = $this->Directions->saveDirection($direction);
+					} else {
+						//If direction already exists, use the existing direction id						
+						$user_form['direccion_id'] = $this->Directions->saveDirection($direction)->id;
+					}
+				}
+
 				$user_form['password'] = password_hash($password, PASSWORD_BCRYPT);
 				$user_id = $this->Users->saveUser($user_form);
-				$username = $this->Users->getUser($user_id, ['username']);
+				$user = $this->Users->getUser($user_id);
 				
 				header('Content-type: application/json; charset=utf-8');
 				$json['status'] = 'success';
 				$json['message'] = 'Usuario creado existosamente';
+				$json['user'] = $user;
 
 				echo json_encode($json);
 
-				return $username;
+				// return $user;
 			} else {
 				header('Content-type: application/json; charset=utf-8');
 				$json['status'] = 'error';

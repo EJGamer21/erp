@@ -41,6 +41,28 @@
             return $this->get(NULL, $fields, $conditions);
         }
 
+        function directionExists($direction) {
+            $conditions = [
+                'provincia_id' => $direction['province'],
+                'ciudad_id' => $direction['city'],
+                'sector_id' => $direction['sector'],
+            ];
+
+            $this->db->join('provincias', 'direcciones.provincia_id = provincias.id', 'left');
+            $this->db->join('ciudades', 'direcciones.ciudad_id = ciudades.id', 'left');
+            $this->db->join('sectores', 'direcciones.sector_id = sectores.id', 'left');
+
+            $existingDirection = $this->get(NULL, ['provincia_id, ciudad_id, sector_id', $conditions]);
+            var_dump($existingDirection);
+            die;
+
+            if (empty($existingDirection)) {
+                return FALSE;
+            } else {
+                return $existingDirection;
+            }
+        }
+
         function saveDirection($data, $id = NULL) {
             $direction = [
                 'provincia_id' => $this->_saveProvince($data['province'])['id'],
