@@ -3,43 +3,40 @@ let username = $('#username');
 let passwd = $('#password');
 let repasswd = $('#retyped-password');
 let submit_btn = $('#submit-btn');
-/*  */
-// let user_table = $('#users-table').DataTable({
-//     // 'data': users,
-//     'columnDefs': [
-//         {
-//             'data': users.username,
-//             'render': (data, type, row, meta) => {
-//                 console.log(data);
-//                 return data;
-//             }
-//         }
-//     ],
-//     'language': {
-//         "sProcessing":     "Procesando...",
-//         "sLengthMenu":     "Mostrar _MENU_ registros",
-//         "sZeroRecords":    "No se encontraron resultados",
-//         "sEmptyTable":     "Ningún dato disponible en esta tabla",
-//         "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-//         "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
-//         "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
-//         "sInfoPostFix":    "",
-//         "sSearch":         "Buscar:",
-//         "sUrl":            "",
-//         "sInfoThousands":  ",",
-//         "sLoadingRecords": "Cargando...",
-//         "oPaginate": {
-//             "sFirst":    "Primero",
-//             "sLast":     "Último",
-//             "sNext":     "Siguiente",
-//             "sPrevious": "Anterior"
-//         },
-//         "oAria": {
-//             "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
-//             "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-//         }
-//     }
-// });
+
+let user_table = $('#users-table').DataTable({
+    "order": [
+        [3, 'desc'],
+        [0, 'asc']
+    ],
+    "columnDefs": [
+        { "orderable": false, "targets": 4}
+    ],
+    'language': {
+        "sProcessing":     "Procesando...",
+        "sLengthMenu":     "Mostrar _MENU_ registros",
+        "sZeroRecords":    "No se encontraron resultados",
+        "sEmptyTable":     "Ningún dato disponible en esta tabla",
+        "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+        "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+        "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+        "sInfoPostFix":    "",
+        "sSearch":         "Buscar:",
+        "sUrl":            "",
+        "sInfoThousands":  ",",
+        "sLoadingRecords": "Cargando...",
+        "oPaginate": {
+            "sFirst":    "Primero",
+            "sLast":     "Último",
+            "sNext":     "Siguiente",
+            "sPrevious": "Anterior"
+        },
+        "oAria": {
+            "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+            "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+        }
+    }
+});
 
 $(document).ready(function() {
     $('#province').select2({
@@ -138,11 +135,9 @@ function addRow(user_data) {
     }).draw();
 }
 
-function removeRow(row) {
-    let row_id = $(row).data('id');
-    console.log(row_id);
-
-    if (confirm('Desea remover el usuario?')) {
+function removeRow(button) {
+    let row_id = $(button).parents('tr');
+    if (confirm('Seguro que desea borrar al usuario?')) {
         user_table.row(row_id).remove().draw();
     }
 }

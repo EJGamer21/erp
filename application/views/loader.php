@@ -28,13 +28,13 @@
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/brands.css" integrity="sha384-n9+6/aSqa9lBidZMRCQHTHKJscPq6NW4pCQBiMmHdUCvPN8ZOg2zJJTkC7WIezWv" crossorigin="anonymous">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/fontawesome.css" integrity="sha384-vd1e11sR28tEK9YANUtpIOdjGW14pS87bUBuOIoBILVWLFnS+MCX9T6MMf0VdPGq" crossorigin="anonymous">
        
-        Select2
+        <!-- Select2 -->
         <link href="/public/libs/css/select2/select2.min.css" rel="stylesheet" />
         <script src="/public/libs/js/select2/select2.min.js"></script>
         
         <!-- Datatables -->
-        <!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.18/b-1.5.6/b-flash-1.5.6/b-print-1.5.6/fh-3.1.4/r-2.2.2/datatables.min.css"/>
-        <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.18/b-1.5.6/b-flash-1.5.6/b-print-1.5.6/fh-3.1.4/r-2.2.2/datatables.min.js"></script> -->
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.18/b-1.5.6/b-flash-1.5.6/b-print-1.5.6/fh-3.1.4/r-2.2.2/datatables.min.css"/>
+        <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.18/b-1.5.6/b-flash-1.5.6/b-print-1.5.6/fh-3.1.4/r-2.2.2/datatables.min.js"></script>
 
         <!-- Toastr -->
         <link href="public/libs/css/toastr/toastr.min.css" rel="stylesheet" />
