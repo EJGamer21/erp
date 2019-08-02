@@ -4,40 +4,6 @@ let passwd = $('#password');
 let repasswd = $('#retyped-password');
 let submit_btn = $('#submit-btn');
 
-let user_table = $('#users-table').DataTable({
-    "order": [
-        [3, 'desc'],
-        [0, 'asc']
-    ],
-    "columnDefs": [
-        { "orderable": false, "targets": 4}
-    ],
-    'language': {
-        "sProcessing":     "Procesando...",
-        "sLengthMenu":     "Mostrar _MENU_ registros",
-        "sZeroRecords":    "No se encontraron resultados",
-        "sEmptyTable":     "Ningún dato disponible en esta tabla",
-        "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-        "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
-        "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
-        "sInfoPostFix":    "",
-        "sSearch":         "Buscar:",
-        "sUrl":            "",
-        "sInfoThousands":  ",",
-        "sLoadingRecords": "Cargando...",
-        "oPaginate": {
-            "sFirst":    "Primero",
-            "sLast":     "Último",
-            "sNext":     "Siguiente",
-            "sPrevious": "Anterior"
-        },
-        "oAria": {
-            "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
-            "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-        }
-    }
-});
-
 $(document).ready(function() {
     $('#province').select2({
         placeholder: 'Provincia...',
@@ -86,6 +52,45 @@ $(document).ready(function() {
     })        
 });
 
+
+let app = new Vue({
+    el: '#vueapp',
+    data: {
+        id: 0,
+        username: '',
+        firstname: '',
+        lastname: '',
+        email: '',
+        password: '',
+        sex: '',
+        direction: {
+            province: '',
+            city: '',
+            sector: ''
+        },
+
+        users: []
+    },
+
+    mounted: () => {
+        console.log('Vue mounted');
+        this.getUsers();
+    },
+
+    methods: {
+        getUsers: function(){
+            app.users = usuarios;
+        },
+       
+    }
+
+});
+
+
+console.log(app)
+
+
+
 submit_btn.on('click', () => {
     if (username.val() == "" && passwd.val() == "") {
         toastr["error"]('Campos no opcionales son requeridos', "Error");
@@ -93,52 +98,55 @@ submit_btn.on('click', () => {
     }
 });
 
-// user_form.submit((event) => {
-//     event.preventDefault();
+user_form.submit((event) => {
+    event.preventDefault();
 
-//     submit_btn.attr('disabled', 'disabled');
-//     let formData = user_form.serialize();
+    submit_btn.attr('disabled', 'disabled');
+    let formData = user_form.serialize();
 
-//     $.ajax({
-//         url: "/users/register",
-//         type: "POST",
-//         data: formData,
-//         dataType: 'json'
-//     })
-//     .done((response) => {
-//         console.log(response);
-//         toastr[response.status](response.message, "Notificaci&oacute;n");
+    $.ajax({
+        url: "/users/register",
+        type: "POST",
+        data: formData,
+        dataType: 'json'
+    })
+    .done((response) => {
+        console.log(response);
+        toastr[response.status](response.message, "Notificaci&oacute;n");
         
-//         if (response.status == 'success') {
-//             user_form.trigger('reset');
-//             submit_btn.removeAttr('disabled');
-//             addRow(response.user);
-//         } else {
-//             passwd.val('');
-//             repasswd.val('');
-//             submit_btn.removeAttr('disabled');
-//         }                
-//     })
-//     .fail((jqXHR, textStatus, error) => {
-//         toastr["error"]("Error 500: Error interno del servidor", "Error");
+        if (response.status == 'success') {
+            user_form.trigger('reset');
+            submit_btn.removeAttr('disabled');
+            addRow(response.user);
+        } else {
+            passwd.val('');
+            repasswd.val('');
+            submit_btn.removeAttr('disabled');
+        }                
+    })
+    .fail((jqXHR, textStatus, error) => {
+        toastr["error"]("Error 500: Error interno del servidor", "Error");
 
-//         submit_btn.removeAttr('disabled');
-//     });
-// });
+        submit_btn.removeAttr('disabled');
+    });
+});
 
 function addRow(user_data) {
-    user_table.row.add({
-        'usuario': user_data.username,
-        'nombre': user_data.firstname + ' ' + user_data.lastname,
-        'email': user_data.email,
-        'fecha_creacion': user_data.fecha_creacion
-    }).draw();
+    console.log(user_data);
+    let new_user = [{
+        usuario: user_data.username,
+        nombre: user_data.firstname + ' ' + user_data.lastname,
+        email: user_data.email,
+        fecha_creacion: user_data.fecha_creacion,
+    }];
+    // user_table.row.add(new_user).draw();
 }
 
 function removeRow(button) {
     let row_id = $(button).parents('tr');
     if (confirm('Seguro que desea borrar al usuario?')) {
-        user_table.row(row_id).remove().draw();
+        console.log(row_id);
+        // user_table.row(row_id).remove().draw();
     }
 }
 
