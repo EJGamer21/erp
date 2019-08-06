@@ -23,13 +23,38 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="user in users">
-                    <td class="d-none">{{ user.id }}</td>
-                    <td>{{ user.username }}</td>
-                    <td>{{ user.firstname + ' ' + user.lastname }}</td>
-                    <td>{{ user.email }}</td>
-                    <td>{{ user.fecha_creacion }}</td>
-                    <td>{{ user.id }}</td>
+                <tr v-for="(user, index) in users" :id="user.id">
+                    <td :id="user.id" class="d-none">{{ user.id }}</td>
+                    <td>
+                        <a :href="'users/view/' + user.id + '/' + (user.firstname + '-' + user.lastname).toLowerCase()">
+                            <template v-if="user.activo == 1">
+                                <span title="Activo" class="badge badge-success"><i class="fas fa-user-check"></i></span>
+                            </template>
+                            <template v-else>
+                                <span title="Inactivo" class="badge badge-danger"><i class="fas fa-user-times"></i></span>
+                            </template>
+                            {{ user.username }}
+                        </a>
+                    </td>
+                    <td>
+                        <a :href="'users/view/' + user.id + '/' + (user.firstname + '-' + user.lastname).toLowerCase()">
+                            {{ user.firstname + ' ' + user.lastname }}
+                        </a>
+                    <td>
+                        <a :href="'users/view/' + user.id + '/' + (user.firstname + '-' + user.lastname).toLowerCase()">
+                            {{ user.email }}
+                        </a>
+                    </td>
+                    <td>
+                        <a :href="'users/view/' + user.id + '/' + (user.firstname + '-' + user.lastname).toLowerCase()">
+                            {{ user.fecha_creacion }}
+                        </a>
+                    </td>
+                    <td style="text-align:center;">
+                        <button :data-id="user.id" type="button" class="active-user-btn btn btn-danger" @click="removeRow(index)">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </td>
                 </tr>
             </tbody>
         </table>
@@ -43,5 +68,6 @@
 </div>
 <script>
     let usuarios = <?= json_encode($users);?>;
+    let direcciones = <?= json_encode($directions);?>;
 </script>
 <script src="/public/libs/js/fractal/users.js"></script>
