@@ -62,33 +62,21 @@
                     <label class="d-block">Direcci&oacute;n <small class="text-muted"><i>Opcional</i></small></label>
                     <div class="form-row">
                         <div class="mb-2 col d-sm-block d-lg-inline">
-                            <select class="custom-select js-select2" name="province" id="province">
+                            <select class="custom-select" name="province">
                                 <option></option>
-                                <?php foreach ($directions['provinces'] as $province): ?>
-                                    <option value="<?= $province->provincia_id; ?>">
-                                        <?= $province->nombre; ?>
-                                    </option>
-                                <?php endforeach; ?>
+                                <option v-for="(province, index) in directions.provinces" :value="province.id">{{ province.nombre }}</option>
                             </select>
                         </div>
                         <div class="mb-2 col d-sm-block d-lg-inline">
-                            <select class="custom-select js-select2" name="city" id="city">
+                            <select class="custom-select" name="city">
                                 <option></option>
-                                <?php foreach ($directions['cities'] as $city): ?>
-                                    <option value="<?= $city->ciudad_id; ?>">
-                                        <?= $city->nombre; ?>
-                                    </option>
-                                <?php endforeach; ?>
+                                <option v-for="(city, index) in directions.cities" :value="city.id">{{ city.nombre }}</option>
                             </select>
                         </div>
                         <div class="mb-2 col d-sm-block d-lg-inline">
-                            <select class="custom-select js-select2" name="sector" id="sector">
+                            <select class="custom-select" name="sector">
                                 <option></option>
-                                <?php foreach ($directions['sectors'] as $sector): ?>
-                                    <option value="<?= $sector->sector_id; ?>">
-                                        <?= $sector->nombre; ?>
-                                    </option>
-                                <?php endforeach; ?>
+                                <option v-for="(sector, index) in directions.sectors" :value="sector.id">{{ sector.nombre }}</option>
                             </select>
                         </div>
                     </div>
@@ -96,7 +84,7 @@
             </div>
             <div class="form-row">
                 <div class="col-2 offset-10 px-0">
-                    <button type="submit" class="btn btn-block btn-success" id="submit-btn">Registrar</button>
+                    <button type="submit" class="btn btn-block btn-success" id="submit-btn" @click="verifyFields()">Registrar</button>
                 </div>
             </div>
         </form>

@@ -72,7 +72,7 @@
 
                 } catch(Exception $e) {
                     $this->db->trans_rollback();
-                    echo "<script>console.log(".json_encode($e->message()).")</script>";
+                    echo json_encode($e->message());
                     return FALSE;
                 }
             }
@@ -98,6 +98,7 @@
 
                 } catch (Exception $e) {
                     $this->db->trans_rollback();
+                    echo json_encode($e->message());
                     return FALSE;
                 }
             }
@@ -146,6 +147,7 @@
                 
             } catch (Exception $e) {
                 $this->db->trans_rollback();
+                echo json_encode($e->message());
                 return FALSE;
             }
         }

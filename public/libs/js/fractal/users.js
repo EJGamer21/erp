@@ -1,156 +1,120 @@
-let user_form = $('form#user-form');
-let username = $('#username');
-let passwd = $('#password');
-let repasswd = $('#retyped-password');
-let submit_btn = $('#submit-btn');
-
-$(document).ready(function() {
-    $('#province').select2({
-        placeholder: 'Provincia...',
-        allowClear: true,
-        sorter: function(data) {
-            return data.sort(function (a, b) {
-                if (a.text > b.text) {
-                    return 1;
-                }
-                if (a.text < b.text) {
-                    return -1;
-                }
-                return 0;
-            });
-        }
-    }),
-    $('#city').select2({
-        placeholder: 'Ciudad...',
-        allowClear: true,
-        sorter: function(data) {
-            return data.sort(function (a, b) {
-                if (a.text > b.text) {
-                    return 1;
-                }
-                if (a.text < b.text) {
-                    return -1;
-                }
-                return 0;
-            });
-        }
-    }),
-    $('#sector').select2({
-        placeholder: 'Sector...',
-        allowClear: true,
-        sorter: function(data) {
-            return data.sort(function (a, b) {
-                if (a.text > b.text) {
-                    return 1;
-                }
-                if (a.text < b.text) {
-                    return -1;
-                }
-                return 0;
-            });
-        }
-    })        
-});
-
+let userForm = document.getElementById('user-form');
+let username = document.getElementById('username');
+let passwd = document.getElementById('password');
+let repasswd = document.getElementById('retyped-password');
+let submitBtn = document.getElementById('submit-btn');
 
 let app = new Vue({
     el: '#vueapp',
-    data: {
-        id: 0,
-        username: '',
-        firstname: '',
-        lastname: '',
-        email: '',
-        password: '',
-        sex: '',
-        direction: {
-            province: '',
-            city: '',
-            sector: ''
-        },
+    data() {
+        return {
+            id: null,
+            username: '',
+            firstname: '',
+            lastname: '',
+            email: '',
+            password: '',
+            sex: '',
+            direction: {
+                province: '',
+                city: '',
+                sector: ''
+            },
 
-        users: []
+            users: [],
+            directions: {
+                provinces: [],
+                cities: [],
+                sectors: []
+            }
+        }
     },
 
-    mounted: () => {
-        console.log('Vue mounted');
-        this.getUsers();
+    mounted: function() {
     },
 
     methods: {
-        getUsers: function(){
-            app.users = usuarios;
+        getUsers() {
+            this.users = usuarios;
+            this.directions = direcciones;
         },
-       
-    }
 
-});
-
-
-console.log(app)
-
-
-
-submit_btn.on('click', () => {
-    if (username.val() == "" && passwd.val() == "") {
-        toastr["error"]('Campos no opcionales son requeridos', "Error");
-        return;
-    }
-});
-
-user_form.submit((event) => {
-    event.preventDefault();
-
-    submit_btn.attr('disabled', 'disabled');
-    let formData = user_form.serialize();
-
-    $.ajax({
-        url: "/users/register",
-        type: "POST",
-        data: formData,
-        dataType: 'json'
-    })
-    .done((response) => {
-        console.log(response);
-        toastr[response.status](response.message, "Notificaci&oacute;n");
+        verifyFields() {
+            if (username.value == '' && passwd.value == '') {
+                this.$toastr.error('Campos no opcionales son requeridos', 'Error', toastrConfigs);
+                return;
+            }
+        },
+        showToastr() {
+        },
         
-        if (response.status == 'success') {
-            user_form.trigger('reset');
-            submit_btn.removeAttr('disabled');
-            addRow(response.user);
-        } else {
-            passwd.val('');
-            repasswd.val('');
-            submit_btn.removeAttr('disabled');
-        }                
-    })
-    .fail((jqXHR, textStatus, error) => {
-        toastr["error"]("Error 500: Error interno del servidor", "Error");
+        saveUser() {
 
-        submit_btn.removeAttr('disabled');
-    });
+        },
+
+        toggleUserState(user) {
+
+        },
+        
+        removeRow(user) {
+            if (confirm('¿Seguro que desea borrar al usuario?')) {
+                this.users.splice(user, 1);
+            }
+        }
+    }
 });
 
-function addRow(user_data) {
-    console.log(user_data);
-    let new_user = [{
-        usuario: user_data.username,
-        nombre: user_data.firstname + ' ' + user_data.lastname,
-        email: user_data.email,
-        fecha_creacion: user_data.fecha_creacion,
-    }];
-    // user_table.row.add(new_user).draw();
+app.getUsers();
+
+
+// userForm.submit((event) => {
+//     event.preventDefault();
+
+//     submitBtn.attr('disabled', 'disabled');
+//     let formData = userForm.serialize();
+
+//     axios({
+//         url: '/users/register',
+//         baseURL: 'fractal/',
+//         method: 'POST',
+//         data: formData,
+//         responseType: 'json',
+//         responseEncoding: 'utf8'
+//     })
+//     .then((response) => {
+//         console.log(response);
+//         toastr[response.status](response.message, 'Notificaci&oacute;n');
+        
+//         if (response.status == 'success') {
+//             userForm.trigger('reset');
+//             submitBtn.removeAttr('disabled');
+//             addRow(response.user);
+//         } else {
+//             passwd.val('');
+//             repasswd.val('');
+//             submitBtn.removeAttr('disabled');
+//         }                
+//     })
+//     .catch((error) => {
+//         toastr['error']('Error 500: Error interno del servidor', 'Error');
+
+//         submitBtn.removeAttr('disabled');
+//     });
+// });
+
+function addRow(userData) {
+    let newUser = {
+        usuario: userData.username,
+        nombre: (userData.firstname + ' ' + userData.lastname),
+        email: userData.email,
+        fecha_creacion: userData.fecha_creacion,
+    };
+
+    app.users.push(newUser);
 }
 
-function removeRow(button) {
-    let row_id = $(button).parents('tr');
-    if (confirm('Seguro que desea borrar al usuario?')) {
-        console.log(row_id);
-        // user_table.row(row_id).remove().draw();
-    }
-}
-
-toastr.options = {
+// Move to top
+let toastrConfigs = {
     "closeButton": true,
     "debug": false,
     "newestOnTop": false,
