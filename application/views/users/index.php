@@ -12,7 +12,7 @@
 
     <div class="table-responsive my-4 mr-4">
         <table id="users-table" class="table table-striped table-hover centered">
-        <caption>Listado de usuarios</caption>
+            <caption>Listado de usuarios</caption>
             <thead class="thead-dark">
                 <tr>
                     <th>Usuario</th>
@@ -24,7 +24,7 @@
             </thead>
             <tbody>
                 <tr v-for="(user, index) in users" :id="user.id">
-                    <td :id="user.id" class="d-none">{{ user.id }}</td>
+                    <td :data-user-id="user.id" class="d-none">{{ user.id }}</td>
                     <td>
                         <a :href="'users/view/' + user.id + '/' + (user.firstname + '-' + user.lastname).toLowerCase()">
                             <template v-if="user.activo == 1">
@@ -33,21 +33,21 @@
                             <template v-else>
                                 <span title="Inactivo" class="badge badge-danger"><i class="fas fa-user-times"></i></span>
                             </template>
-                            {{ user.username }}
+                            <span>{{ user.username }}</span>
                         </a>
                     </td>
                     <td>
                         <a :href="'users/view/' + user.id + '/' + (user.firstname + '-' + user.lastname).toLowerCase()">
-                            {{ user.firstname + ' ' + user.lastname }}
+                            <span>{{ user.firstname + ' ' + user.lastname }}<span>
                         </a>
                     <td>
                         <a :href="'users/view/' + user.id + '/' + (user.firstname + '-' + user.lastname).toLowerCase()">
-                            {{ user.email }}
+                            <span>{{ user.email }}</span>
                         </a>
                     </td>
                     <td>
                         <a :href="'users/view/' + user.id + '/' + (user.firstname + '-' + user.lastname).toLowerCase()">
-                            {{ user.fecha_creacion }}
+                            <span>{{ user.fecha_creacion }}</span>
                         </a>
                     </td>
                     <td style="text-align:center;">

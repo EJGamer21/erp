@@ -31,6 +31,7 @@ let app = new Vue({
     },
 
     mounted: function() {
+        this.getUsers()
     },
 
     methods: {
@@ -63,8 +64,6 @@ let app = new Vue({
         }
     }
 });
-
-app.getUsers();
 
 
 // userForm.submit((event) => {
