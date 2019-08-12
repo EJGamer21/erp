@@ -1,7 +1,3 @@
-<?php 
-    $CI =& get_instance();
-?>
-
 <div id="vueapp">
     <h1 class="my-4">Usuarios</h1>
     
