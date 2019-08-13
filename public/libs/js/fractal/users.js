@@ -20,7 +20,6 @@ let app = new Vue({
                 city: '',
                 sector: ''
             },
-
             users: [],
             directions: {
                 provinces: [],
@@ -50,7 +49,7 @@ let app = new Vue({
         },
         
         saveUser() {
-
+            let userData = new FormData(userForm);
         },
 
         toggleUserState(user) {
@@ -102,14 +101,7 @@ let app = new Vue({
 // });
 
 function addRow(userData) {
-    let newUser = {
-        usuario: userData.username,
-        nombre: (userData.firstname + ' ' + userData.lastname),
-        email: userData.email,
-        fecha_creacion: userData.fecha_creacion,
-    };
 
-    app.users.push(newUser);
 }
 
 // Move to top

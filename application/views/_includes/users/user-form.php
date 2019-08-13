@@ -6,13 +6,13 @@
                 <div class="col">
                     <div class="form-group">
                         <label>Nombre</label>
-                        <input class="form-control" type="text" name="firstname" placeholder="John" autofocus required>
+                        <input class="form-control" type="text" name="firstname" autofocus required>
                     </div>
                 </div>
                 <div class="col">
                     <div class="form-group">
                         <label>Apellido</label>
-                        <input class="form-control" type="text" name="lastname" placeholder="Doe" required>
+                        <input class="form-control" type="text" name="lastname" required>
                     </div>
                 </div>
             </div>
@@ -20,13 +20,13 @@
                 <div class="col">
                     <div class="form-group">
                         <label>Nombre de usuario</label>
-                        <input class="form-control" type="text" id="username" name="username" placeholder="Johndoe01" autocomplete required>
+                        <input class="form-control" type="text" id="username" name="username" autocomplete required>
                     </div>
                 </div>
                 <div class="col">
                     <div class="form-group">
                         <label>Correo electr&oacute;nico <small class="text-muted"><i>Opcional</i></small></label>
-                        <input class="form-control" type="email" name="email" placeholder="jhondoe@foo.com" autocomplete>
+                        <input class="form-control" type="email" name="email" autocomplete>
                     </div>
                 </div>
             </div>
@@ -34,13 +34,13 @@
                 <div class="col">
                     <div class="form-group">
                         <label>Contrase&ntilde;a</label>
-                        <input class="form-control" type="password" id="password" name="password" autocomplete required placeholder="**********">
+                        <input class="form-control" type="password" id="password" name="password" autocomplete required>
                     </div>
                 </div>
                 <div class="col">
                     <div class="form-group">
                         <label>Repetir Contrase&ntilde;a</label>
-                        <input class="form-control" type="password" id="retyped-password" autocomplete required placeholder="**********">
+                        <input class="form-control" type="password" id="retyped-password" autocomplete required>
                     </div>
                 </div>
             </div>
@@ -63,19 +63,19 @@
                     <div class="form-row">
                         <div class="mb-2 col d-sm-block d-lg-inline">
                             <select class="custom-select" name="province">
-                                <option></option>
+                                <option>Provincia...</option>
                                 <option v-for="(province, index) in directions.provinces" :value="province.id">{{ province.nombre }}</option>
                             </select>
                         </div>
                         <div class="mb-2 col d-sm-block d-lg-inline">
                             <select class="custom-select" name="city">
-                                <option></option>
+                                <option>Ciudad...</option>
                                 <option v-for="(city, index) in directions.cities" :value="city.id">{{ city.nombre }}</option>
                             </select>
                         </div>
                         <div class="mb-2 col d-sm-block d-lg-inline">
                             <select class="custom-select" name="sector">
-                                <option></option>
+                                <option selected disabled hidden>Sector...</option>
                                 <option v-for="(sector, index) in directions.sectors" :value="sector.id">{{ sector.nombre }}</option>
                             </select>
                         </div>

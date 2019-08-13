@@ -45,9 +45,10 @@
     <!-- <script src="/public/libs/js/vuejs/vue-router.min.js"></script> -->
 </head>
 <body>
-    <script src="/public/libs/js/vuejs/vue.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.js"></script>
     <script src="/public/libs/js/axios.min.js"></script>
     <script src="/public/libs/js/toastr/toastr.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue-tables-2@1.4.70/dist/vue-tables-2.min.js"></script>
     <!-- Container -->
     <div class="container-fluid">
         <div class="row">
