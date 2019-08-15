@@ -121,25 +121,27 @@ class Users extends CI_Controller {
 				$json['status'] = 'success';
 				$json['message'] = 'Usuario creado existosamente';
 				$json['user'] = $user;
-
+				
 				echo json_encode($json);
+				http_response_code(200);
 
 				// return $user;
 			} else {
 				header('Content-type: application/json; charset=utf-8');
 				$json['status'] = 'error';
 				$json['message'] = 'Usuario ya existente';
-
+				
 				echo json_encode($json);
+				// http_response_code(400);
 			}
 		} else {
 			// manage if is registration from the user form or the register form
 			header('Content-type: application/json; charset=utf-8');
 			$json['status'] = 'error';
 			$json['message'] = 'Error 403: Acceso restringido';
-
+			
 			echo json_encode($json);
-			redirect('/users');
+			http_response_code(403);
 		}
 	}
 
