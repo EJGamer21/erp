@@ -5,8 +5,7 @@
         $this->view('_includes/users/user-form');
         if (isset($users)): 
     ?>
-
-    <div class="table-responsive my-4 mr-4">
+    <div class="table-responsive my-4 mr-4" v-cloak>
         <table id="users-table" class="table table-striped table-hover centered">
             <caption>Listado de usuarios</caption>
             <thead class="thead-dark">
@@ -22,7 +21,9 @@
                 <tr v-for="(user, index) in users" :id="user.id">
                     <td :data-user-id="user.id" class="d-none">{{ user.id }}</td>
                     <td>
-                        <a :href="'users/view/' + user.id + '/' + (user.firstname + '-' + user.lastname).toLowerCase()">
+                        <a :href="'users/view/' + user.id + '/' + 
+                            (user.firstname + '-' + user.lastname).toLowerCase()"
+                        >
                             <template v-if="user.activo == 1">
                                 <span title="Activo" class="badge badge-success"><i class="fas fa-user-check"></i></span>
                             </template>
@@ -33,23 +34,58 @@
                         </a>
                     </td>
                     <td>
-                        <a :href="'users/view/' + user.id + '/' + (user.firstname + '-' + user.lastname).toLowerCase()">
+                        <a :href="'users/view/' + user.id + '/' + 
+                            (user.firstname + '-' + user.lastname).toLowerCase()"
+                        >
                             <span>{{ user.firstname + ' ' + user.lastname }}<span>
                         </a>
                     <td>
-                        <a :href="'users/view/' + user.id + '/' + (user.firstname + '-' + user.lastname).toLowerCase()">
+                        <a :href="'users/view/' + user.id + '/' + 
+                            (user.firstname + '-' + user.lastname).toLowerCase()"
+                        >
                             <span>{{ user.email }}</span>
                         </a>
                     </td>
                     <td>
-                        <a :href="'users/view/' + user.id + '/' + (user.firstname + '-' + user.lastname).toLowerCase()">
+                        <a :href="'users/view/' + user.id + '/' + 
+                            (user.firstname + '-' + user.lastname).toLowerCase()"
+                        >
                             <span>{{ user.fecha_creacion }}</span>
                         </a>
                     </td>
                     <td style="text-align:center;">
-                        <button :data-id="user.id" type="button" class="active-user-btn btn btn-danger" @click="removeRow(index)">
+                        <button :data-id="user.id"
+                                type="button" 
+                                class="edit-btn btn btn-info"
+                                @click="editUser(user)"
+                        >
+                            <i class="fas fa-pencil-alt"></i>
+                        </button>
+                        <button :data-id="user.id" 
+                                type="button" 
+                                class="btn btn-danger" 
+                                @click="removeRow(user, index)"
+                        >
                             <i class="fas fa-trash-alt"></i>
                         </button>
+                        <!-- <template v-if="user.activo == 1">
+                            <button :data-id="user.id" 
+                                    type="button" 
+                                    class="btn btn-outline-secondary"
+                                    @click="toggleUserState(user)"
+                            >
+                                    <i class="fas fa-toggle-off"></i>
+                            </button>
+                        </template>
+                        <template v-else>
+                            <button :data-id="user.id" 
+                                    type="button" 
+                                    class="btn btn-outline-success"
+                                    @click="toggleUserState(user)"
+                            >
+                                <i class="fas fa-toggle-on"></i>
+                            </button>
+                        </template> -->
                     </td>
                 </tr>
             </tbody>
