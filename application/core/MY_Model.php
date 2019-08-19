@@ -60,8 +60,6 @@
                     $this->db->set($data);
                     $this->db->insert($this->_tablename);
                     $this->_last_inserted_id = $this->db->insert_id();
-
-                    $this->db->trans_commit(); 
                     
                     if ($this->db->trans_status() === FALSE) {
                         throw new Exception ("Error inserting record in: ".$this->_tablename.".");
@@ -86,17 +84,16 @@
                     $this->db->where($this->_primary_key, $id);
                     $this->db->limit(1);
                     $this->db->update($this->_tablename);
-                    $this->_last_inserted_id = $this->db->insert_id();
+                    $this->_last_inserted_id = $id;
 
                     if ($this->db->trans_status() === FALSE) {
-                        throw new Exception ("Error updating record in: ".$this->_tablename.".");
-                        return FALSE;
+                        throw new Exception ("Error inserting record in: ".$this->_tablename.".");
                     } else {
                         $this->db->trans_commit();
                         return $this->_last_inserted_id;
                     }
 
-                } catch (Exception $e) {
+                } catch(Exception $e) {
                     $this->db->trans_rollback();
                     echo json_encode($e->message());
                     return FALSE;
