@@ -17,10 +17,16 @@
         <link rel="author" href="https://github.com/EJGamer21/">
 
     <!-- Libraries -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.js"></script>
+        
+        <script src="/public/libs/js/axios.min.js"></script>
+        <script src="/public/libs/js/toastr/toastr.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue-tables-2@1.4.70/dist/vue-tables-2.min.js"></script>
 
         <!-- Bootstrap -->
         <link type="text/css" rel="stylesheet" href="/public/libs/css/bootstrap/bootstrap.min.css"/>
         <link type="text/css" rel="stylesheet" href="/public/libs/css/bootstrap/bootstrap-vue.min.css"/>
+        <script src="/public/libs/js/bootstrap/bootstrap-vue.min.js"></script>
         
         <!-- Font awesome -->
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/solid.css" integrity="sha384-QokYePQSOwpBDuhlHOsX0ymF6R/vLk/UQVz3WHa6wygxI5oGTmDTv8wahFOSspdm" crossorigin="anonymous">
@@ -45,10 +51,6 @@
     <!-- <script src="/public/libs/js/vuejs/vue-router.min.js"></script> -->
 </head>
 <body>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.js"></script>
-    <script src="/public/libs/js/axios.min.js"></script>
-    <script src="/public/libs/js/toastr/toastr.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vue-tables-2@1.4.70/dist/vue-tables-2.min.js"></script>
     <!-- Container -->
     <div class="container-fluid">
         <div class="row">
@@ -58,6 +60,5 @@
             </main>
         </div>
     </div>
-    <script src="/public/libs/js/bootstrap/bootstrap-vue.min.js"></script>
 </body>
 </html>
