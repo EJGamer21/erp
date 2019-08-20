@@ -115,7 +115,16 @@ class Users extends CI_Controller {
 
 				$user_form['fecha_creacion'] = $this->input->post('fecha_creacion');
 				$user_form['fecha_modificado'] = date('Y-m-d H:i:s');
-				$this->saveUser($user_form);
+				$user = $this->saveUser($user_form);	
+
+				header('Content-type: application/json; charset=utf-8');
+				$json['status'] = 'info';
+				$json['message'] = 'Usuario actualizado existosamente';
+				$json['user'] = $user;
+				$json['user_id'] = $user->id;
+				
+				echo json_encode($json);
+				http_response_code(200);
 				return;
 			}
 
@@ -123,7 +132,19 @@ class Users extends CI_Controller {
 			elseif ($this->Users->userExists($user_form['username']) === FALSE) {
 
 				$user_form['fecha_creacion'] = date('Y-m-d H:i:s');
-				$this->saveUser($user_form);
+				$user = $this->saveUser($user_form);
+
+				// TODO: If new user created or updated existing user
+				
+				header('Content-type: application/json; charset=utf-8');
+				$json['status'] = 'success';
+				$json['message'] = 'Usuario creado existosamente';
+				$json['user'] = $user;
+				$json['user_id'] = $user->id;
+				
+				echo json_encode($json);
+				http_response_code(200);
+				
 				return;
 			} else {
 				header('Content-type: application/json; charset=utf-8');
@@ -218,18 +239,8 @@ class Users extends CI_Controller {
 	private function saveUser($user_form) {
 		$user_form['password'] = password_hash($user_form['password'], PASSWORD_BCRYPT);
 		$user_id = $this->Users->saveUser($user_form, $user_form['id']);
-		$user = $this->Users->getUser($user_id);
-
-		// TODO: If new user created or updated existing user
 		
-		header('Content-type: application/json; charset=utf-8');
-		$json['status'] = 'success';
-		$json['message'] = 'Usuario creado existosamente';
-		$json['user'] = $user;
-		$json['user_id'] = $user_id;
-		
-		echo json_encode($json);
-		http_response_code(200);
+		return $this->Users->getUser($user_id);
 	}
 
 	/**
