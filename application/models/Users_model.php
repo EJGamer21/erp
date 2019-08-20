@@ -83,4 +83,22 @@
                 return FALSE;
             }
         }
+
+        function deactivateUser($id) {
+            $user_data = [
+                'activo' => 0
+            ];
+            return $this->save($user_data, $id);
+        }
+
+        function activateUser($id) {
+            $user_data = [
+                'activo' => 1
+            ];
+            return $this->save($user_data, $id);
+        }
+
+        function deleteUser($id) {
+            return $this->delete($id);
+        }
     }
