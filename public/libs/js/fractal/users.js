@@ -5,7 +5,6 @@ const app = new Vue({
             user: {
                 id: '',
                 username: '',
-                oldUsername: '',
                 firstname: '',
                 lastname: '',
                 email: '',
@@ -19,6 +18,8 @@ const app = new Vue({
                     city: '',
                     sector: ''
                 },
+                fecha_creacion: '',
+                fecha_modificado: ''
             },
             users: [],
             directions: {
@@ -41,10 +42,11 @@ const app = new Vue({
             this.user.email = user.email;
             this.user.email_id = user.email_id;
             this.user.sex = user.sexo;
-            this.user.oldUsername = user.username;
+            this.user.fecha_creacion = user.fecha_creacion;
         },
 
         saveUser() {
+            toastrConfigs.preventDuplicates = true;
             if (
                 this.user.username === '' 
                 || this.user.password === ''
@@ -67,10 +69,10 @@ const app = new Vue({
             userData.append('firstname', this.user.firstname);
             userData.append('lastname', this.user.lastname);
             userData.append('username', this.user.username);
-            userData.append('oldUsername', this.user.oldUsername);
             userData.append('email', this.user.email);
             userData.append('password', this.user.password);
             userData.append('sex', this.user.sex);
+            userData.append('fecha_creacion', this.user.fecha_creacion);
 
             axios({
                 url: '/users/register',
@@ -79,7 +81,7 @@ const app = new Vue({
                 responseType: 'json',
             })
             .then((response) => {
-                console.log(response);      
+                console.log(response);
                 if (response.data.status === 'success') {
                     // TODO: Check when it is an update or an insert
                     // if (response.data.)
@@ -109,23 +111,50 @@ const app = new Vue({
           }
         },
 
-        toggleUserState(user) {
-
+        toggleUserStatus(user, index) {
+            let message = (user.activo == '1') ? 'desactivar' : 'activar';
+            if (confirm(`¿Seguro que desea ${message} al usuario ` + user.username + '?')) {
+                axios({
+                    url: '/users/toggleStatus/' + user.id,
+                    method: 'post',
+                    data: user.id,
+                    responseType: 'json'
+                })
+                .then((response) => {
+                    if (this.users[index].activo == '1') {
+                        this.users[index].activo = '0'
+                    } else {
+                        this.users[index].activo = '1'
+                    }
+                    this.$toastr.info(response.data.message, 'Informaci&oacute;n', toastrConfigs);
+                })
+                .catch((error) => {
+                    this.$toastr.error(error.response.data.message, 'Error', toastrConfigs);
+                    console.log(error.response);
+                });
+            }
         },
         
-        removeRow(user, index) {
+        removeUser(user, index) {
+            toastrConfigs.preventDuplicates = false;
             if (confirm('¿Seguro que desea borrar al usuario ' + user.firstname + ' ' + user.lastname + '?')) {
                 axios({
-                    url: '/users/removeUser',
+                    url: '/users/removeUser/' + user.id,
                     method: 'post',
                     data: user.id,
                     responseType: 'json'
                 })
                 .then((response) => {
                     console.log(response);
-                    this.users.splice(index, 1);
+                    if (response.data.status === 'success') {
+                        this.$toastr.success(response.data.message, 'Notificaci&oacute;n', toastrConfigs);
+                        setTimeout(() => {
+                            this.users.splice(index, 1);
+                        }, 300);
+                    }
                 })
                 .catch((error) => {
+                    this.$toastr.error(error.response.data.message, 'Error', toastrConfigs);
                     console.log(error.response);
                 });
             }

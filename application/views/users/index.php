@@ -21,7 +21,7 @@
                 <tr v-for="(user, index) in users" :id="user.id">
                     <td :data-user-id="user.id" class="d-none">{{ user.id }}</td>
                     <td>
-                        <a :href="'users/view/' + user.id + '/' + 
+                        <a :href="'/users/view/' + user.id + '/' + 
                             (user.firstname + '-' + user.lastname).toLowerCase()"
                         >
                             <template v-if="user.activo == 1">
@@ -34,20 +34,20 @@
                         </a>
                     </td>
                     <td>
-                        <a :href="'users/view/' + user.id + '/' + 
+                        <a :href="'/users/view/' + user.id + '/' + 
                             (user.firstname + '-' + user.lastname).toLowerCase()"
                         >
                             <span>{{ user.firstname + ' ' + user.lastname }}<span>
                         </a>
                     <td>
-                        <a :href="'users/view/' + user.id + '/' + 
+                        <a :href="'/users/view/' + user.id + '/' + 
                             (user.firstname + '-' + user.lastname).toLowerCase()"
                         >
                             <span>{{ user.email }}</span>
                         </a>
                     </td>
                     <td>
-                        <a :href="'users/view/' + user.id + '/' + 
+                        <a :href="'/users/view/' + user.id + '/' + 
                             (user.firstname + '-' + user.lastname).toLowerCase()"
                         >
                             <span>{{ user.fecha_creacion }}</span>
@@ -55,37 +55,40 @@
                     </td>
                     <td style="text-align:center;">
                         <button :data-id="user.id"
+                                title="Editar usuario"
                                 type="button" 
                                 class="edit-btn btn btn-info"
                                 @click="editUser(user)"
                         >
                             <i class="fas fa-pencil-alt"></i>
                         </button>
-                        <button :data-id="user.id" 
+                        <!-- <button :data-id="user.id" 
                                 type="button" 
                                 class="btn btn-danger" 
-                                @click="removeRow(user, index)"
+                                @click="removeUser(user, index)"
                         >
                             <i class="fas fa-trash-alt"></i>
-                        </button>
-                        <!-- <template v-if="user.activo == 1">
-                            <button :data-id="user.id" 
+                        </button> -->
+                        <template v-if="user.activo == 1">
+                            <button :data-id="user.id"
+                                    title="Desactivar usuario"
                                     type="button" 
-                                    class="btn btn-outline-secondary"
-                                    @click="toggleUserState(user)"
+                                    class="btn btn-outline-danger"
+                                    @click="toggleUserStatus(user, index)"
                             >
-                                    <i class="fas fa-toggle-off"></i>
+                                    <i class="fas fa-user-times"></i>
                             </button>
                         </template>
                         <template v-else>
-                            <button :data-id="user.id" 
+                            <button :data-id="user.id"
+                                    title="Activar usuario"
                                     type="button" 
                                     class="btn btn-outline-success"
-                                    @click="toggleUserState(user)"
+                                    @click="toggleUserStatus(user, index)"
                             >
-                                <i class="fas fa-toggle-on"></i>
+                                <i class="fas fa-user-check"></i>
                             </button>
-                        </template> -->
+                        </template>
                     </td>
                 </tr>
             </tbody>
