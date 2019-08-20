@@ -18,8 +18,7 @@ const app = new Vue({
                     city: '',
                     sector: ''
                 },
-                fecha_creacion: '',
-                fecha_modificado: ''
+                fecha_creacion: ''
             },
             users: [],
             directions: {
