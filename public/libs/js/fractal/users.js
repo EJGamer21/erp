@@ -80,20 +80,30 @@ const app = new Vue({
                 responseType: 'json',
             })
             .then((response) => {
-                console.log(response);
                 if (response.data.status === 'success') {
-                    // TODO: Check when it is an update or an insert
-                    // if (response.data.)
+                    console.log(response);
+                    this.clearInputs();
+
                     this.$toastr.success(response.data.message, 'Notificaci&oacute;n', toastrConfigs);
                     this.users.push(response.data.user);
+
+                } else if (response.data.status === 'info') {
                     this.clearInputs();
-                }               
+
+                    let newUser = response.data.user;
+                    let existingUser = this.users.find((user) => user.id == newUser.id);
+                    let index = this.users.indexOf(existingUser);
+                    
+                    this.users.splice(index, 1, newUser);
+                    this.$toastr.info(response.data.message, 'Informaci&oacute;n', toastrConfigs);
+                }
             })
             .catch((error) => {
                 if (error.response) {
-                    this.$toastr.error(error.response.data.message, 'Error', toastrConfigs);
                     this.user.password = '';
                     this.user.retypedPassword = '';
+
+                    this.$toastr.error(error.response.data.message, 'Error', toastrConfigs);
                 }          
             });
         },
