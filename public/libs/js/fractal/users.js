@@ -1,3 +1,7 @@
+Vue.use(vSelectPage.default, {
+    language: 'es'
+  });
+
 const app = new Vue({
     el: '#vueapp',
     data() {
@@ -25,7 +29,9 @@ const app = new Vue({
                 provinces: [],
                 cities: [],
                 sectors: []
-            }
+            },
+            formTitle: 'Registrar nuevo usuario',
+            buttonText: 'Registrar',
         }
     },
     mounted() {
@@ -38,10 +44,24 @@ const app = new Vue({
             }
             return 0;
         });
-        this.directions = direcciones;
+
+        Object.keys(direcciones).forEach((key) => {
+            this.directions[key] = direcciones[key].sort((a, b) => {
+                if (a.nombre > b.nombre) {
+                    return 1;
+                }
+                if (a.nombre < b.nombre) {
+                    return -1
+                }
+                return 0;
+            });
+        });
     },
     methods: {
         editUser(user) {
+            this.formTitle = `Editar usuario '${user.username}'`;
+            this.buttonText = 'Guardar';
+
             this.user.id = user.id;
             this.user.firstname = user.firstname;
             this.user.lastname = user.lastname;
@@ -110,28 +130,20 @@ const app = new Vue({
                     this.user.retypedPassword = '';
 
                     this.$toastr.error(error.response.data.message, 'Error', toastrConfigs);
-                }          
+                }
             });
         },
 
         clearInputs() {
-            Object.keys(this.user).forEach((key) => {
-                if ((typeof this.user[key]) === 'object' && this.user[key] !== null) {
-                    Object.keys(this.user[key]).forEach((key2) => {
-                        this.user[key][key2] = '';
-                        this.user[key] = '';
-                    });
-                }
-            });
-        //   for ((attr in this.user) {
-        //       if ((typeof this.user[attr]) === 'object' && this.user[attr] !== null) {
-        //           for (attr2 in this.user[attr]) {
-        //               this.user[attr][attr2] = ''
-        //           }
-        //           continue;
-        //       }
-        //       this.user[attr] = ''
-        //   }
+            this.formTitle = 'Registrar nuevo usuario';
+            this.buttonText = 'Registrar';
+
+            Object.keys(this.user).forEach(key => this.user[key] = '');
+            this.user.direction = {
+                province: '',
+                city: '',
+                sector: ''
+            }
         },
 
         toggleUserStatus(user, index) {
@@ -140,7 +152,7 @@ const app = new Vue({
                 title: 'Confirmación',
                 text: `¿Seguro que desea ${message} al usuario '` + user.username + `'?`,
                 icon: 'warning',
-                buttons: true,
+                buttons: ['Cancelar', true],
             })
             .then((condition) => {
                 if (condition) {
@@ -171,7 +183,7 @@ const app = new Vue({
                 title: 'Confirmación',
                 text: `¿Seguro que desea borrar al usuario '` + user.username + `'?`,
                 icon: 'warning',
-                buttons: true,
+                buttons: ['Cancelar', true],
                 dangerMode: true,
             })
             .then((condition) => {
