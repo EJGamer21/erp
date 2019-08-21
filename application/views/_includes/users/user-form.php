@@ -139,7 +139,7 @@
                                     v-model="user.direction.province"
                                     title="Provincias"
                                     placeholder="Provincia..."
-                                />
+                                ></v-selectpage>
                             </div>
                             <div class="mb-2 col d-sm-block d-lg-inline">
                                 <v-selectpage
@@ -150,7 +150,7 @@
                                     v-model="user.direction.city"
                                     title="Ciudades"
                                     placeholder="Ciudad..."
-                                />
+                                ></v-selectpage>
                             </div>
                             <div class="mb-2 col d-sm-block d-lg-inline">
                                 <v-selectpage
@@ -161,7 +161,7 @@
                                     v-model="user.direction.sector"
                                     title="Sectores"
                                     placeholder="Sector..."
-                                />
+                                ></v-selectpage>
                             </div>
                         </div>
                     </div>

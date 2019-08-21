@@ -24,7 +24,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-light"href="<?= base_url('bills/create'); ?>">
+                <a class="nav-link text-light" href="<?= base_url('bills/create'); ?>">
                     <span class="fas fa-plus"></span>
                     <span>New bill</span>
                 </a>
