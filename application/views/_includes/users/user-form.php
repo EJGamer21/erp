@@ -1,6 +1,6 @@
 <template id="user-form">
     <div class="card mb-4">
-        <div id="card-header" class="card-header bg-dark text-white">Registrar nuevo usuario</div>
+        <div class="card-header bg-dark text-white">{{ formTitle }}</div>
         <div class="card-body bg-light">
             <form method="POST" action="/users/register" @submit.prevent class="form">
                 <div class="form-row">
@@ -131,40 +131,37 @@
                             </label>
                         <div class="form-row">
                             <div class="mb-2 col d-sm-block d-lg-inline">
-                                <select class="custom-select" 
-                                        name="province" 
-                                        v-model="user.direction.province"
-                                >
-                                    <option v-for="(province, index) in directions.provinces" 
-                                            :value="province.provincia_id"
-                                    >
-                                        <span>{{ province.nombre }}</span>
-                                    </option>
-                                </select>
+                                <v-selectpage
+                                    :data="directions.provinces"
+                                    :pagination="false"
+                                    show-field="nombre"
+                                    key-field="provincia_id"
+                                    v-model="user.direction.province"
+                                    title="Provincias"
+                                    placeholder="Provincia..."
+                                />
                             </div>
                             <div class="mb-2 col d-sm-block d-lg-inline">
-                                <select class="custom-select" 
-                                        name="city" 
-                                        v-model="user.direction.city"
-                                >
-                                    <option v-for="(city, index) in directions.cities" 
-                                            :value="city.ciudad_id"
-                                    >
-                                        <span>{{ city.nombre }}<span>
-                                    </option>
-                                </select>
+                                <v-selectpage
+                                    :data="directions.cities"
+                                    :pagination="false"
+                                    show-field="nombre"
+                                    key-field="ciudad_id"
+                                    v-model="user.direction.city"
+                                    title="Ciudades"
+                                    placeholder="Ciudad..."
+                                />
                             </div>
                             <div class="mb-2 col d-sm-block d-lg-inline">
-                                <select class="custom-select" 
-                                        name="sector" 
-                                        v-model="user.direction.sector"
-                                >
-                                    <option v-for="(sector, index) in directions.sectors"
-                                            :value="sector.sector_id"
-                                    >
-                                        <span>{{ sector.nombre }}</span>
-                                    </option>
-                                </select>
+                                <v-selectpage
+                                    :data="directions.sectors"
+                                    :pagination="false"
+                                    show-field="nombre"
+                                    key-field="sector_id"
+                                    v-model="user.direction.sector"
+                                    title="Sectores"
+                                    placeholder="Sector..."
+                                />
                             </div>
                         </div>
                     </div>
@@ -174,6 +171,7 @@
                         <div class="float-right">
                             <button id="clear-btn"
                                     type = "button"
+                                    title="Limpiar campos"
                                     class="btn btn-link"
                                     @click="clearInputs()"
                             >
@@ -181,10 +179,11 @@
                             </button>
                             <button id="submit-btn"
                                     type = "submit"
+                                    title="Registrar usuario"
                                     class="btn btn-success"
                                     @click="saveUser()"
                             >
-                                <span>Registrar</span>
+                                <span>{{ buttonText }}</span>
                             </button>
                         </div>
                     </div>
