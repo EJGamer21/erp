@@ -53,7 +53,6 @@ const app = new Vue({
         },
 
         saveUser() {
-            toastrConfigs.preventDuplicates = true;
             if (
                 this.user.username === '' 
                 || this.user.password === ''
@@ -91,7 +90,7 @@ const app = new Vue({
                 if (response.data.status === 'success') {
                     this.clearInputs();
 
-                    this.$toastr.success(response.data.message, 'Notificaci&oacute;n', toastrConfigs);
+                    showAlert('Notificación', response.data.message, 'success', 2000);
                     this.users.splice(0, 0, response.data.user);
 
                 } else if (response.data.status === 'info') {
@@ -102,7 +101,7 @@ const app = new Vue({
                     let index = this.users.indexOf(existingUser);
                     
                     this.users.splice(index, 1, newUser);
-                    this.$toastr.info(response.data.message, 'Informaci&oacute;n', toastrConfigs);
+                    showAlert('Información', response.data.message, 'info', 2000);
                 }
             })
             .catch((error) => {
@@ -116,67 +115,102 @@ const app = new Vue({
         },
 
         clearInputs() {
-          for ((attr) in this.user) {
-              if ((typeof this.user[attr]) === 'object' && this.user[attr] !== null) {
-                  for (attr2 in this.user[attr]) {
-                      this.user[attr][attr2] = ''
-                  }
-                  continue;
-              }
-              this.user[attr] = ''
-          }
+            Object.keys(this.user).forEach((key) => {
+                if ((typeof this.user[key]) === 'object' && this.user[key] !== null) {
+                    Object.keys(this.user[key]).forEach((key2) => {
+                        this.user[key][key2] = '';
+                        this.user[key] = '';
+                    });
+                }
+            });
+        //   for ((attr in this.user) {
+        //       if ((typeof this.user[attr]) === 'object' && this.user[attr] !== null) {
+        //           for (attr2 in this.user[attr]) {
+        //               this.user[attr][attr2] = ''
+        //           }
+        //           continue;
+        //       }
+        //       this.user[attr] = ''
+        //   }
         },
 
         toggleUserStatus(user, index) {
             let message = (user.activo == '1') ? 'desactivar' : 'activar';
-            if (confirm(`¿Seguro que desea ${message} al usuario ` + user.username + '?')) {
-                axios({
-                    url: '/users/toggleStatus/' + user.id,
-                    method: 'post',
-                    data: user.id,
-                    responseType: 'json'
-                })
-                .then((response) => {
-                    if (this.users[index].activo == '1') {
-                        this.users[index].activo = '0'
-                    } else {
-                        this.users[index].activo = '1'
-                    }
-                    this.$toastr.info(response.data.message, 'Informaci&oacute;n', toastrConfigs);
-                })
-                .catch((error) => {
-                    this.$toastr.error(error.response.data.message, 'Error', toastrConfigs);
-                    console.log(error.response);
-                });
-            }
+            swal({
+                title: 'Confirmación',
+                text: `¿Seguro que desea ${message} al usuario '` + user.username + `'?`,
+                icon: 'warning',
+                buttons: true,
+            })
+            .then((condition) => {
+                if (condition) {
+                    axios({
+                        url: '/users/toggleStatus/' + user.id,
+                        method: 'post',
+                        data: user.id,
+                        responseType: 'json'
+                    })
+                    .then((response) => {
+                        if (this.users[index].activo == '1') {
+                            this.users[index].activo = '0'
+                        } else {
+                            this.users[index].activo = '1'
+                        }
+                        showAlert('Información', response.data.message, 'success', 2000);
+                    })
+                    .catch((error) => {
+                        this.$toastr.error(error.response.data.message, 'Error', toastrConfigs);
+                        console.log(error.response);
+                    });
+                }
+            });
         },
         
         removeUser(user, index) {
-            toastrConfigs.preventDuplicates = false;
-            if (confirm('¿Seguro que desea borrar al usuario ' + user.firstname + ' ' + user.lastname + '?')) {
-                axios({
-                    url: '/users/removeUser/' + user.id,
-                    method: 'post',
-                    data: user.id,
-                    responseType: 'json'
-                })
-                .then((response) => {
-                    console.log(response);
-                    if (response.data.status === 'success') {
-                        this.$toastr.success(response.data.message, 'Notificaci&oacute;n', toastrConfigs);
-                        setTimeout(() => {
-                            this.users.splice(index, 1);
-                        }, 300);
-                    }
-                })
-                .catch((error) => {
-                    this.$toastr.error(error.response.data.message, 'Error', toastrConfigs);
-                    console.log(error.response);
-                });
-            }
+            swal({
+                title: 'Confirmación',
+                text: `¿Seguro que desea borrar al usuario '` + user.username + `'?`,
+                icon: 'warning',
+                buttons: true,
+                dangerMode: true,
+            })
+            .then((condition) => {
+                if (condition) {
+                    axios({
+                        url: '/users/removeUser/' + user.id,
+                        method: 'post',
+                        data: user.id,
+                        responseType: 'json'
+                    })
+                    .then((response) => {
+                        console.log(response);
+                        if (response.data.status === 'success') {
+                            showAlert('Notificación', response.data.message, 'success', 2000);
+                            setTimeout(() => {
+                                this.users.splice(index, 1);
+                            }, 300);
+                        }
+                    })
+                    .catch((error) => {
+                        if (error.response) {
+                            console.log(error.response);
+                            this.$toastr.error(error.response.data.message, 'Error', toastrConfigs);
+                        }
+                    });
+                }
+            });
         }
     }
 });
+
+function showAlert(title, text, icon, time = null) {
+    swal({
+        title: title,
+        text: text,
+        icon: icon,
+        timer: time,
+    });
+}
 
 // Move to top
 let toastrConfigs = {
