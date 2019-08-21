@@ -89,7 +89,6 @@ const app = new Vue({
             })
             .then((response) => {
                 if (response.data.status === 'success') {
-                    console.log(response);
                     this.clearInputs();
 
                     this.$toastr.success(response.data.message, 'Notificaci&oacute;n', toastrConfigs);
