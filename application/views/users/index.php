@@ -41,7 +41,7 @@
                         <a :href="'/users/view/' + user.id + '/' + 
                             (user.firstname + '-' + user.lastname).toLowerCase()"
                         >
-                            <span>{{ user.firstname + ' ' + user.lastname }}<span>
+                            <span>{{ user.firstname + ' ' + user.lastname }}</span>
                         </a>
                     <td>
                         <a :href="'/users/view/' + user.id + '/' + 
