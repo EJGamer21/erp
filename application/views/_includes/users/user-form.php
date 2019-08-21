@@ -3,8 +3,6 @@
         <div id="card-header" class="card-header bg-dark text-white">Registrar nuevo usuario</div>
         <div class="card-body bg-light">
             <form method="POST" action="/users/register" @submit.prevent class="form">
-                <input type="hidden" name="id" v-model="user.id">
-                <input type="hidden" name="oldUsername" :value="user.oldUsername">
                 <div class="form-row">
                     <div class="col">
                         <div class="form-group">
@@ -46,7 +44,12 @@
                     </div>
                     <div class="col">
                         <div class="form-group">
-                            <label>Correo electr&oacute;nico <small class="text-muted"><i>Opcional</i></small></label>
+                            <label>
+                                <span>Correo electr&oacute;nico</span>
+                                <small class="text-muted">
+                                    <i>Opcional</i>
+                                </small>
+                            </label>
                             <input class="form-control" 
                                     type="email" 
                                     name="email" 
@@ -120,7 +123,12 @@
                         </div>
                     </div>
                     <div class="col">
-                        <label class="d-block">Direcci&oacute;n <small class="text-muted"><i>Opcional</i></small></label>
+                            <label>
+                                <span>Direcci&oacute;n</span>
+                                <small class="text-muted">
+                                    <i>Opcional</i>
+                                </small>
+                            </label>
                         <div class="form-row">
                             <div class="mb-2 col d-sm-block d-lg-inline">
                                 <select class="custom-select" 
