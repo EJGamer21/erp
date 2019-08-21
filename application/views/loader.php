@@ -35,6 +35,7 @@
 
         <!-- Toastr -->
         <link rel="stylesheet" href="/public/libs/css/toastr/toastr.min.css"></link>
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <title><?= $title ?> | Fractal</title>
 
     <style>

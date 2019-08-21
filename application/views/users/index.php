@@ -5,7 +5,7 @@
         $this->view('_includes/users/user-form');
         if (isset($users)): 
     ?>
-    <div class="table-responsive my-4 mr-4" v-cloak>
+    <div class="table-responsive mt-4" v-cloak>
         <table id="users-table" class="table table-striped table-hover centered">
             <caption>Listado de usuarios</caption>
             <thead class="thead-dark">
@@ -68,6 +68,7 @@
                         </button>
                         <!-- <button :data-id="user.id" 
                                 type="button" 
+                                title="Borrar usuario"
                                 class="btn btn-danger" 
                                 @click="removeUser(user, index)"
                         >
