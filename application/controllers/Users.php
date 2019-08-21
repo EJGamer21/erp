@@ -171,13 +171,12 @@ class Users extends CI_Controller {
 		}
 	}
 
-	function toggleStatus($id) {
+	function toggleStatus() {
 
 		$id = $this->uri->segment(3);
 		
-		if (is_numeric($id) && $id != 0 && $id > 0) {
-
-			if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+		if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+			if (is_numeric($id) && $id != 0 && $id > 0) {
 				
 				$user = $this->Users->getUser($id);
 
@@ -197,26 +196,26 @@ class Users extends CI_Controller {
 				return;
 
 			} else {
-				header('Content-type: application/json; charset=utf-8');
-				$json['status'] = 'error';
-				$json['message'] = 'Error 403: Acceso restringido.';
-				
-				echo json_encode($json);
-				http_response_code(403);
-				return;
+				show_404();
 			}
 		} else {
-			show_404();
+			header('Content-type: application/json; charset=utf-8');
+			$json['status'] = 'error';
+			$json['message'] = 'Error 403: Acceso restringido.';
+			
+			echo json_encode($json);
+			http_response_code(403);
+			return;
 		}
 	}
 
-	function removeUser($id) {
+	function removeUser() {
 
 		$id = $this->uri->segment(3);
-		
-		if (is_numeric($id) && $id != 0 && $id > 0) {
 
-			if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+		if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+		
+			if (is_numeric($id) && $id != 0 && $id > 0) {
 				
 				$user = $this->Users->deleteUser($id);
 
@@ -231,16 +230,16 @@ class Users extends CI_Controller {
 				return;
 
 			} else {
-				header('Content-type: application/json; charset=utf-8');
-				$json['status'] = 'error';
-				$json['message'] = 'Error 403: Acceso restringido.';
-				
-				echo json_encode($json);
-				http_response_code(403);
-				return;			
+				show_404();	
 			}
 		} else {
-			show_404();
+			header('Content-type: application/json; charset=utf-8');
+			$json['status'] = 'error';
+			$json['message'] = 'Error 403: Acceso restringido.';
+			
+			echo json_encode($json);
+			http_response_code(403);
+			return;
 		}
 	}
 
