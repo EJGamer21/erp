@@ -123,7 +123,7 @@ class Users extends CI_Controller {
 
 				header('Content-type: application/json; charset=utf-8');
 				$json['status'] = 'info';
-				$json['message'] = 'Usuario actualizado existosamente';
+				$json['message'] = 'Usuario actualizado existosamente.';
 				$json['user'] = $user;
 				$json['user_id'] = $user->id;
 				
@@ -142,7 +142,7 @@ class Users extends CI_Controller {
 				
 				header('Content-type: application/json; charset=utf-8');
 				$json['status'] = 'success';
-				$json['message'] = 'Usuario creado existosamente';
+				$json['message'] = 'Usuario creado existosamente.';
 				$json['user'] = $user;
 				$json['user_id'] = $user->id;
 				
@@ -153,7 +153,7 @@ class Users extends CI_Controller {
 			} else {
 				header('Content-type: application/json; charset=utf-8');
 				$json['status'] = 'error';
-				$json['message'] = 'Usuario ya existente';
+				$json['message'] = 'Usuario ya existente.';
 				
 				echo json_encode($json);
 				http_response_code(400);
@@ -163,10 +163,11 @@ class Users extends CI_Controller {
 			// TODO: Manage if is registration from the user form or the register form
 			header('Content-type: application/json; charset=utf-8');
 			$json['status'] = 'error';
-			$json['message'] = 'Error 403: Acceso restringido';
+			$json['message'] = 'Error 403: Acceso restringido.';
 			
 			echo json_encode($json);
 			http_response_code(403);
+			return;
 		}
 	}
 
@@ -182,10 +183,10 @@ class Users extends CI_Controller {
 
 				if ($user->activo == 1) {
 					$this->Users->deactivateUser($user->id);
-					$json['message'] = "Usuario '{$user->username}' desactivado";
+					$json['message'] = "Usuario '{$user->username}' desactivado.";
 				} else {
 					$this->Users->activateUser($user->id);
-					$json['message'] = "Usuario '{$user->username}' activado";
+					$json['message'] = "Usuario '{$user->username}' activado.";
 				}
 
 				header('Content-type: application/json; charset=utf-8');
@@ -193,14 +194,16 @@ class Users extends CI_Controller {
 
 				echo json_encode($json);
 				http_response_code(200);
+				return;
 
 			} else {
 				header('Content-type: application/json; charset=utf-8');
 				$json['status'] = 'error';
-				$json['message'] = 'Error 403: Acceso restringido';
+				$json['message'] = 'Error 403: Acceso restringido.';
 				
 				echo json_encode($json);
-				http_response_code(403);			
+				http_response_code(403);
+				return;
 			}
 		} else {
 			show_404();
@@ -217,23 +220,24 @@ class Users extends CI_Controller {
 				
 				$user = $this->Users->deleteUser($id);
 
-
 				header('Content-type: application/json; charset=utf-8');
 				$json['status'] = 'success';
-				$json['message'] = 'Usuario eliminado correctamente';
+				$json['message'] = 'Usuario eliminado correctamente.';
 				$json['user_removed'] = $user;
 				$json['user_removed_id'] = $id;
 
 				echo json_encode($json);
 				http_response_code(200);
+				return;
 
 			} else {
 				header('Content-type: application/json; charset=utf-8');
 				$json['status'] = 'error';
-				$json['message'] = 'Error 403: Acceso restringido';
+				$json['message'] = 'Error 403: Acceso restringido.';
 				
 				echo json_encode($json);
-				http_response_code(403);			
+				http_response_code(403);
+				return;			
 			}
 		} else {
 			show_404();
