@@ -29,7 +29,15 @@ const app = new Vue({
         }
     },
     mounted() {
-        this.users = usuarios;
+        this.users = usuarios.sort((a, b) => {
+            if (a.fecha_creacion < b.fecha_creacion) {
+                return 1;
+            }
+            if (a.fecha_creacion > b.fecha_creacion) {
+                return -1
+            }
+            return 0;
+        });
         this.directions = direcciones;
     },
     methods: {
@@ -38,7 +46,7 @@ const app = new Vue({
             this.user.firstname = user.firstname;
             this.user.lastname = user.lastname;
             this.user.username = user.username;
-            this.user.email = user.email;
+            this.user.email = (user.email === null) ? '' : user.email;
             this.user.email_id = user.email_id;
             this.user.sex = user.sexo;
             this.user.fecha_creacion = user.fecha_creacion;
@@ -85,7 +93,7 @@ const app = new Vue({
                     this.clearInputs();
 
                     this.$toastr.success(response.data.message, 'Notificaci&oacute;n', toastrConfigs);
-                    this.users.push(response.data.user);
+                    this.users.splice(0, 0, response.data.user);
 
                 } else if (response.data.status === 'info') {
                     this.clearInputs();
