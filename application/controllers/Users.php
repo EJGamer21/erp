@@ -81,7 +81,11 @@ class Users extends CI_Controller {
 			];
 
 			// If all the direction inputs are empty then direction = null
-			if ($direction['province'] == '' && $direction['city'] == '' && $direction['sector'] == '') {
+			if (
+				$direction['province'] == '' 
+				&& $direction['city'] == '' 
+				&& $direction['sector'] == ''
+			) {
 				$direction = NULL;
 			}
 
