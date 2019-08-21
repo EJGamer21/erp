@@ -25,10 +25,14 @@
                             (user.firstname + '-' + user.lastname).toLowerCase()"
                         >
                             <template v-if="user.activo == 1">
-                                <span title="Activo" class="badge badge-success"><i class="fas fa-user-check"></i></span>
+                                <span title="Activo" class="badge badge-success">
+                                    <i class="fas fa-user-check"></i>
+                                </span>
                             </template>
                             <template v-else>
-                                <span title="Inactivo" class="badge badge-danger"><i class="fas fa-user-times"></i></span>
+                                <span title="Inactivo" class="badge badge-danger">
+                                    <i class="fas fa-user-times"></i>
+                                </span>
                             </template>
                             <span>{{ user.username }}</span>
                         </a>
