@@ -10,7 +10,6 @@ class Users extends CI_Controller {
     }
 
     public function index()	{
-
 		$loader_data = [
             'title' => 'Users',
             'view_name' => 'users/index',
@@ -29,7 +28,7 @@ class Users extends CI_Controller {
 				'title' => $user->firstname,
 				'view_name' => 'users/view',
 				'data' => [
-					'user' => $user
+					'userId' => $user->id
 				]
 			];
 			$this->load->view("loader", $loader_data);
@@ -46,21 +45,29 @@ class Users extends CI_Controller {
 		$this->load->view('loader', $loader_data);
 	}
 
-	function getUsers() {
-		header('Content-Type: application/json; chartset=utf-8');
-		echo json_encode($this->Users->getAllUsers());
-		http_response_code(200);
-	}
-
-	function getUser($id) {
+	function get() {
 		$id = $this->uri->segment(3);
+		header('Content-Type: application/json; chartset=utf-8');
 		
-		if (is_numeric($id) && $id != 0 && $id > 0) {
-			header('Content-Type: application/json; chartset=utf-8');
-			echo json_encode($this->Users->getUser($id));
+		if ($_SERVER['REQUEST_METHOD'] == "GET"){
+			if (is_numeric($id) && $id != 0 && $id > 0)  {
+				$user = $this->Users->getUser($id);
+			} else {
+				$user = $this->Users->getAllUsers();
+			}
+
+			$json['response_code'] = 200;
+			$json['status'] = $user ? 'OK' : 'Error';
+			$json['response'] = $user;
+
 			http_response_code(200);
+			echo json_encode($json);
 		} else {
-			show_404();
+			$json['response_code'] = 403;
+			$json['status'] = 'Error';
+			$json['response'] = 'Error 403: Acceso restringido.';
+			echo json_encode($json);
+			http_response_code(403);
 		}
 	}
 
@@ -183,7 +190,7 @@ class Users extends CI_Controller {
 		} else {
 			// TODO: Manage if is registration from the user form or the register form
 			header('Content-type: application/json; charset=utf-8');
-			$json['status'] = 'error';
+			$json['status'] = 'Error';
 			$json['message'] = 'Error 403: Acceso restringido.';
 			
 			echo json_encode($json);
