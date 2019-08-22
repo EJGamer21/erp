@@ -79,5 +79,33 @@
             </main>
         </div>
     </div>
+    <script>
+        function showAlert(title, text, icon, time = null) {
+            swal({
+                title: title,
+                text: text,
+                icon: icon,
+                timer: time,
+            });
+        }
+
+        let toastrConfigs = {
+            "closeButton": true,
+            "debug": false,
+            "newestOnTop": false,
+            "progressBar":  true,
+            "positionClass": "toast-top-right",
+            "preventDuplicates": true,
+            "onclick": null,
+            "showDuration": "600",
+            "hideDuration": "1000",
+            "timeOut": "5000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
+    </script>
 </body>
 </html>
