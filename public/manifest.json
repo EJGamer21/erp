@@ -1,0 +1,16 @@
+{
+    "short_name": "Fractal",
+    "name": "Fractal Enterprise Manager",
+    "icons": [
+        {
+            "src": "/public/icons/icon.ico",
+            "type": "image/x-icon",
+            "sizes": "256x256"
+        }
+    ],
+    "start_url": "/home",
+    "display": "standalone",
+    "orientation": "portrait",
+    "scope": "/",
+    "theme_color": "#f8f9fa"
+}
