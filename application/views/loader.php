@@ -14,6 +14,7 @@
         <meta name="keywords" content="ERP, CRM, CodeIgniter, PHP, Javascript, AJAX, Axios, Bootstrap, CSS, VueJS">
         <link rel="icon" href="/public/icons/icon.ico" type="image/x-icon">
         <link rel="author" href="https://github.com/EJGamer21/">
+        <link rel="manifest" href="/public/manifest.json">
 
     <!-- Libraries -->
         <!-- VueJS -->
@@ -43,7 +44,12 @@
         <script src="/public/libs/js/selectpage/v-selectpage.js"></script>
 
         <!-- Sweetalert -->
-        <script src="/public/libs/js/sweetalert/sweetalert.min.js"></script>        
+        <script src="/public/libs/js/sweetalert/sweetalert.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/rikmms/progress-bar-4-axios/0a3acf92/dist/nprogress.css" />
+        <script src="https://cdn.rawgit.com/rikmms/progress-bar-4-axios/0a3acf92/dist/index.js"></script>
+        <script>
+            loadProgressBar()
+        </script>
     <title><?= $title ?> | Fractal</title>
 
     <style>
@@ -55,6 +61,10 @@
             header, main, footer {
                 padding-left: 0;
             }
+        }
+
+        [v-cloak] {
+            display: none;
         }
     </style>
     <!-- <script src="/public/libs/js/vuejs/vue-router.min.js"></script> -->
