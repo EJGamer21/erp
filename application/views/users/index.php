@@ -1,10 +1,8 @@
 <div id="vueapp">
     <h1 class="my-4">Usuarios</h1>
     
-    <?php
-        $this->view('_includes/users/user-form');
-        if (isset($users)): 
-    ?>
+    <?php $this->view('_includes/users/user-form'); ?>
+    
     <div class="table-responsive mt-4" v-cloak>
         <table id="users-table" class="table table-striped table-hover centered">
             <caption>Listado de usuarios</caption>
@@ -99,15 +97,5 @@
             </tbody>
         </table>
     </div>
-
-    <?php
-        else: 
-            show_404();
-        endif;
-    ?>
 </div>
-<script>
-    let usuarios = <?= json_encode($users);?>;
-    let direcciones = <?= json_encode($directions);?>;
-</script>
 <script src="/public/libs/js/fractal/users.js"></script>

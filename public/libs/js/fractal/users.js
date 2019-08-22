@@ -30,38 +30,49 @@ const app = new Vue({
                 cities: [],
                 sectors: []
             },
-            formTitle: 'Registrar nuevo usuario',
-            buttonText: 'Registrar',
         }
     },
     mounted() {
-        this.users = usuarios.sort((a, b) => {
-            if (a.fecha_creacion < b.fecha_creacion) {
-                return 1;
-            }
-            if (a.fecha_creacion > b.fecha_creacion) {
-                return -1
-            }
-            return 0;
-        });
-
-        Object.keys(direcciones).forEach((key) => {
-            this.directions[key] = direcciones[key].sort((a, b) => {
-                if (a.nombre > b.nombre) {
+        axios.get('/users/getUsers', {
+            responseType: 'json'
+        })
+        .then((response) => {
+            this.users = response.data.sort((a, b) => {
+                if (a.fecha_creacion < b.fecha_creacion) {
                     return 1;
                 }
-                if (a.nombre < b.nombre) {
+                if (a.fecha_creacion > b.fecha_creacion) {
                     return -1
                 }
                 return 0;
             });
+        })
+        .catch((error) => {
+            console.log(error, error.response);
+        });
+
+        axios.get('/users/getDirections', {
+            responseType: 'json'
+        })
+        .then((response) => {
+            Object.keys(response.data).forEach((key) => {
+                this.directions[key] = response.data[key].sort((a, b) => {
+                    if (a.nombre > b.nombre) {
+                        return 1;
+                    }
+                    if (a.nombre < b.nombre) {
+                        return -1
+                    }
+                    return 0;
+                });
+            });
+        })
+        .catch((error) => {
+            console.log(error, error.response);
         });
     },
     methods: {
         editUser(user) {
-            this.formTitle = `Editar usuario '${user.username}'`;
-            this.buttonText = 'Guardar';
-
             this.user.id = user.id;
             this.user.firstname = user.firstname;
             this.user.lastname = user.lastname;
@@ -135,9 +146,6 @@ const app = new Vue({
         },
 
         clearInputs() {
-            this.formTitle = 'Registrar nuevo usuario';
-            this.buttonText = 'Registrar';
-
             Object.keys(this.user).forEach(key => this.user[key] = '');
             this.user.direction = {
                 province: '',

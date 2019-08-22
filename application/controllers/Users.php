@@ -14,14 +14,7 @@ class Users extends CI_Controller {
 		$loader_data = [
             'title' => 'Users',
             'view_name' => 'users/index',
-            'data' => [
-				'users' => $this->Users->getAllUsers(),
-				'directions' => [
-					'provinces' => $this->Directions->getProvinces(),
-					'cities' => $this->Directions->getCities(),
-					'sectors' => $this->Directions->getSectors()
-				]
-			]
+            'data' => []
 		];
 		$this->load->view("loader", $loader_data);
 	}
@@ -51,6 +44,34 @@ class Users extends CI_Controller {
 			'view_name' => 'users/register'
 		];
 		$this->load->view('loader', $loader_data);
+	}
+
+	function getUsers() {
+		header('Content-Type: application/json; chartset=utf-8');
+		echo json_encode($this->Users->getAllUsers());
+		http_response_code(200);
+	}
+
+	function getUser($id) {
+		$id = $this->uri->segment(3);
+		
+		if (is_numeric($id) && $id != 0 && $id > 0) {
+			header('Content-Type: application/json; chartset=utf-8');
+			echo json_encode($this->Users->getUser($id));
+			http_response_code(200);
+		} else {
+			show_404();
+		}
+	}
+
+	function getDirections() {
+		header('Content-Type: application/json; chartset=utf-8');
+		$json['provinces'] = $this->Directions->getProvinces();
+		$json['cities'] = $this->Directions->getCities();
+		$json['sectors'] = $this->Directions->getSectors();
+
+		echo json_encode($json);
+		http_response_code(200);
 	}
 
 
@@ -216,19 +237,7 @@ class Users extends CI_Controller {
 		if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		
 			if (is_numeric($id) && $id != 0 && $id > 0) {
-				
-				$user = $this->Users->deleteUser($id);
-
-				header('Content-type: application/json; charset=utf-8');
-				$json['status'] = 'success';
-				$json['message'] = 'Usuario eliminado correctamente.';
-				$json['user_removed'] = $user;
-				$json['user_removed_id'] = $id;
-
-				echo json_encode($json);
-				http_response_code(200);
-				return;
-
+				$this->deleteUser($id);
 			} else {
 				show_404();	
 			}
@@ -241,6 +250,21 @@ class Users extends CI_Controller {
 			http_response_code(403);
 			return;
 		}
+	}
+
+	private function deleteUser($id) {
+		$user = $this->Users->deleteUser($id);
+
+		header('Content-type: application/json; charset=utf-8');
+		$json['status'] = 'success';
+		$json['message'] = 'Usuario eliminado correctamente.';
+		$json['user_removed'] = $user;
+		$json['user_removed_id'] = $id;
+
+		echo json_encode($json);
+		http_response_code(200);
+		return;
+
 	}
 
 	private function saveUser($user_form) {
