@@ -1,6 +1,13 @@
 <template id="user-form">
     <div class="card mb-4">
-        <div class="card-header bg-dark text-white">{{ formTitle }}</div>
+        <div class="card-header bg-dark text-white">
+            <template v-if="user.id !== ''">
+                <span>Editar usuario '{{ user.username }}'</span>
+            </template>
+            <template v-else>
+                <span>Registrar nuevo usuario</span>
+            </template>
+        </div>
         <div class="card-body bg-light">
             <form method="POST" action="/users/register" @submit.prevent class="form">
                 <div class="form-row">
@@ -37,7 +44,7 @@
                                     id="username" 
                                     name="username" 
                                     v-model="user.username" 
-                                    autocomplete 
+                                    autocomplete="username"
                                     required
                             >
                         </div>
@@ -53,8 +60,7 @@
                             <input class="form-control" 
                                     type="email" 
                                     name="email" 
-                                    v-model="user.email" 
-                                    autocomplete
+                                    v-model="user.email"
                             >
                         </div>
                     </div>
@@ -68,7 +74,7 @@
                                     id="password" 
                                     name="password" 
                                     v-model="user.password" 
-                                    autocomplete 
+                                    autocomplete="password"
                                     required
                             >
                         </div>
@@ -79,8 +85,7 @@
                             <input class="form-control" 
                                     type="password" 
                                     id="retyped-password" 
-                                    v-model="user.retypedPassword" 
-                                    autocomplete 
+                                    v-model="user.retypedPassword"
                                     required
                             >
                         </div>
@@ -183,7 +188,12 @@
                                     class="btn btn-success"
                                     @click="saveUser()"
                             >
-                                <span>{{ buttonText }}</span>
+                                <template v-if="user.id !== ''">
+                                    <span>Guardar</span>
+                                </template>
+                                <template v-else>
+                                    <span>Registrar</span>
+                                </template>
                             </button>
                         </div>
                     </div>
