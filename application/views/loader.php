@@ -40,9 +40,6 @@
         <script src="/public/libs/js/toastr/toastr.min.js"></script>
         <link rel="stylesheet" href="/public/libs/css/toastr/toastr.min.css"/>
 
-        <!-- Selectpage -->
-        <script src="/public/libs/js/selectpage/v-selectpage.js"></script>
-
         <!-- Sweetalert -->
         <script src="/public/libs/js/sweetalert/sweetalert.min.js"></script>
         <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/rikmms/progress-bar-4-axios/0a3acf92/dist/nprogress.css" />
@@ -65,6 +62,12 @@
 
         [v-cloak] {
             display: none;
+        }
+
+        .hr {
+            border: 0.5px solid #ccc;
+            margin: 10px 0;
+            width: 100%;
         }
     </style>
     <!-- <script src="/public/libs/js/vuejs/vue-router.min.js"></script> -->

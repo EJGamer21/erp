@@ -107,8 +107,7 @@ DROP TABLE IF EXISTS `direcciones`;
 CREATE TABLE `direcciones` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `provincia_id` int(11) DEFAULT NULL,
-  `ciudad_id` int(11) DEFAULT NULL,
-  `sector_id` int(11) DEFAULT NULL,
+  `ciudad_id` int(11) DEFAULT NULL
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=69 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -212,22 +211,6 @@ CREATE TABLE `roles` (
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Table structure for table `sectores`
---
-
-DROP TABLE IF EXISTS `sectores`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `sectores` (
-  `sector_id` int(11) NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(45) DEFAULT NULL,
-  `ciudad_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`sector_id`),
-  KEY `ciudad_id_idx` (`ciudad_id`),
-  CONSTRAINT `ciudad_id` FOREIGN KEY (`ciudad_id`) REFERENCES `ciudades` (`ciudad_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=229 DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Table structure for table `usuarios`

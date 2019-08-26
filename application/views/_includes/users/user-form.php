@@ -9,7 +9,10 @@
             </template>
         </div>
         <div class="card-body bg-light">
-            <form method="POST" action="/users/register" @submit.prevent class="form">
+            <form method="POST" 
+                action="/users/register" 
+                enctype="multipart/form-data"
+                @submit.prevent class="form">
                 <div class="form-row">
                     <div class="col">
                         <div class="form-group">
@@ -136,39 +139,35 @@
                             </label>
                         <div class="form-row">
                             <div class="mb-2 col d-sm-block d-lg-inline">
-                                <v-selectpage
-                                    :data="directions.provinces"
-                                    :pagination="false"
-                                    show-field="nombre"
-                                    key-field="provincia_id"
-                                    v-model="user.direction.province"
-                                    title="Provincias"
-                                    placeholder="Provincia..."
-                                ></v-selectpage>
-                            </div>
-                            <div class="mb-2 col d-sm-block d-lg-inline">
-                                <v-selectpage
-                                    :data="directions.cities"
-                                    :pagination="false"
-                                    show-field="nombre"
-                                    key-field="ciudad_id"
-                                    v-model="user.direction.city"
-                                    title="Ciudades"
-                                    placeholder="Ciudad..."
-                                ></v-selectpage>
-                            </div>
-                            <div class="mb-2 col d-sm-block d-lg-inline">
-                                <v-selectpage
-                                    :data="directions.sectors"
-                                    :pagination="false"
-                                    show-field="nombre"
-                                    key-field="sector_id"
-                                    v-model="user.direction.sector"
-                                    title="Sectores"
-                                    placeholder="Sector..."
-                                ></v-selectpage>
+                                <select class="custom-select"
+                                        v-model="user.direction.city">
+                                        <option value="" selected hidden>Seleccionar ciudad...</option>
+                                    <optgroup v-for="province in directions.provinces" 
+                                                :label="province.nombre">
+                                        <option v-for="city in directions.cities"
+                                                v-if="city.provincia_id == province.provincia_id"
+                                                :value="city.ciudad_id">
+                                            <span>{{ city.nombre }}</span>
+                                        </option>
+                                    </optgroup>
+                                </select>
                             </div>
                         </div>
+                    </div>
+                </div>
+                <div class="hr"></div>
+                <div class="form-row">
+                    <div class="mb-2 col d-sm-block d-lg-inline">
+                        <label>
+                            <span>Foto de perfil</span>
+                            <small class="text-muted">
+                                <i>Opcional</i>
+                            </small>
+                        </label>
+                        <input class="form-control-file" 
+                                type="file" 
+                                accept="image/*" 
+                                name="image">
                     </div>
                 </div>
                 <div class="form-row">
@@ -178,16 +177,14 @@
                                     type = "button"
                                     title="Limpiar campos"
                                     class="btn btn-link"
-                                    @click="clearInputs()"
-                            >
+                                    @click="clearInputs()">
                                 <span>Limpiar</span>
                             </button>
                             <button id="submit-btn"
                                     type = "submit"
                                     title="Registrar usuario"
                                     class="btn btn-success"
-                                    @click="saveUser()"
-                            >
+                                    @click="saveUser()">
                                 <template v-if="user.id !== ''">
                                     <span>Guardar</span>
                                 </template>

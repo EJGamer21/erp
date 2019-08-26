@@ -11,13 +11,11 @@
             $fields = [
                 'direcciones.*',
                 'provincias.nombre as provinces', 
-                'ciudades.nombre as cities', 
-                'sectores.nombre as sectors'
+                'ciudades.nombre as cities'
             ];
 
             $this->db->join('provincias', 'direcciones.provincia_id = provincias.id', 'left');
             $this->db->join('ciudades', 'direcciones.ciudad_id = ciudades.id', 'left');
-            $this->db->join('sectores', 'direcciones.sector_id = sectores.id', 'left');
 
             return $this->get(NULL, $fields);
         }
@@ -27,7 +25,6 @@
                 'direcciones.*',
                 'provincias.nombre as provinces', 
                 'ciudades.nombre as cities', 
-                'sectores.nombre as sectors'
             ];
             // WATCH
             $conditions = [
@@ -36,7 +33,6 @@
 
             $this->db->join('provincias', 'direcciones.provincia_id = provincias.id', 'left');
             $this->db->join('ciudades', 'direcciones.ciudad_id = ciudades.id', 'left');
-            $this->db->join('sectores', 'direcciones.sector_id = sectores.id', 'left');
 
             return $this->get(NULL, $fields, $conditions);
         }
@@ -44,15 +40,13 @@
         function directionExists($direction) {
             $conditions = [
                 'provincia_id' => $direction['province'],
-                'ciudad_id' => $direction['city'],
-                'sector_id' => $direction['sector'],
+                'ciudad_id' => $direction['city']
             ];
 
             $this->db->join('provincias', 'direcciones.provincia_id = provincias.id', 'left');
             $this->db->join('ciudades', 'direcciones.ciudad_id = ciudades.id', 'left');
-            $this->db->join('sectores', 'direcciones.sector_id = sectores.id', 'left');
 
-            $existingDirection = $this->get(NULL, ['provincia_id, ciudad_id, sector_id', $conditions]);
+            $existingDirection = $this->get(NULL, ['provincia_id, ciudad_id'], $conditions);
             var_dump($existingDirection);
             die;
 
@@ -66,8 +60,7 @@
         function saveDirection($data, $id = NULL) {
             $direction = [
                 'provincia_id' => $this->_saveProvince($data['province'])['id'],
-                'ciudad_id' => $this->_saveCity($data['city'])['id'],
-                'sector_id' => $this->_saveSector($data['sector'])['id']
+                'ciudad_id' => $this->_saveCity($data['city'])['id']
             ];
             return $this->save($direction, $id);
         }
@@ -84,12 +77,6 @@
             return $sql->result();
         }
 
-        function getSectors() {
-            $sql = $this->db->get('sectores');
-
-            return $sql->result();
-        }
-
         private function _saveProvince($provinceId) {
             $this->db->where('id', $provinceId);
             $sql = $this->db->get('provincias');
@@ -100,13 +87,6 @@
         private function _saveCity($cityId) {
             $this->db->where('id', $cityId);
             $sql = $this->db->get('ciudades');
-
-            return $sql->row_array(0);
-        }
-
-        private function _saveSector($sectorId) {
-            $this->db->where('id', $sectorId);
-            $sql = $this->db->get('sectores');
 
             return $sql->row_array(0);
         }
