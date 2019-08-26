@@ -1,7 +1,3 @@
-Vue.use(vSelectPage.default, {
-    language: 'es'
-  });
-
 const app = new Vue({
     el: '#vueapp',
     data() {
@@ -20,15 +16,13 @@ const app = new Vue({
                 direction: {
                     province: '',
                     city: '',
-                    sector: ''
                 },
-                fecha_creacion: ''
+                fecha_creacion: '',
             },
             users: [],
             directions: {
                 provinces: [],
                 cities: [],
-                sectors: []
             },
         }
     },
@@ -93,12 +87,12 @@ const app = new Vue({
                 || this.user.lastname === ''
                 || this.user.sex === ''
             ) {
-                this.$toastr.error('Campos no opcionales son requeridos', 'Error', toastrConfigs);
+                this.$toastr.error('Campos no opcionales son requeridos.', 'Error', toastrConfigs);
                 return;
             } 
             
             if (this.user.password !== this.user.retypedPassword){
-                this.$toastr.error('Las constrase&ntilde;as deben coincidir', 'Error', toastrConfigs);
+                this.$toastr.error('Las constrase&ntilde;as deben coincidir.', 'Error', toastrConfigs);
                 return;
             } 
 
@@ -112,38 +106,48 @@ const app = new Vue({
             userData.append('sex', this.user.sex);
             userData.append('fecha_creacion', this.user.fecha_creacion);
 
-            axios({
-                url: '/users/register',
-                method: 'post',
-                data: userData,
-                responseType: 'json',
+            swal({
+                title: 'Confirmar registro',
+                icon: 'warning',
+                buttons: ['Cancelar', 'Confirmo'],
             })
-            .then((response) => {
-                if (response.data.status === 'success') {
-                    this.clearInputs();
-
-                    showAlert('Notificación', response.data.message, 'success', 2000);
-                    this.users.splice(0, 0, response.data.user);
-
-                } else if (response.data.status === 'info') {
-                    this.clearInputs();
-
-                    let newUser = response.data.user;
-                    let existingUser = this.users.find((user) => user.id == newUser.id);
-                    let index = this.users.indexOf(existingUser);
-                    
-                    this.users.splice(index, 1, newUser);
-                    showAlert('Información', response.data.message, 'info', 2000);
+            .then((condition) => {
+                if (condition) {
+                    axios({
+                        url: '/users/register',
+                        method: 'post',
+                        data: userData,
+                        responseType: 'json',
+                    })
+                    .then((response) => {
+                        if (response.data.status === 'success') {
+                            this.clearInputs();
+        
+                            showAlert('Notificación', response.data.message, 'success', 2000);
+                            this.users.splice(0, 0, response.data.user);
+        
+                        } else if (response.data.status === 'info') {
+                            this.clearInputs();
+        
+                            let newUser = response.data.user;
+                            let existingUser = this.users.find((user) => user.id == newUser.id);
+                            let index = this.users.indexOf(existingUser);
+                            
+                            this.users.splice(index, 1, newUser);
+                            showAlert('Información', response.data.message, 'info', 2000);
+                        }
+                    })
+                    .catch((error) => {
+                        if (error.response) {
+                            this.user.password = '';
+                            this.user.retypedPassword = '';
+        
+                            this.$toastr.error(error.response.data.message, 'Error', toastrConfigs);
+                        }
+                    });
                 }
             })
-            .catch((error) => {
-                if (error.response) {
-                    this.user.password = '';
-                    this.user.retypedPassword = '';
 
-                    this.$toastr.error(error.response.data.message, 'Error', toastrConfigs);
-                }
-            });
         },
 
         clearInputs() {
@@ -151,7 +155,6 @@ const app = new Vue({
             this.user.direction = {
                 province: '',
                 city: '',
-                sector: ''
             }
         },
 
