@@ -66,8 +66,8 @@ class Users extends CI_Controller {
 			$json['response_code'] = 403;
 			$json['status'] = 'Error';
 			$json['response'] = 'Error 403: Acceso restringido.';
-			echo json_encode($json);
 			http_response_code(403);
+			echo json_encode($json);
 		}
 	}
 
@@ -75,10 +75,9 @@ class Users extends CI_Controller {
 		header('Content-Type: application/json; chartset=utf-8');
 		$json['provinces'] = $this->Directions->getProvinces();
 		$json['cities'] = $this->Directions->getCities();
-		$json['sectors'] = $this->Directions->getSectors();
 
-		echo json_encode($json);
 		http_response_code(200);
+		echo json_encode($json);
 	}
 
 
@@ -104,15 +103,13 @@ class Users extends CI_Controller {
 			];
 			$direction = [
 				'province' => $this->input->post('province'),
-				'city' => $this->input->post('city'),
-				'sector' => $this->input->post('sector')
+				'city' => $this->input->post('city')
 			];
 
 			// If all the direction inputs are empty then direction = null
 			if (
 				$direction['province'] == '' 
-				&& $direction['city'] == '' 
-				&& $direction['sector'] == ''
+				&& $direction['city'] == ''
 			) {
 				$direction = NULL;
 			}
@@ -143,6 +140,22 @@ class Users extends CI_Controller {
 				}
 			}
 
+			if (
+				$user_form['firstname'] == '' 
+				|| $user_form['lastname'] == ''
+				|| $user_form['username'] == ''
+				|| $user_form['password'] == ''
+				|| $user_form['sexo'] == ''
+			) {
+				header('Content-type: application/json; charset=utf-8');
+				$json['status'] = 'success';
+				$json['message'] = 'Campos no opcionales son requeridos.';
+				
+				http_response_code(400);
+				echo json_encode($json);
+				return;	
+			}
+
 			if (isset($id)) {
 
 				$user_form['fecha_creacion'] = $this->input->post('fecha_creacion');
@@ -155,8 +168,8 @@ class Users extends CI_Controller {
 				$json['user'] = $user;
 				$json['user_id'] = $user->id;
 				
-				echo json_encode($json);
 				http_response_code(200);
+				echo json_encode($json);
 				return;
 			}
 
@@ -166,16 +179,14 @@ class Users extends CI_Controller {
 				$user_form['fecha_creacion'] = date('Y-m-d H:i:s');
 				$user = $this->saveUser($user_form);
 
-				// TODO: If new user created or updated existing user
-				
 				header('Content-type: application/json; charset=utf-8');
 				$json['status'] = 'success';
 				$json['message'] = 'Usuario creado existosamente.';
 				$json['user'] = $user;
 				$json['user_id'] = $user->id;
 				
-				echo json_encode($json);
 				http_response_code(200);
+				echo json_encode($json);
 				
 				return;
 			} else {
@@ -183,8 +194,8 @@ class Users extends CI_Controller {
 				$json['status'] = 'error';
 				$json['message'] = 'Usuario ya existente.';
 				
-				echo json_encode($json);
 				http_response_code(400);
+				echo json_encode($json);
 				return;
 			}
 		} else {
@@ -193,8 +204,8 @@ class Users extends CI_Controller {
 			$json['status'] = 'Error';
 			$json['message'] = 'Error 403: Acceso restringido.';
 			
-			echo json_encode($json);
 			http_response_code(403);
+			echo json_encode($json);
 			return;
 		}
 	}
@@ -219,8 +230,8 @@ class Users extends CI_Controller {
 				header('Content-type: application/json; charset=utf-8');
 				$json['status'] = 'success';
 
-				echo json_encode($json);
 				http_response_code(200);
+				echo json_encode($json);
 				return;
 
 			} else {
@@ -231,8 +242,8 @@ class Users extends CI_Controller {
 			$json['status'] = 'error';
 			$json['message'] = 'Error 403: Acceso restringido.';
 			
-			echo json_encode($json);
 			http_response_code(403);
+			echo json_encode($json);
 			return;
 		}
 	}
@@ -253,8 +264,8 @@ class Users extends CI_Controller {
 			$json['status'] = 'error';
 			$json['message'] = 'Error 403: Acceso restringido.';
 			
-			echo json_encode($json);
 			http_response_code(403);
+			echo json_encode($json);
 			return;
 		}
 	}
@@ -268,8 +279,8 @@ class Users extends CI_Controller {
 		$json['user_removed'] = $user;
 		$json['user_removed_id'] = $id;
 
-		echo json_encode($json);
 		http_response_code(200);
+		echo json_encode($json);
 		return;
 
 	}
