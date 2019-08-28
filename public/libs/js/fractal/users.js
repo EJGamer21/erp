@@ -1,9 +1,10 @@
-const app = new Vue({
-    el: '#vueapp',
+Vue.component('UserForm', {
+    template: '#user-form',
     data() {
         return {
             user: {
                 id: '',
+                index: '',
                 username: '',
                 firstname: '',
                 lastname: '',
@@ -12,46 +13,27 @@ const app = new Vue({
                 password: '',
                 retypedPassword: '',
                 sex: '',
+                image: '',
                 direction_id: '',
                 direction: {
                     province: '',
                     city: '',
                 },
                 fecha_creacion: '',
+                fecha_modificado: '',
             },
-            users: [],
             directions: {
                 provinces: [],
                 cities: [],
-            },
+            }
         }
     },
     mounted() {
-        axios.get('/users/get', {
-            responseType: 'json'
-        })
+        axios.get('/users/getDirections')
         .then((response) => {
-            usuarios = response.data.response;
-            this.users = usuarios.sort((a, b) => {
-                if (a.fecha_creacion < b.fecha_creacion) {
-                    return 1;
-                }
-                if (a.fecha_creacion > b.fecha_creacion) {
-                    return -1
-                }
-                return 0;
-            });
-        })
-        .catch((error) => {
-            console.log(error, error.response);
-        });
-
-        axios.get('/users/getDirections', {
-            responseType: 'json'
-        })
-        .then((response) => {
-            Object.keys(response.data).forEach((key) => {
-                this.directions[key] = response.data[key].sort((a, b) => {
+            let direcciones = response.data;
+            Object.keys(direcciones).forEach((key) => {
+                this.directions[key] = direcciones[key].sort((a, b) => {
                     if (a.nombre > b.nombre) {
                         return 1;
                     }
@@ -65,17 +47,23 @@ const app = new Vue({
         .catch((error) => {
             console.log(error, error.response);
         });
+        EventBus.$on('edit-user', (user) => {
+            this.user = user;
+            this.user.password = '';
+            this.user.retypedPassword = '';
+            this.user.direction = {
+                province: '',
+                city: '',
+            }
+        });
     },
     methods: {
-        editUser(user) {
-            this.user.id = user.id;
-            this.user.firstname = user.firstname;
-            this.user.lastname = user.lastname;
-            this.user.username = user.username;
-            this.user.email = (user.email === null) ? '' : user.email;
-            this.user.email_id = user.email_id;
-            this.user.sex = user.sexo;
-            this.user.fecha_creacion = user.fecha_creacion;
+        clearInputs() {
+            Object.keys(this.user).forEach(key => this.user[key] = '');
+            this.user.direction = {
+                province: '',
+                city: '',
+            }
         },
 
         saveUser() {
@@ -129,11 +117,11 @@ const app = new Vue({
                         } else if (response.data.status === 'info') {
                             this.clearInputs();
         
-                            let newUser = response.data.user;
-                            let existingUser = this.users.find((user) => user.id == newUser.id);
+                            let updatedUser = response.data.user;
+                            let existingUser = this.users.find((user) => user.id == updatedUser.id);
                             let index = this.users.indexOf(existingUser);
                             
-                            this.users.splice(index, 1, newUser);
+                            this.users.splice(index, 1, updatedUser);
                             showAlert('Información', response.data.message, 'info', 2000);
                         }
                     })
@@ -149,15 +137,47 @@ const app = new Vue({
             })
 
         },
+    }
+});
 
-        clearInputs() {
-            Object.keys(this.user).forEach(key => this.user[key] = '');
-            this.user.direction = {
-                province: '',
-                city: '',
-            }
+Vue.component('UsersTable', {
+    template: '#users-table',
+    data() {
+        return {
+            users: [],
+        }
+    },
+    mounted() {
+        axios.get('/users/get')
+        .then((response) => {
+            let usuarios = response.data.response;
+            this.users = usuarios.sort((a, b) => {
+                if (a.fecha_creacion < b.fecha_creacion) {
+                    return 1;
+                }
+                if (a.fecha_creacion > b.fecha_creacion) {
+                    return -1
+                }
+                return 0;
+            });
+        })
+        .catch((error) => {
+            console.log(error, error.response);
+        });
+
+        EventBus.$on('emit-remove-user', (user, index) => {
+            removeUser(user, index);
+        });
+    },
+    methods: {
+        emitEditUser(user) {
+            EventBus.$emit('edit-user', user);
         },
 
+        emitShowModal(user, index) {
+            this.$emit('show-modal', user, index);
+        },
+        
         toggleUserStatus(user, index) {
             let message = (user.activo == '1') ? 'desactivar' : 'activar';
             swal({
@@ -180,16 +200,17 @@ const app = new Vue({
                         } else {
                             this.users[index].activo = '1'
                         }
+                        this.$emit('close-modal');
                         showAlert('Información', response.data.message, 'success', 2000);
                     })
                     .catch((error) => {
+                        console.log(error);
                         this.$toastr.error(error.response.data.message, 'Error', toastrConfigs);
-                        console.log(error.response);
                     });
                 }
             });
         },
-        
+
         removeUser(user, index) {
             swal({
                 title: 'Confirmación',
@@ -210,6 +231,7 @@ const app = new Vue({
                         console.log(response);
                         if (response.data.status === 'success') {
                             showAlert('Notificación', response.data.message, 'success', 2000);
+
                             setTimeout(() => {
                                 this.users.splice(index, 1);
                             }, 300);
@@ -223,6 +245,78 @@ const app = new Vue({
                     });
                 }
             });
+        }
+    }
+})
+
+Vue.component('UserCard', {
+    template: '#user-card',
+    props: {
+        'user': Object
+    },
+    mounted() {
+        axios.get('/users/get/' + user.id)
+        .then((response) => {
+            const user = response.data.response;
+            this.editUser(user);
+            this.user.index = index;
+            app.modalIsVisible = true;
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+    },
+    methods: {       
+        emitCloseModal() {
+            EventBus.$emit('close-modal');
+        },
+
+        emitToggleUserStatus(user, index) {
+            EventBus.$emit('emit-toggle-user-status', user, index);
+        },
+
+        emitRemoveUser(user, index) {
+            EventBus.$emit('emit-remove-user', user, index);
+        }
+    },
+});
+
+Vue.component('Modal', {
+    template: '#modal',
+    data() {
+        return {}
+    },
+    methods: {
+        emitCloseModal() {
+            EventBus.$emit('close-modal');
+        },
+        // emitToggleUserStatus(user, index) {
+        //     EventBus.$emit('emit-toggle-user-status', user, index);
+        // },
+
+        // emitRemoveUser(user, index) {
+        //     EventBus.$emit('emit-delete-user', user, index);
+        // }
+    }
+});
+
+const EventBus = new Vue();
+
+new Vue({
+    el: '#vueapp',
+    data() {
+        return {
+            modalIsVisible: false,
+        }
+    },
+    mounted() {
+        EventBus.$on('close-modal', () => {
+            this.modalIsVisible = false;
+        });       
+    },
+    methods: {
+        showModal() {
+            this.modalIsVisible = true;
         }
     }
 });

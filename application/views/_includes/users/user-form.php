@@ -1,4 +1,4 @@
-<template id="user-form">
+<script type="text/x-template" id="user-form">
     <div class="card mb-4">
         <div class="card-header bg-dark text-white">
             <template v-if="user.id !== ''">
@@ -198,4 +198,4 @@
             </form>
         </div>
     </div>
-</template>
+</script>

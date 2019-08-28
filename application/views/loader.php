@@ -19,6 +19,9 @@
     <!-- Libraries -->
         <!-- VueJS -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.js"></script>
+
+        <!-- Fractal css -->
+        <link rel="stylesheet" href="/public/libs/css/fractal/fractal.css" />
         
         <!-- Axios -->
         <script src="/public/libs/js/axios/axios.min.js"></script>
@@ -28,8 +31,6 @@
         
         <!-- Bootstrap -->
         <link type="text/css" rel="stylesheet" href="/public/libs/css/bootstrap/bootstrap.min.css"/>
-        <link type="text/css" rel="stylesheet" href="/public/libs/css/bootstrap/bootstrap-vue.min.css"/>
-        <script src="/public/libs/js/bootstrap/bootstrap-vue.min.js"></script>
         
         <!-- Font awesome -->
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/solid.css" integrity="sha384-QokYePQSOwpBDuhlHOsX0ymF6R/vLk/UQVz3WHa6wygxI5oGTmDTv8wahFOSspdm" crossorigin="anonymous">
@@ -42,35 +43,14 @@
 
         <!-- Sweetalert -->
         <script src="/public/libs/js/sweetalert/sweetalert.min.js"></script>
+
+        <!-- Axios progress bar -->
         <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/rikmms/progress-bar-4-axios/0a3acf92/dist/nprogress.css" />
         <script src="https://cdn.rawgit.com/rikmms/progress-bar-4-axios/0a3acf92/dist/index.js"></script>
         <script>
             loadProgressBar()
         </script>
     <title><?= $title ?> | Fractal</title>
-
-    <style>
-        header, main, footer {
-           padding-left: 300px;
-        }
-
-        @media only screen and (max-width : 992px) {
-            header, main, footer {
-                padding-left: 0;
-            }
-        }
-
-        [v-cloak] {
-            display: none;
-        }
-
-        .hr {
-            border: 0.5px solid #ccc;
-            margin: 10px 0;
-            width: 100%;
-        }
-    </style>
-    <!-- <script src="/public/libs/js/vuejs/vue-router.min.js"></script> -->
 </head>
 <body>
     <!-- Container -->

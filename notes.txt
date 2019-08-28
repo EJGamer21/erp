@@ -1,8 +1,26 @@
-<script type="text/x-template" id="user-modal" v-cloak>
-    <transition name="modal">
-        <div class="modal-mask">
-            <div class="modal-wrapper">
-                <div class="modal-container">
+
+<?php if ($CI->session->user_level >= 90): ?>
+    <button type="button" class="edit-btn btn btn-info">
+        <i class="fas fa-pencil-alt"></i>
+    </button>
+    <button data-id="<?= $user->id ?>" type="button" class="delete-btn btn btn-danger" onclick="removeRow(this)">
+        <i class="fas fa-trash-alt"></i>
+    </button>
+<?php elseif ($CI->session->user_level >= 80): ?>
+    <button type="button" class="edit-btn btn btn-info">
+        <i class="fas fa-pencil-alt"></i>
+    </button>
+    <button data-id="<?= $user->id ?>" type="button" class="active-user-btn btn btn-danger" onclick="removeRow(this)">
+        <i class="fas fa-user-times"></i>
+    </button>
+<?php elseif ($CI->session->user_level < 80): ?>
+    <a :href="'users/view/' + user.id + '/' + (user.firstname + '-' + user.lastname).toLowerCase()" class="active-user-btn btn btn-info">
+        <i class="fas fa-eye"></i>
+    </a>
+<?php endif;?>
+
+
+
                     <div class="card bg-light my-3">
                         <div class="row no-gutters">
                             <div class="col-md-4">
@@ -10,7 +28,7 @@
                                     <img :src="user.image" class="card-img" alt="No image">
                                 </template>
                                 <template v-else>
-                                    <img src="/public/images/users/no_picture.png" class="card-img"  alt="">
+                                    <img src="/public/images/users/no_picture.png" class="card-img"  alt="No image">
                                 </template>
                             </div>
                             <div class="col-md-8">
@@ -115,32 +133,3 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </transition>
-</script>
-
-<script>
-    const userId = <?= $userId ?>;
-    const app = new Vue({
-        el: '#vueapp',
-        data() {
-            return {
-                user: {},
-            }
-        },
-        mounted() {
-            axios.get('/users/get/' + userId, {
-                responseType: 'json'
-            })
-            .then((response) => {
-                const user = response.data.response;
-                this.user = user;
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-        },        
-    });
-</script>
