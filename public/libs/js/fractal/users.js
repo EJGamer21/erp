@@ -1,4 +1,5 @@
-Vue.component('UserForm', {
+const UserForm = Vue.component('user-form', {
+    name: 'UserForm',
     template: '#user-form',
     data() {
         return {
@@ -140,7 +141,8 @@ Vue.component('UserForm', {
     }
 });
 
-Vue.component('UsersTable', {
+const UsersTable = Vue.component('users-table', {
+    name: 'UsersTable',
     template: '#users-table',
     data() {
         return {
@@ -256,7 +258,8 @@ Vue.component('UsersTable', {
     }
 });
 
-Vue.component('UserModal', {
+const UserModal = Vue.component('user-modal', {
+    name: 'UserModal',
     template: '#user-modal',
     props: {
         user: {
@@ -268,7 +271,7 @@ Vue.component('UserModal', {
         axios.get('/users/get/' + this.user.id)
         .then((response) => {
             const user = response.data.response;
-            EventBus.$emit('edit-user', user);
+            // EventBus.$emit('edit-user', user);
             // this.user.index = index;
         })
         .catch((error) => {
@@ -292,8 +295,14 @@ Vue.component('UserModal', {
 
 const EventBus = new Vue();
 
-new Vue({
+const App =new Vue({
+    name: 'App',
     el: '#vueapp',
+    components: {
+        'user-form': UserForm,
+        'users-table': UsersTable,
+        'user-modal': UserModal,
+    },
     data() {
         return {
             modalIsVisible: false,
@@ -306,8 +315,8 @@ new Vue({
             this.user = user;
             this.user.index = index;
             this.user.direction = {
-                province: '',
-                city: ''
+                province: user.provincia || '',
+                city: user.ciudad || ''
             }
         },
 
