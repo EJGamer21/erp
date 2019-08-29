@@ -255,7 +255,7 @@ class Users extends CI_Controller {
 		if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		
 			if (is_numeric($id) && $id != 0 && $id > 0) {
-				$this->deleteUser($id);
+				$this->_deleteUser($id);
 			} else {
 				show_404();	
 			}
@@ -270,7 +270,7 @@ class Users extends CI_Controller {
 		}
 	}
 
-	private function deleteUser($id) {
+	private function _deleteUser($id) {
 		$user = $this->Users->deleteUser($id);
 
 		header('Content-type: application/json; charset=utf-8');
