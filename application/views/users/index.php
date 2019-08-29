@@ -1,243 +1,13 @@
 <div id="vueapp">
     <h1 class="my-4">Usuarios</h1>
     <user-form></user-form>
-    <users-table @show-modal="showModal">
-        <div v-if="modalIsVisible">
-            Hola
-        </div>
-        <modal v-if="modalIsVisible" @close-modal="console.log('H')">
-            <!-- <user-card :user="user"
-                @emit-toggle-user-status="toggleUserStatus"
-                @emit-delete-user="removeUser">
-            </user-card> -->
-        </modal>
-    </users-table>
-    
+    <users-table @show-modal="showModal"></users-table>
+    <user-modal v-if="modalIsVisible" 
+        :user="user"
+        @close-modal="closeModal"
+    ></user-modal>
 </div>
 
-<script type="text/x-template" id="users-table">
-    <div class="table-responsive mt-4" v-cloak>
-        <table id="users-table"
-                class="table table-striped table-hover centered">
-            <caption>Listado de usuarios</caption>
-            <thead class="thead-dark">
-                <tr>
-                    <th>Usuario</th>
-                    <th>Nombre</th>
-                    <th>Email</th>
-                    <th>Creaci&oacute;n</th>
-                    <th style="text-align:center;">
-                        <i class="fas fa-bars"></i>
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="(user, index) in users" :id="user.id">
-                    <td :data-user-id="user.id" class="d-none">{{ user.id }}</td>
-                    <td>
-                        <a :href="'/users/view/' + user.id + '/' + 
-                            (user.firstname + '-' + user.lastname).toLowerCase()">
-                            <template v-if="user.activo == 1">
-                                <span title="Activo" class="badge badge-success">
-                                    <i class="fas fa-user-check"></i>
-                                </span>
-                            </template>
-                            <template v-else>
-                                <span title="Inactivo" class="badge badge-danger">
-                                    <i class="fas fa-user-times"></i>
-                                </span>
-                            </template>
-                            <span>{{ user.username }}</span>
-                        </a>
-                    </td>
-                    <td>
-                        <a :href="'/users/view/' + user.id + '/' + 
-                            (user.firstname + '-' + user.lastname).toLowerCase()">
-                            <span>{{ user.firstname + ' ' + user.lastname }}</span>
-                        </a>
-                    <td>
-                        <a :href="'/users/view/' + user.id + '/' + 
-                            (user.firstname + '-' + user.lastname).toLowerCase()">
-                            <span>{{ user.email }}</span>
-                        </a>
-                    </td>
-                    <td>
-                        <a :href="'/users/view/' + user.id + '/' + 
-                            (user.firstname + '-' + user.lastname).toLowerCase()">
-                            <span>{{ user.fecha_creacion }}</span>
-                        </a>
-                    </td>
-                    <td style="text-align:center;">
-                        <button title="Editar usuario"
-                                type="button" 
-                                class="edit-btn btn btn-info"
-                                @click="emitEditUser(user)">
-                            <i class="fas fa-pencil-alt"></i>
-                        </button>
-                        <template v-if="user.activo == 1">
-                            <button title="Desactivar usuario"
-                                    type="button" 
-                                    class="btn btn-outline-danger"
-                                    @click="toggleUserStatus(user, index)">
-                                <i class="fas fa-user-times"></i>
-                            </button>
-                        </template>
-                        <template v-else>
-                            <button title="Activar usuario"
-                                    type="button" 
-                                    class="btn btn-outline-success"
-                                    @click="toggleUserStatus(user, index)">
-                                <i class="fas fa-user-check"></i>
-                            </button>
-                        </template>
-                        <button type="button" 
-                                title="Ver usuario"
-                                class="btn btn-dark"
-                                @click="emitShowModal(user, index)">
-                            <i class="fas fa-eye"></i>
-                        </button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</script>
-
-<script type="text/x-template" id="user-card">
-    <div class="card bg-light my-3">
-        <div class="row no-gutters">
-            <div class="col-md-4">
-                <template v-if="user.image !== null">
-                    <img :src="user.image" class="card-img" alt="No image">
-                </template>
-                <template v-else>
-                    <img src="/public/images/users/no_picture.png" class="card-img"  alt="No image">
-                </template>
-            </div>
-            <div class="col-md-8">
-                <button title="Cerrar"
-                        class="float-right btn btn-light"
-                        @click="$emit('close-modal')">
-                    <span><i class="fas fa-times"></i></span>
-                </button>
-                <div class="card-body">
-                    <h3 class="card-title">
-                        <span>{{ user.firstname + ' ' + user.lastname}}</span>
-                        <span class="badge badge-secondary">{{ user.rol }}</span>
-                    </h3>
-                        
-                    <div class="row mb-2">
-                        <div class="col">
-                            <strong>ID:</strong> 
-                            <span>{{ user.id }}</span>
-                        </div>
-                    </div>
-                    <div class="row mb-2">
-                        <div class="col">
-                            <strong>Usuario:</strong> 
-                            <span>{{ user.username }}</span>
-                        </div>
-                    </div>
-                    <div class="row mb-2">
-                        <div class="col">
-                            <strong>Email:</strong> 
-                            <span>{{ user.email }}</span>
-                        </div>
-                    </div>
-                    <div class="row mb-2">
-                        <div class="col">
-                            <strong>Sexo:</strong>
-                            <template v-if="user.sexo == 'M'">
-                                <span>Masculino</span>
-                            </template>
-                            <template v-else>
-                                <span>Femenino</span>
-                            </template>
-                        </div>
-                    </div>
-                    <div class="row mb-2">
-                        <div class="col">
-                            <strong>Dirección:</strong> 
-                            <span>{{ user.direction.city }}</span>
-                        </div>
-                    </div>
-                    <div class="row mb-2">
-                        <div class="col">
-                            <strong>Creado en:</strong> 
-                            <span>{{ user.fecha_creacion }}</span>
-                        </div>
-                    </div>
-                    <div class="row mb-2">
-                        <div class="col">
-                            <strong>Última modificación:</strong> 
-                            <span>{{ user.fecha_modificado }}</span>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <strong>Estado:</strong>
-                            <template v-if="user.activo == 1">
-                                <span>Activo</span>
-                            </template>
-                            <template v-else>
-                                <span>Inactivo</span>
-                            </template>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="card-footer">
-            <div class="row">
-                <div class="col">
-                    <div class="float-left">
-                        <template v-if="user.activo == 1">
-                            <button title="Desactivar usuario"
-                                    type="button" 
-                                    class="btn btn-outline-danger"
-                                    @click="emitToggleUserStatus(user, user.index)">
-                                <span>Desactivar</span>
-                                <i class="fas fa-user-times"></i>
-                            </button>
-                        </template>
-                        <template v-else>
-                            <button title="Activar usuario"
-                                    type="button" 
-                                    class="btn btn-outline-success"
-                                    @click="emitToggleUserStatus(user, user.index)">
-                                <span>Activar</span>
-                                <i class="fas fa-user-check"></i>
-                            </button>
-                        </template>
-                        <button class="btn btn-danger"
-                                type="button"
-                                title="Borrar usuario"
-                                @click="emitRemoveUser(user, user.index)">
-                            Borrar
-                        </button>
-                    </div>
-                    <div class="float-right">
-                        <button class="btn btn-secondary"
-                                @click="$emit('close-modal')">
-                            <span>Cerrar</span>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</script>
-
-<script type="text/x-template" id="modal">
-    <transition name="modal">
-        <div class="modal-mask">
-            <div class="modal-wrapper" @click.self="emitDisplayModal">
-                <div class="modal-container">
-                </div>
-            </div>
-        </div>
-    </transition>
-</script>
 <script type="text/x-template" id="user-form">
     <div class="card mb-4">
         <div class="card-header bg-dark text-white">
@@ -438,6 +208,228 @@
             </form>
         </div>
     </div>
+</script>
+
+<script type="text/x-template" id="users-table">
+    <div class="table-responsive mt-4" v-cloak>
+        <table id="users-table"
+                class="table table-striped table-hover centered">
+            <caption>Listado de usuarios</caption>
+            <thead class="thead-dark">
+                <tr>
+                    <th>Usuario</th>
+                    <th>Nombre</th>
+                    <th>Email</th>
+                    <th>Creaci&oacute;n</th>
+                    <th style="text-align:center;">
+                        <i class="fas fa-bars"></i>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(user, index) in users" :id="user.id">
+                    <td>
+                        <a :href="'/users/view/' + user.id + '/' + 
+                            (user.firstname + '-' + user.lastname).toLowerCase()">
+                            <template v-if="user.activo == 1">
+                                <span title="Activo" class="badge badge-success">
+                                    <i class="fas fa-user-check"></i>
+                                </span>
+                            </template>
+                            <template v-else>
+                                <span title="Inactivo" class="badge badge-danger">
+                                    <i class="fas fa-user-times"></i>
+                                </span>
+                            </template>
+                            <span>{{ user.username }}</span>
+                        </a>
+                    </td>
+                    <td>
+                        <a :href="'/users/view/' + user.id + '/' + 
+                            (user.firstname + '-' + user.lastname).toLowerCase()">
+                            <span>{{ user.firstname + ' ' + user.lastname }}</span>
+                        </a>
+                    <td>
+                        <a :href="'/users/view/' + user.id + '/' + 
+                            (user.firstname + '-' + user.lastname).toLowerCase()">
+                            <span>{{ user.email }}</span>
+                        </a>
+                    </td>
+                    <td>
+                        <a :href="'/users/view/' + user.id + '/' + 
+                            (user.firstname + '-' + user.lastname).toLowerCase()">
+                            <span>{{ user.fecha_creacion }}</span>
+                        </a>
+                    </td>
+                    <td style="text-align:center;">
+                        <button title="Editar usuario"
+                                type="button" 
+                                class="edit-btn btn btn-info"
+                                @click="emitEditUser(user)">
+                            <i class="fas fa-pencil-alt"></i>
+                        </button>
+                        <template v-if="user.activo == 1">
+                            <button title="Desactivar usuario"
+                                    type="button" 
+                                    class="btn btn-outline-danger"
+                                    @click="toggleUserStatus(user, index)">
+                                <i class="fas fa-user-times"></i>
+                            </button>
+                        </template>
+                        <template v-else>
+                            <button title="Activar usuario"
+                                    type="button" 
+                                    class="btn btn-outline-success"
+                                    @click="toggleUserStatus(user, index)">
+                                <i class="fas fa-user-check"></i>
+                            </button>
+                        </template>
+                        <button type="button" 
+                                title="Ver usuario"
+                                class="btn btn-dark"
+                                @click="emitShowModal(user, index)">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</script>
+
+<script type="text/x-template" id="user-modal">
+    <transition name="modal">
+        <div class="modal-mask">
+            <div class="modal-wrapper" @click.self="emitCloseModal">
+                <div class="modal-container">
+                    <div class="card bg-light my-3">
+                        <div class="row no-gutters">
+                            <div class="col-md-4">
+                                <template v-if="user.image !== null">
+                                    <img :src="user.image" class="card-img" alt="No image">
+                                </template>
+                                <template v-else>
+                                    <img src="/public/images/users/no_picture.png" class="card-img"  alt="No image">
+                                </template>
+                            </div>
+                            <div class="col-md-8">
+                                <button title="Cerrar"
+                                        class="float-right btn btn-light"
+                                        @click="emitCloseModal">
+                                    <span><i class="fas fa-times"></i></span>
+                                </button>
+                                <div class="card-body">
+                                    <h3 class="card-title">
+                                        <span>{{ user.firstname + ' ' + user.lastname}}</span>
+                                        <div class="mb-2">
+                                            <span class="badge badge-secondary">{{ user.rol }}</span>
+                                        </div>
+                                    </h3>
+                                        
+                                    <div class="row mb-2">
+                                        <div class="col">
+                                            <strong>ID:</strong> 
+                                            <span>{{ user.id }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-2">
+                                        <div class="col">
+                                            <strong>Usuario:</strong> 
+                                            <span>{{ user.username }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-2">
+                                        <div class="col">
+                                            <strong>Email:</strong> 
+                                            <span>{{ user.email }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-2">
+                                        <div class="col">
+                                            <strong>Sexo:</strong>
+                                            <template v-if="user.sexo == 'M'">
+                                                <span>Masculino</span>
+                                            </template>
+                                            <template v-else>
+                                                <span>Femenino</span>
+                                            </template>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-2">
+                                        <div class="col">
+                                            <strong>Dirección:</strong> 
+                                            <span>{{ user.direction.city }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-2">
+                                        <div class="col">
+                                            <strong>Creado en:</strong> 
+                                            <span>{{ user.fecha_creacion }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-2">
+                                        <div class="col">
+                                            <strong>Última modificación:</strong> 
+                                            <span>{{ user.fecha_modificado }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <strong>Estado:</strong>
+                                            <template v-if="user.activo == 1">
+                                                <span>Activo</span>
+                                            </template>
+                                            <template v-else>
+                                                <span>Inactivo</span>
+                                            </template>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="float-left">
+                                        <template v-if="user.activo == 1">
+                                            <button title="Desactivar usuario"
+                                                    type="button" 
+                                                    class="btn btn-outline-danger"
+                                                    @click="emitToggleUserStatus(user, user.index)">
+                                                <span>Desactivar</span>
+                                                <i class="fas fa-user-times"></i>
+                                            </button>
+                                        </template>
+                                        <template v-else>
+                                            <button title="Activar usuario"
+                                                    type="button" 
+                                                    class="btn btn-outline-success"
+                                                    @click="emitToggleUserStatus(user, user.index)">
+                                                <span>Activar</span>
+                                                <i class="fas fa-user-check"></i>
+                                            </button>
+                                        </template>
+                                        <button class="btn btn-danger"
+                                                type="button"
+                                                title="Borrar usuario"
+                                                @click="emitRemoveUser(user, user.index)">
+                                            <span>Borrar</span>
+                                        </button>
+                                    </div>
+                                    <div class="float-right">
+                                        <button class="btn btn-secondary"
+                                                @click="emitCloseModal">
+                                            <span>Cerrar</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </transition>
 </script>
 
 <script src="/public/libs/js/fractal/users.js"></script>

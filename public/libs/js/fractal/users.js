@@ -147,7 +147,7 @@ Vue.component('UsersTable', {
             users: [],
         }
     },
-    mounted() {
+    beforeMount() {
         axios.get('/users/get')
         .then((response) => {
             let usuarios = response.data.response;
@@ -164,9 +164,15 @@ Vue.component('UsersTable', {
         .catch((error) => {
             console.log(error, error.response);
         });
+    },
+    mounted() {
 
-        EventBus.$on('emit-remove-user', (user, index) => {
-            removeUser(user, index);
+        EventBus.$on('remove-user', (user, index) => {
+            this.removeUser(user, index);
+        });
+
+        EventBus.$on('toggle-user-status', (user, index) => {
+            this.toggleUserStatus(user, index);
         });
     },
     methods: {
@@ -230,6 +236,7 @@ Vue.component('UsersTable', {
                     .then((response) => {
                         console.log(response);
                         if (response.data.status === 'success') {
+                            this.$emit('close-modal');
                             showAlert('Notificación', response.data.message, 'success', 2000);
 
                             setTimeout(() => {
@@ -247,56 +254,39 @@ Vue.component('UsersTable', {
             });
         }
     }
-})
+});
 
-Vue.component('UserCard', {
-    template: '#user-card',
+Vue.component('UserModal', {
+    template: '#user-modal',
     props: {
-        'user': Object
+        user: {
+            type: Object,
+            required: true
+        }
     },
     mounted() {
-        axios.get('/users/get/' + user.id)
+        axios.get('/users/get/' + this.user.id)
         .then((response) => {
             const user = response.data.response;
-            this.editUser(user);
-            this.user.index = index;
-            app.modalIsVisible = true;
+            EventBus.$emit('edit-user', user);
+            // this.user.index = index;
         })
         .catch((error) => {
             console.log(error);
         });
     },
-    methods: {       
+    methods: {
         emitCloseModal() {
-            EventBus.$emit('close-modal');
+            this.$emit('close-modal');
         },
 
         emitToggleUserStatus(user, index) {
-            EventBus.$emit('emit-toggle-user-status', user, index);
+            EventBus.$emit('toggle-user-status', user, index);
         },
 
         emitRemoveUser(user, index) {
-            EventBus.$emit('emit-remove-user', user, index);
-        }
-    },
-});
-
-Vue.component('Modal', {
-    template: '#modal',
-    data() {
-        return {}
-    },
-    methods: {
-        emitCloseModal() {
-            EventBus.$emit('close-modal');
+            EventBus.$emit('remove-user', user, index);
         },
-        // emitToggleUserStatus(user, index) {
-        //     EventBus.$emit('emit-toggle-user-status', user, index);
-        // },
-
-        // emitRemoveUser(user, index) {
-        //     EventBus.$emit('emit-delete-user', user, index);
-        // }
     }
 });
 
@@ -307,16 +297,22 @@ new Vue({
     data() {
         return {
             modalIsVisible: false,
+            user: {}
         }
-    },
-    mounted() {
-        EventBus.$on('close-modal', () => {
-            this.modalIsVisible = false;
-        });       
     },
     methods: {
-        showModal() {
+        showModal(user, index) {
             this.modalIsVisible = true;
-        }
+            this.user = user;
+            this.user.index = index;
+            this.user.direction = {
+                province: '',
+                city: ''
+            }
+        },
+
+        closeModal() {
+            this.modalIsVisible = false;
+        },
     }
 });
