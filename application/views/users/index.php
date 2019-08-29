@@ -299,7 +299,7 @@
 
 <script type="text/x-template" id="user-modal">
     <transition name="modal">
-        <div class="modal-mask">
+        <div class="modal-mask" @keyup.27="emitCloseModal" tabindex="0">
             <div class="modal-wrapper" @click.self="emitCloseModal">
                 <div class="modal-container">
                     <div class="card bg-light my-3">
@@ -357,7 +357,10 @@
                                     </div>
                                     <div class="row mb-2">
                                         <div class="col">
-                                            <strong>Dirección:</strong> 
+                                            <strong>Dirección:</strong>
+                                            <template v-if="user.direction.province !== ''">
+                                                <span>{{user.direction.province + ','}}</span>
+                                            </template>
                                             <span>{{ user.direction.city }}</span>
                                         </div>
                                     </div>

@@ -11,7 +11,9 @@
             $fields = [
                 'usuarios.*',
                 'emails.email',
-                'roles.rol, roles.level'
+                'roles.rol, roles.level',
+                'provincias.nombre as provincia',
+                'ciudades.nombre as ciudad'
             ];
             $conditions = [
                 'activo' => 1
@@ -19,6 +21,10 @@
             
             $this->db->join('emails', 'usuarios.email_id = emails.id', 'left');
             $this->db->join('roles', 'usuarios.role_id = roles.id');
+            $this->db->join('usuarios_direcciones', 'usuarios.id = usuarios_direcciones.usuario_id');
+            $this->db->join('direcciones', 'usuarios_direcciones.direccion_id = direcciones.id');
+            $this->db->join('provincias', 'direcciones.provincia_id = provincias.id');
+            $this->db->join('ciudades', 'direcciones.ciudad_id = ciudades.id');
             return $this->get(NULL, $fields, $conditions);
         }
 
@@ -26,11 +32,17 @@
             $fields = [
                 'usuarios.*',
                 'emails.email',
-                'roles.rol, roles.level'
+                'roles.rol, roles.level',
+                'provincias.nombre as provincia',
+                'ciudades.nombre as ciudad'
             ];
             
             $this->db->join('emails', 'usuarios.email_id = emails.id', 'left');
             $this->db->join('roles', 'usuarios.role_id = roles.id');
+            $this->db->join('usuarios_direcciones', 'usuarios.id = usuarios_direcciones.usuario_id', 'left');
+            $this->db->join('direcciones', 'usuarios_direcciones.direccion_id = direcciones.id', 'left');
+            $this->db->join('provincias', 'direcciones.provincia_id = provincias.provincia_id');
+            $this->db->join('ciudades', 'direcciones.ciudad_id = ciudades.ciudad_id');
             return $this->get($id, $fields);
         }
 
@@ -38,11 +50,19 @@
             $fields = [
                 'usuarios.*',
                 'emails.email',
-                'roles.rol, roles.level'
+                'roles.rol, roles.level',
+                'provincias.nombre as provincia',
+                'ciudades.nombre as ciudad'
             ];
             $this->db->join('emails', 'usuarios.email_id = emails.id', 'left');
             $this->db->join('roles', 'usuarios.role_id = roles.id');
+            $this->db->join('usuarios_direcciones', 'usuarios.id = usuarios_direcciones.usuario_id', 'left');
+            $this->db->join('direcciones', 'usuarios_direcciones.direccion_id = direcciones.id', 'left');
+            $this->db->join('provincias', 'direcciones.provincia_id = provincias.provincia_id', 'left');
+            $this->db->join('ciudades', 'direcciones.ciudad_id = ciudades.ciudad_id', 'left');
             return $this->get(NULL, $fields);
+            // var_dump($this->get(NULL, $fields));
+            // die;
         }
 
         function login($data) {
