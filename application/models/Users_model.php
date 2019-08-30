@@ -18,13 +18,13 @@
             $conditions = [
                 'activo' => 1
             ];
-            
+
             $this->db->join('emails', 'usuarios.email_id = emails.id', 'left');
             $this->db->join('roles', 'usuarios.role_id = roles.id');
-            $this->db->join('usuarios_direcciones', 'usuarios.id = usuarios_direcciones.usuario_id');
-            $this->db->join('direcciones', 'usuarios_direcciones.direccion_id = direcciones.id');
-            $this->db->join('provincias', 'direcciones.provincia_id = provincias.id');
-            $this->db->join('ciudades', 'direcciones.ciudad_id = ciudades.id');
+            $this->db->join('usuarios_direcciones', 'usuarios.id = usuarios_direcciones.usuario_id', 'left');
+            $this->db->join('direcciones', 'usuarios_direcciones.direccion_id = direcciones.id', 'left');
+            $this->db->join('provincias', 'direcciones.provincia_id = provincias.provincia_id', 'left');
+            $this->db->join('ciudades', 'direcciones.ciudad_id = ciudades.ciudad_id', 'left');
             return $this->get(NULL, $fields, $conditions);
         }
 
@@ -41,8 +41,8 @@
             $this->db->join('roles', 'usuarios.role_id = roles.id');
             $this->db->join('usuarios_direcciones', 'usuarios.id = usuarios_direcciones.usuario_id', 'left');
             $this->db->join('direcciones', 'usuarios_direcciones.direccion_id = direcciones.id', 'left');
-            $this->db->join('provincias', 'direcciones.provincia_id = provincias.provincia_id');
-            $this->db->join('ciudades', 'direcciones.ciudad_id = ciudades.ciudad_id');
+            $this->db->join('provincias', 'direcciones.provincia_id = provincias.provincia_id', 'left');
+            $this->db->join('ciudades', 'direcciones.ciudad_id = ciudades.ciudad_id', 'left');
             return $this->get($id, $fields);
         }
 
@@ -61,8 +61,6 @@
             $this->db->join('provincias', 'direcciones.provincia_id = provincias.provincia_id', 'left');
             $this->db->join('ciudades', 'direcciones.ciudad_id = ciudades.ciudad_id', 'left');
             return $this->get(NULL, $fields);
-            // var_dump($this->get(NULL, $fields));
-            // die;
         }
 
         function login($data) {
