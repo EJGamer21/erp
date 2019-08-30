@@ -1,8 +1,10 @@
 <div id="vueapp">
     <h1 class="my-4">Usuarios</h1>
     <user-form></user-form>
-    <users-table @show-modal="showModal"></users-table>
-    <user-modal v-if="modalIsVisible" 
+    <users-table @show-modal="showModal" 
+        @close-modal="closeModal"
+    ></users-table>
+    <user-modal v-if="modalIsVisible"
         :user="user"
         @close-modal="closeModal"
     ></user-modal>
@@ -151,7 +153,7 @@
                             <div class="mb-2 col d-sm-block d-lg-inline">
                                 <select class="custom-select"
                                         v-model="user.direction.city">
-                                        <option value="" selected hidden>Seleccionar ciudad...</option>
+                                    <option value="" selected>Seleccionar ciudad...</option>
                                     <optgroup v-for="province in directions.provinces" 
                                                 :label="province.nombre">
                                         <option v-for="city in directions.cities"
@@ -167,7 +169,7 @@
                 </div>
                 <div class="hr"></div>
                 <div class="form-row">
-                    <div class="mb-2 col d-sm-block d-lg-inline">
+                    <div class="mb-2 col d-sm-block d-lg-inline" id="image-picker">
                         <label>
                             <span>Foto de perfil</span>
                             <small class="text-muted">
@@ -177,7 +179,15 @@
                         <input class="form-control-file" 
                                 type="file" 
                                 accept="image/*" 
-                                name="image">
+                                name="image"
+                                :disabled="isUploading"
+                                @change="onImageChange">
+                        <p v-if="isInitial">
+                            Arrastra o selecciona alguna imagen.
+                        </p>
+                        <p v-if="isUploading">
+                            Subiendo imagen...
+                        </p>
                     </div>
                 </div>
                 <div class="form-row">
@@ -358,10 +368,8 @@
                                     <div class="row mb-2">
                                         <div class="col">
                                             <strong>Dirección:</strong>
-                                            <template v-if="user.direction.province !== ''">
-                                                <span>{{user.direction.province + ','}}</span>
-                                            </template>
-                                            <span>{{ user.direction.city }}</span>
+                                                <span>{{ ciudad }}</span>
+                                                <span>{{ provincia }}</span>
                                         </div>
                                     </div>
                                     <div class="row mb-2">
