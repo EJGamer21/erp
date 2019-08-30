@@ -7,6 +7,7 @@ class Users extends CI_Controller {
 		$this->load->model('Users_model', 'Users');
 		$this->load->model('Emails_model', 'Emails');
 		$this->load->model('Directions_model', 'Directions');
+		$this->load->library('upload');
     }
 
     public function index()	{
@@ -51,9 +52,38 @@ class Users extends CI_Controller {
 		
 		if ($_SERVER['REQUEST_METHOD'] == "GET"){
 			if (is_numeric($id) && $id != 0 && $id > 0)  {
-				$user = $this->Users->getUser($id);
+				$data = $this->Users->getUser($id);
+				$user['id'] = $data->id;
+				$user['firstname'] = $data->firstname;
+				$user['lastname'] = $data->lastname;
+				$user['username'] = $data->username;
+				$user['email'] = $data->email;
+				$user['sexo'] = $data->sexo;
+				$user['fecha_creacion'] = $data->fecha_creacion;
+				$user['fecha_modificado'] = $data->fecha_modificado;
+				$user['rol'] = $data->rol;
+				$user['image'] = $data->image;
+				$user['activo'] = $data->activo;
+				$user['direccion']['provincia'] = $data->provincia;
+				$user['direccion']['ciudad'] = $data->ciudad;
 			} else {
-				$user = $this->Users->getAllUsers();
+				$data = $this->Users->getAllUsers();
+
+				foreach ($data as $key => $value) {
+					$user[$key]['id'] = $value->id;
+					$user[$key]['firstname'] = $value->firstname;
+					$user[$key]['lastname'] = $value->lastname;
+					$user[$key]['username'] = $value->username;
+					$user[$key]['email'] = $value->email;
+					$user[$key]['sexo'] = $value->sexo;
+					$user[$key]['fecha_creacion'] = $value->fecha_creacion;
+					$user[$key]['fecha_modificado'] = $value->fecha_modificado;
+					$user[$key]['rol'] = $value->rol;
+					$user[$key]['image'] = $value->image;
+					$user[$key]['activo'] = $value->activo;
+					$user[$key]['direccion']['provincia'] = $value->provincia;
+					$user[$key]['direccion']['ciudad'] = $value->ciudad;
+				}
 			}
 
 			$json['response_code'] = 200;
@@ -88,6 +118,8 @@ class Users extends CI_Controller {
 	 */
 
 	function register() {
+		header('Content-type: application/json; charset=utf-8');
+
 		if ($_SERVER['REQUEST_METHOD'] == "POST") {
 			// POST variables
 			$id = ($this->input->post('id') === "") ? NULL : (int)($this->input->post('id'));
@@ -99,7 +131,8 @@ class Users extends CI_Controller {
 				'lastname' => $this->input->post('lastname'),
 				'sexo' => $this->input->post('sex'),
 				'username' => $this->input->post('username'),
-				'password' => $this->input->post('password')
+				'password' => $this->input->post('password'),
+				'image' => $this->input->post('image')
 			];
 			$direction = [
 				'province' => $this->input->post('province'),
@@ -107,10 +140,7 @@ class Users extends CI_Controller {
 			];
 
 			// If all the direction inputs are empty then direction = null
-			if (
-				$direction['province'] == '' 
-				&& $direction['city'] == ''
-			) {
+			if ($direction['province'] == '' && $direction['city'] == '') {
 				$direction = NULL;
 			}
 
@@ -140,14 +170,12 @@ class Users extends CI_Controller {
 				}
 			}
 
-			if (
-				$user_form['firstname'] == '' 
+			if ($user_form['firstname'] == '' 
 				|| $user_form['lastname'] == ''
 				|| $user_form['username'] == ''
 				|| $user_form['password'] == ''
 				|| $user_form['sexo'] == ''
 			) {
-				header('Content-type: application/json; charset=utf-8');
 				$json['status'] = 'success';
 				$json['message'] = 'Campos no opcionales son requeridos.';
 				
@@ -156,13 +184,15 @@ class Users extends CI_Controller {
 				return;	
 			}
 
+			echo json_encode($user_form);
+			die;
+
 			if (isset($id)) {
 
 				$user_form['fecha_creacion'] = $this->input->post('fecha_creacion');
 				$user_form['fecha_modificado'] = date('Y-m-d H:i:s');
 				$user = $this->saveUser($user_form);	
 
-				header('Content-type: application/json; charset=utf-8');
 				$json['status'] = 'info';
 				$json['message'] = 'Usuario actualizado existosamente.';
 				$json['user'] = $user;
@@ -179,7 +209,6 @@ class Users extends CI_Controller {
 				$user_form['fecha_creacion'] = date('Y-m-d H:i:s');
 				$user = $this->saveUser($user_form);
 
-				header('Content-type: application/json; charset=utf-8');
 				$json['status'] = 'success';
 				$json['message'] = 'Usuario creado existosamente.';
 				$json['user'] = $user;
@@ -190,7 +219,6 @@ class Users extends CI_Controller {
 				
 				return;
 			} else {
-				header('Content-type: application/json; charset=utf-8');
 				$json['status'] = 'error';
 				$json['message'] = 'Usuario ya existente.';
 				
@@ -200,7 +228,6 @@ class Users extends CI_Controller {
 			}
 		} else {
 			// TODO: Manage if is registration from the user form or the register form
-			header('Content-type: application/json; charset=utf-8');
 			$json['status'] = 'Error';
 			$json['message'] = 'Error 403: Acceso restringido.';
 			
