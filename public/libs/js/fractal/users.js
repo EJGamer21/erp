@@ -26,7 +26,9 @@ const UserForm = Vue.component('user-form', {
             directions: {
                 provinces: [],
                 cities: [],
-            }
+            },
+            isUploading: false,
+            isInitial: true
         }
     },
     mounted() {
@@ -67,7 +69,12 @@ const UserForm = Vue.component('user-form', {
             }
         },
 
-        saveUser() {
+        onImageChange() {
+            isInitial = false;
+            console.log('H');
+        },
+
+        async saveUser() {
             if (
                 this.user.username === '' 
                 || this.user.password === ''
@@ -94,21 +101,25 @@ const UserForm = Vue.component('user-form', {
             userData.append('password', this.user.password);
             userData.append('sex', this.user.sex);
             userData.append('fecha_creacion', this.user.fecha_creacion);
+            userData.append('image', '/public/images/users/no_picture.png');
 
-            swal({
-                title: 'Confirmar registro',
-                icon: 'warning',
-                buttons: ['Cancelar', 'Confirmo'],
-            })
-            .then((condition) => {
-                if (condition) {
-                    axios({
-                        url: '/users/register',
-                        method: 'post',
-                        data: userData,
-                        responseType: 'json',
-                    })
-                    .then((response) => {
+            try {
+                const confirmation = await swal({
+                    title: 'Confirmar registro',
+                    icon: 'warning',
+                    buttons: ['Cancelar', 'Confirmo'],
+                });
+
+                if (confirmation) {
+                    try {
+                        const response = await axios.post('/users/register', userData, {
+                            headers: {
+                                'Content-Type': 'multipart/form-data'
+                            }
+                        });
+
+                        console.log(response);
+                        
                         if (response.data.status === 'success') {
                             this.clearInputs();
         
@@ -125,18 +136,18 @@ const UserForm = Vue.component('user-form', {
                             this.users.splice(index, 1, updatedUser);
                             showAlert('Información', response.data.message, 'info', 2000);
                         }
-                    })
-                    .catch((error) => {
+                    } catch(error) {
                         if (error.response) {
                             this.user.password = '';
                             this.user.retypedPassword = '';
         
                             this.$toastr.error(error.response.data.message, 'Error', toastrConfigs);
                         }
-                    });
+                    }
                 }
-            })
-
+            } catch(error) {
+                console.log(error);
+            }
         },
     }
 });
@@ -168,7 +179,6 @@ const UsersTable = Vue.component('users-table', {
         });
     },
     mounted() {
-
         EventBus.$on('remove-user', (user, index) => {
             this.removeUser(user, index);
         });
@@ -186,74 +196,69 @@ const UsersTable = Vue.component('users-table', {
             this.$emit('show-modal', user, index);
         },
         
-        toggleUserStatus(user, index) {
-            let message = (user.activo == '1') ? 'desactivar' : 'activar';
-            swal({
-                title: 'Confirmación',
-                text: `¿Seguro que desea ${message} al usuario '` + user.username + `'?`,
-                icon: 'warning',
-                buttons: ['Cancelar', true],
-            })
-            .then((condition) => {
-                if (condition) {
-                    axios({
-                        url: '/users/toggleStatus/' + user.id,
-                        method: 'post',
-                        data: user.id,
-                        responseType: 'json'
-                    })
-                    .then((response) => {
+        async toggleUserStatus(user, index) {
+            try {
+                let message = (user.activo == '1') ? 'desactivar' : 'activar';
+                const confirmation = await swal({
+                    title: 'Confirmación',
+                    text: `¿Seguro que desea ${message} al usuario '` + user.username + `'?`,
+                    icon: 'warning',
+                    buttons: ['Cancelar', true],
+                });
+
+                if (confirmation) {
+                    try {
+                        const response = await axios.post('/users/toggleStatus/' + user.id);
+                        
                         if (this.users[index].activo == '1') {
                             this.users[index].activo = '0'
                         } else {
                             this.users[index].activo = '1'
                         }
-                        this.$emit('close-modal');
                         showAlert('Información', response.data.message, 'success', 2000);
-                    })
-                    .catch((error) => {
-                        console.log(error);
-                        this.$toastr.error(error.response.data.message, 'Error', toastrConfigs);
-                    });
+
+                    } catch(error) {
+                        if (error.response) {
+                            console.log(error.response);
+                            this.$toastr.error(error.response.data, 'Error', toastrConfigs);
+                        }
+                    }
                 }
-            });
+            } catch (error) {
+                console.log(error);
+            }
         },
 
-        removeUser(user, index) {
-            swal({
-                title: 'Confirmación',
-                text: `¿Seguro que desea borrar al usuario '` + user.username + `'?`,
-                icon: 'warning',
-                buttons: ['Cancelar', true],
-                dangerMode: true,
-            })
-            .then((condition) => {
-                if (condition) {
-                    axios({
-                        url: '/users/removeUser/' + user.id,
-                        method: 'post',
-                        data: user.id,
-                        responseType: 'json'
-                    })
-                    .then((response) => {
-                        console.log(response);
-                        if (response.data.status === 'success') {
-                            this.$emit('close-modal');
-                            showAlert('Notificación', response.data.message, 'success', 2000);
+        async removeUser(user, index) {
+            try {
+                const confirmation = await swal({
+                    title: 'Confirmación',
+                    text: `¿Seguro que desea borrar al usuario '` + user.username + `'?`,
+                    icon: 'warning',
+                    buttons: ['Cancelar', true],
+                    dangerMode: true,
+                });
+                if (confirmation) {
+                    try {
+                        const response = await axios.post('/users/removeUser/' + user.id);
+                        this.$emit('close-modal');
 
+                        if (response.data.status == 'success') {
+                            showAlert('Notificación', response.data.message, 'success', 2000);
                             setTimeout(() => {
                                 this.users.splice(index, 1);
                             }, 300);
                         }
-                    })
-                    .catch((error) => {
+                    } catch(error) {
                         if (error.response) {
                             console.log(error.response);
                             this.$toastr.error(error.response.data.message, 'Error', toastrConfigs);
                         }
-                    });
+                    }
                 }
-            });
+            } catch (error) {
+                console.log(error);
+            }
         }
     }
 });
@@ -264,19 +269,26 @@ const UserModal = Vue.component('user-modal', {
     props: {
         user: {
             type: Object,
-            required: true
+            required: true,
         }
     },
-    mounted() {
-        axios.get('/users/get/' + this.user.id)
-        .then((response) => {
-            const user = response.data.response;
-            // EventBus.$emit('edit-user', user);
-            // this.user.index = index;
-        })
-        .catch((error) => {
-            console.log(error);
-        });
+    computed: {
+        ciudad() {
+            if (this.user.direccion.ciudad == null) computedCiudad = null;
+            else computedCiudad = this.user.direccion.ciudad;
+
+            if (this.user.direccion.provincia !== null
+                && computedCiudad !== null) {
+                    computedCiudad = computedCiudad + ', ';
+            }
+            return computedCiudad;
+        },
+
+        provincia() {
+            if (this.user.direccion.provincia == null) computedProvincia = null;
+            else computedProvincia = this.user.direccion.provincia;
+            return computedProvincia;
+        }
     },
     methods: {
         emitCloseModal() {
@@ -314,10 +326,6 @@ const App =new Vue({
             this.modalIsVisible = true;
             this.user = user;
             this.user.index = index;
-            this.user.direction = {
-                province: user.provincia || '',
-                city: user.ciudad || ''
-            }
         },
 
         closeModal() {
