@@ -1,3 +1,7 @@
+<div id="vueapp">
+    {{user}}
+</div>
+
 <script type="text/x-template" id="user-modal" v-cloak>
     <transition name="modal">
         <div class="modal-mask">
